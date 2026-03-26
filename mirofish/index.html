@@ -3,168 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MiroFish — AI Swarm Simulation</title>
+<title>MiroFish — AI Swarm Simulation Report</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <style>
-  :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --border: #30363d;
-    --accent: #58a6ff;
-    --accent2: #3fb950;
-    --accent3: #f78166;
-    --text: #e6edf3;
-    --muted: #8b949e;
-    --card-bg: #1c2128;
-    --twitter: #1d9bf0;
-    --reddit: #ff4500;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.6; }
-
-  /* Nav */
-  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 32px; height: 52px; position: sticky; top: 0; z-index: 100; }
-  .logo { font-weight: 700; font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; }
-  .logo span { color: var(--accent); }
-  nav { display: flex; gap: 4px; }
-  .tab-btn { background: none; border: none; color: var(--muted); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; }
-  .tab-btn:hover { color: var(--text); background: rgba(255,255,255,.05); }
-  .tab-btn.active { color: var(--text); background: rgba(88,166,255,.15); border: 1px solid rgba(88,166,255,.3); }
-
-  /* Hero */
-  .hero { padding: 28px 24px 20px; border-bottom: 1px solid var(--border); }
-  .hero-question { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 16px; padding: 14px 18px; background: var(--card-bg); border-left: 3px solid var(--accent); border-radius: 6px; }
-  .stats { display: flex; flex-wrap: wrap; gap: 10px; }
-  .stat-chip { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: var(--muted); }
-  .stat-chip strong { color: var(--text); }
-
-  /* Tabs */
-  .tab-panel { display: none; padding: 24px; max-width: 900px; margin: 0 auto; }
-  .tab-panel.active { display: block; }
-
-  /* Report layout */
-  .report-layout { display: grid; grid-template-columns: 220px 1fr; gap: 24px; align-items: start; }
-  .report-sidebar { position: sticky; top: 68px; }
-  .section-nav { display: flex; flex-direction: column; gap: 4px; }
-  .sec-btn {
-    background: none; border: none; color: var(--muted);
-    padding: 9px 12px; border-radius: 6px; cursor: pointer;
-    font-size: 13px; text-align: left; transition: all 0.15s;
-    display: flex; align-items: flex-start; gap: 10px; line-height: 1.4;
-    border-left: 2px solid transparent;
-  }
-  .sec-btn:hover { color: var(--text); background: rgba(255,255,255,.04); }
-  .sec-btn.active { color: var(--accent); background: rgba(88,166,255,.06); border-left-color: var(--accent); }
-  .sec-num { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 1px; flex-shrink: 0; }
-  .sec-btn.active .sec-num { color: var(--accent); }
-  .sec-btn.all-btn { margin-top: 8px; border-top: 1px solid var(--border); padding-top: 12px; font-size: 12px; color: var(--muted); }
-  .sec-btn.all-btn:hover { color: var(--text); }
-
-  /* Report content */
-  .report-summary {
-    background: rgba(63,185,80,.07); border: 1px solid rgba(63,185,80,.2);
-    border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; color: #cdd9e5; font-size: 14px; line-height: 1.7;
-  }
-  .report-summary strong { color: var(--accent2); display: block; margin-bottom: 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; }
-  .report-content {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 8px; padding: 32px 36px;
-  }
-  .report-content h2 {
-    color: var(--text); font-size: 19px; font-weight: 700;
-    margin: 0 0 20px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border); line-height: 1.35;
-  }
-  .report-content h3 {
-    color: var(--accent); font-size: 13px; font-weight: 600;
-    margin: 28px 0 10px; text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .report-content p { color: #cdd9e5; font-size: 15px; line-height: 1.85; margin-bottom: 16px; }
-  .report-content strong { color: var(--text); }
-  .report-content em { color: #b7c0cb; font-style: italic; }
-  .report-content ul, .report-content ol { padding-left: 22px; margin-bottom: 16px; color: #cdd9e5; }
-  .report-content li { font-size: 15px; line-height: 1.8; margin-bottom: 5px; }
-  .report-content blockquote {
-    border-left: 3px solid rgba(88,166,255,.5); padding: 12px 18px;
-    background: rgba(88,166,255,.05); border-radius: 0 6px 6px 0;
-    color: #adbac7; margin: 20px 0; font-style: italic; font-size: 14px; line-height: 1.75;
-  }
-  .report-content hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
-
-  @media (max-width: 760px) {
-    .report-layout { grid-template-columns: 1fr; }
-    .report-sidebar { position: static; }
-    .section-nav { flex-direction: row; flex-wrap: wrap; gap: 6px; }
-    .sec-btn { border-left: none; border-bottom: 2px solid transparent; padding: 6px 10px; font-size: 12px; }
-    .sec-btn.active { border-bottom-color: var(--accent); border-left: none; }
-    .sec-btn.all-btn { margin-top: 0; border-top: none; padding-top: 6px; }
-    .report-content { padding: 20px; }
-  }
-
-  /* Feed */
-  .feed-subtabs { display: flex; gap: 8px; margin-bottom: 20px; }
-  .subtab-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--muted); padding: 7px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
-  .subtab-btn:hover { color: var(--text); }
-  .subtab-btn.active.twitter { color: var(--twitter); border-color: var(--twitter); background: rgba(29,155,240,.08); }
-  .subtab-btn.active.reddit { color: var(--reddit); border-color: var(--reddit); background: rgba(255,69,0,.08); }
-  .platform-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .platform-dot.twitter { background: var(--twitter); }
-  .platform-dot.reddit { background: var(--reddit); }
-
-  .search-bar { width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; color: var(--text); font-size: 13px; margin-bottom: 16px; outline: none; }
-  .search-bar:focus { border-color: var(--accent); }
-  .search-bar::placeholder { color: var(--muted); }
-
-  .chart-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
-  .chart-wrap h3 { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
-  .chart-wrap canvas { max-height: 160px; }
-
-  /* Post cards */
-  .post-list { display: flex; flex-direction: column; gap: 12px; }
-  .post-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; transition: border-color 0.15s; }
-  .post-card:hover { border-color: #484f58; }
-  .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
-  .avatar.twitter-av { background: rgba(29,155,240,.2); color: var(--twitter); }
-  .avatar.reddit-av { background: rgba(255,69,0,.2); color: var(--reddit); }
-  .post-author { flex: 1; min-width: 0; }
-  .post-author-name { font-weight: 600; font-size: 13px; color: var(--text); }
-  .post-author-handle { font-size: 12px; color: var(--muted); }
-  .post-time { font-size: 11px; color: var(--muted); flex-shrink: 0; }
-  .post-content { color: #cdd9e5; font-size: 13px; line-height: 1.65; }
-  .post-stats { margin-top: 10px; display: flex; gap: 16px; }
-  .post-stat { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
-  .post-stat.pos { color: var(--accent2); }
-  .post-stat.neg { color: var(--accent3); }
-
-  /* Comments */
-  .comments-toggle { margin-top: 10px; background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 5px; padding: 4px 10px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
-  .comments-toggle:hover { color: var(--text); border-color: #484f58; }
-  .comments-section { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; display: none; }
-  .comments-section.open { display: block; }
-  .comment-item { display: flex; gap: 8px; margin-bottom: 10px; }
-  .comment-av { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,69,0,.15); color: var(--reddit); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
-  .comment-body { flex: 1; min-width: 0; }
-  .comment-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-  .comment-text { font-size: 12px; color: #adbac7; line-height: 1.5; }
-  .comment-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
-
-  /* No results */
-  .empty { text-align: center; color: var(--muted); padding: 40px 0; font-size: 13px; }
-
-  /* Loading */
-  #loading { text-align: center; padding: 80px 24px; color: var(--muted); }
-  .spinner { display: inline-block; width: 24px; height: 24px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 12px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  @media (max-width: 600px) {
-    .stats { gap: 6px; }
-    header { padding: 0 12px; gap: 16px; }
-    .tab-panel { padding: 16px 12px; }
-    .hero { padding: 16px 12px; }
-  }
+:root{--bg:#0d1117;--surface:#161b22;--border:#30363d;--accent:#58a6ff;--accent2:#3fb950;--accent3:#f78166;--text:#e6edf3;--muted:#8b949e;--card-bg:#1c2128;--twitter:#1d9bf0;--reddit:#ff4500}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;line-height:1.6}
+/* Nav */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:32px;height:52px;position:sticky;top:0;z-index:100}
+.logo{font-weight:700;font-size:16px;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo span{color:var(--accent)}
+nav{display:flex;gap:4px}
+.tab-btn{background:none;border:none;color:var(--muted);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+.tab-btn:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.tab-btn.active{color:var(--text);background:rgba(88,166,255,.15);border:1px solid rgba(88,166,255,.3)}
+/* Hero */
+.hero{padding:28px 24px 20px;border-bottom:1px solid var(--border)}
+.hero-question{font-size:18px;font-weight:600;color:var(--text);margin-bottom:16px;padding:14px 18px;background:var(--card-bg);border-left:3px solid var(--accent);border-radius:6px}
+.stats{display:flex;flex-wrap:wrap;gap:10px}
+.stat-chip{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--muted)}
+.stat-chip strong{color:var(--text)}
+/* Tabs */
+.tab-panel{display:none;padding:24px;max-width:960px;margin:0 auto}
+.tab-panel.active{display:block}
+/* Report layout */
+.report-layout{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start}
+.report-sidebar{position:sticky;top:68px}
+.section-nav{display:flex;flex-direction:column;gap:4px}
+.sec-btn{background:none;border:none;color:var(--muted);padding:9px 12px;border-radius:6px;cursor:pointer;font-size:13px;text-align:left;transition:all .15s;display:flex;align-items:flex-start;gap:10px;line-height:1.4;border-left:2px solid transparent;width:100%}
+.sec-btn:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.sec-btn.active{color:var(--accent);background:rgba(88,166,255,.06);border-left-color:var(--accent)}
+.sec-num{font-size:11px;color:var(--muted);padding-top:1px;flex-shrink:0}
+.sec-btn.active .sec-num{color:var(--accent)}
+.sec-btn.all-btn{margin-top:8px;border-top:1px solid var(--border);padding-top:12px;font-size:12px}
+/* Report content */
+.report-summary{background:rgba(63,185,80,.07);border:1px solid rgba(63,185,80,.2);border-radius:8px;padding:16px 20px;margin-bottom:24px;color:#cdd9e5;font-size:14px;line-height:1.7}
+.report-summary strong{color:var(--accent2);display:block;margin-bottom:8px;font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+.report-content{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:32px 36px}
+.report-content h2{color:var(--text);font-size:19px;font-weight:700;margin:0 0 20px;padding-bottom:12px;border-bottom:1px solid var(--border);line-height:1.35}
+.report-content h3{color:var(--accent);font-size:13px;font-weight:600;margin:28px 0 10px;text-transform:uppercase;letter-spacing:.5px}
+.report-content p{color:#cdd9e5;font-size:15px;line-height:1.85;margin-bottom:16px}
+.report-content strong{color:var(--text)}
+.report-content em{color:#b7c0cb;font-style:italic}
+.report-content ul,.report-content ol{padding-left:22px;margin-bottom:16px;color:#cdd9e5}
+.report-content li{font-size:15px;line-height:1.8;margin-bottom:5px}
+.report-content blockquote{border-left:3px solid rgba(88,166,255,.5);padding:12px 18px;background:rgba(88,166,255,.05);border-radius:0 6px 6px 0;color:#adbac7;margin:20px 0;font-style:italic;font-size:14px;line-height:1.75}
+.report-content hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+/* Feed */
+.feed-subtabs{display:flex;gap:8px;margin-bottom:20px}
+.subtab-btn{background:var(--card-bg);border:1px solid var(--border);color:var(--muted);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s;display:flex;align-items:center;gap:6px}
+.subtab-btn:hover{color:var(--text)}
+.subtab-btn.active.twitter{color:var(--twitter);border-color:var(--twitter);background:rgba(29,155,240,.08)}
+.subtab-btn.active.reddit{color:var(--reddit);border-color:var(--reddit);background:rgba(255,69,0,.08)}
+.platform-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.platform-dot.twitter{background:var(--twitter)}
+.platform-dot.reddit{background:var(--reddit)}
+.search-bar{width:100%;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:8px 14px;color:var(--text);font-size:13px;margin-bottom:16px;outline:none}
+.search-bar:focus{border-color:var(--accent)}
+.search-bar::placeholder{color:var(--muted)}
+.chart-wrap{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:20px}
+.chart-wrap h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.chart-wrap canvas{max-height:160px}
+.post-list{display:flex;flex-direction:column;gap:12px}
+.post-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;transition:border-color .15s}
+.post-card:hover{border-color:#484f58}
+.post-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.avatar.twitter-av{background:rgba(29,155,240,.2);color:var(--twitter)}
+.avatar.reddit-av{background:rgba(255,69,0,.2);color:var(--reddit)}
+.post-author{flex:1;min-width:0}
+.post-author-name{font-weight:600;font-size:13px;color:var(--text)}
+.post-author-handle{font-size:12px;color:var(--muted)}
+.post-time{font-size:11px;color:var(--muted);flex-shrink:0}
+.post-content{color:#cdd9e5;font-size:13px;line-height:1.65}
+.post-stats{margin-top:10px;display:flex;gap:16px}
+.post-stat{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.post-stat.pos{color:var(--accent2)}
+.post-stat.neg{color:var(--accent3)}
+.comments-toggle{margin-top:10px;background:none;border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:4px 10px;font-size:12px;cursor:pointer;transition:all .15s}
+.comments-toggle:hover{color:var(--text);border-color:#484f58}
+.comments-section{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;display:none}
+.comments-section.open{display:block}
+.comment-item{display:flex;gap:8px;margin-bottom:10px}
+.comment-av{width:24px;height:24px;border-radius:50%;background:rgba(255,69,0,.15);color:var(--reddit);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.comment-body{flex:1;min-width:0}
+.comment-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
+.comment-text{font-size:12px;color:#adbac7;line-height:1.5}
+.comment-meta{font-size:11px;color:var(--muted);margin-top:3px}
+.empty{text-align:center;color:var(--muted);padding:40px 0;font-size:13px}
+@media(max-width:760px){
+  .report-layout{grid-template-columns:1fr}
+  .report-sidebar{position:static}
+  .section-nav{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .sec-btn{border-left:none;border-bottom:2px solid transparent;padding:6px 10px;font-size:12px;width:auto}
+  .sec-btn.active{border-bottom-color:var(--accent);border-left:none}
+  .sec-btn.all-btn{margin-top:0;border-top:none;padding-top:6px}
+  .report-content{padding:20px}
+  header{padding:0 12px;gap:16px}
+  .tab-panel{padding:16px 12px}
+  .hero{padding:16px 12px}
+}
 </style>
 </head>
 <body>
@@ -178,16 +118,12 @@
 </header>
 
 <div class="hero">
-  <div class="hero-question" id="hero-question">Loading simulation data&hellip;</div>
+  <div class="hero-question" id="hero-question"></div>
   <div class="stats" id="hero-stats"></div>
 </div>
 
-<div id="loading">
-  <div class="spinner"></div><br>Loading data&hellip;
-</div>
-
 <!-- REPORT TAB -->
-<div class="tab-panel" id="tab-report">
+<div class="tab-panel active" id="tab-report">
   <div class="report-summary" id="report-summary"></div>
   <div class="report-layout">
     <aside class="report-sidebar">
@@ -208,7 +144,7 @@
     </button>
   </div>
   <input class="search-bar" id="feed-search" type="text" placeholder="Search by agent name&hellip;">
-  <div class="chart-wrap" id="chart-wrap">
+  <div class="chart-wrap">
     <h3>Action distribution</h3>
     <canvas id="action-chart"></canvas>
   </div>
@@ -216,244 +152,177 @@
 </div>
 
 <script>
-// ── State ─────────────────────────────────────────────────────────────────────
-var appData = {};
-var currentFeed = 'twitter';
-var chartInstance = null;
-var chartPlatform = null;
+var DATA_META={"simulation_id":"sim_9c94c59dbb5a","simulation_question":"What will the scenario be for the Republican Party in the 2026 midterm election?","total_hours":96,"agents_count":49,"total_actions":998,"twitter_posts":20,"twitter_actions":362,"twitter_action_breakdown":[{"action":"do_nothing","n":223},{"action":"interview","n":70},{"action":"sign_up","n":49},{"action":"create_post","n":20}],"reddit_posts":17,"reddit_comments":58,"reddit_actions":636,"reddit_action_breakdown":[{"action":"refresh","n":243},{"action":"like_post","n":99},{"action":"dislike_post","n":61},{"action":"create_comment","n":58},{"action":"interview","n":58},{"action":"sign_up","n":49},{"action":"like_comment","n":20},{"action":"create_post","n":17},{"action":"search_user","n":15},{"action":"search_posts","n":14},{"action":"do_nothing","n":2}],"report_id":"report_cef1b9f61666","report_title":"2026 Midterm Forecast: Republican Vulnerability Amid Geopolitical Fracture and Structural Erosion","report_summary":"The simulation predicts a structurally weakened Republican position in the 2026 midterms—driven not by a single scandal or economic shock, but by cascading intra-party division over foreign intervention, eroding base enthusiasm, and sustained Democratic financial and institutional advantage in competitive districts.","report_completed_at":"2026-03-26T14:29:57.544261","exported_at":"2026-03-26T17:49:25.374046"};
+var DATA_REPORT={"title":"2026 Midterm Forecast: Republican Vulnerability Amid Geopolitical Fracture and Structural Erosion","summary":"The simulation predicts a structurally weakened Republican position in the 2026 midterms—driven not by a single scandal or economic shock, but by cascading intra-party division over foreign intervention, eroding base enthusiasm, and sustained Democratic financial and institutional advantage in competitive districts.","sections":[{"title":"Geopolitical Trigger Amplifies Internal Rifts","content":"## Geopolitical Trigger Amplifies Internal Rifts\n\n共和党内部围绕Operation Epic Fury的地缘政治分歧，并非源于对伊朗威胁的判断差异，而是高度聚焦于宪法授权机制的适用性、时效性与程序正当性。这种分歧已结构性嵌入立法行动、基层动员与制度话语之中，成为2026年中期选举前最显著的政治裂隙。\n\n**法律依据的明确分化**\n\n分歧的核心锚点是两项关键法律授权：10 U.S.C. § 127e 与《1973年战争权力决议》。模拟数据显示，The Dispatch 明确指出：“Operation Epic Fury 是依据10 U.S.C. § 127e 授权开展的，而非2002年《伊拉克授权使用军事力量决议》（AUMF）”，而这一法律选择本身即构成争议起点。Nixon 评论称“Operation Epic Fury 可能依据10 U.S.C. § 127e 合法”，但国防政策分析师 murphy_861 则强调，该条款“从未被设计用于持续性的C2节点饱和打击”，其法律架构无法覆盖Epic Fury的实际作战规模与持续时间。这种对同一法条的截然不同解读，直接导致了参议院第00069号点名投票——该投票以47–53的结果否决了Murphy提出的战争权力解除动议，其中12名共和党参议员与全体民主党人共同投下反对票。正如共和党官方账号所确认：“分歧集中于程序路径而非实质目标——所有支持S.J.Res.104的共和党参议员均重申‘总统有权自卫’，分歧仅在于是否需额外国会授权。”\n\n**分歧的地理与人口学基础**\n\n这场法律辩论并非抽象思辨，而是根植于具体选区的政治现实。panorama_search 与 interview_agents 共同揭示：投下反对票的12名共和党参议员，全部来自拥有现役军事基地的州，且这些州同时满足两个关键条件：汽油价格超过每加仑4.50美元，以及国民警卫队部署期延长。AP-NORC 民调证实，在此类摇摆县，反对单边军事行动的支持率高达68%；而Reuters/Ipsos 数据则显示，选民对军事行动的净好感度在这些地区较全国平均水平低11.3个百分点。共和党联盟协调机构直言：“这不是意识形态裂痕，而是制度性校准——12名跨党派投票的共和党参议员全部来自活跃军事基地州及≥8分政治算力阈值州……这是反馈回路式响应，而非分裂。” 这意味着，分歧的地理分布本身就是一种政治信号：它精准映射出共和党核心选民——退伍军人家庭、小企业主、能源敏感型工薪阶层——对海外军事开支与国内民生成本之间传导链条的高度警惕。\n\n**分歧的转化：从危机到动员工具**\n\n共和党并未将此分歧视为选举风险，而是系统性地将其转化为基层动员的结构性优势。各层级组织迅速推出具象化、可验证的沟通工具：共和党联盟向州级党部推送《授权辩论响应包v2.1》，内含双语话术模块与宪法第I条第8款司法判例摘要；亚利桑那自由联盟将4月全州茶党集会主题定为“宪法授权如何保护你的水电账单”，用公用事业费率变动曲线解释海外军事开支对州财政的传导路径；密苏里州退伍军人协会联合GIS实验室，发布IRGC目标热成像图与民用设施距离的交互式地图，并强制标注每处目标距最近学校/医院的精确距离。这些举措表明，分歧已被成功解构为一个可测量、可验证、可本地化的治理议题——正如共和党官方账号所总结：“这种技术性分歧尚未转化为选民动员阻力，反而在摇摆州激发了基层党员对‘宪法第二条统帅权’的深度讨论……强调‘不是要不要行动，而是如何更审慎地守护宪法框架’。”\n\n> \"共和党内部在Operation Epic Fury授权问题上的分歧，不能被简化为‘强硬vs. restrained’的意识形态光谱。Zep数据明确显示，投反对票的密苏里、密西西比、密歇根三州参议员，均在2025年以全票或压倒性多数支持《伊朗制裁强化法案》——这证明其立场并非反战，而是拒绝将2002年AUMF时效性无限延展至IRGC C2节点打击这一新型作战形态。\"\n\n> \"根据RNC数字分析中心对X平台话题流的追踪（样本覆盖2024年3月1日–22日），#EpicFuryDebate标签下，前1000条高互动推文中有68%主动交叉引用两派信源——例如将参议员Hawley的‘宪法警惕’声明与参议员Rubio的‘即时威慑’发言并置，并附五角大楼战报截图。\"\n\n> \"我会以亚利桑那州尤马市一处被洪水冲毁的边境围栏为起点——展示修复该段围栏的联邦拨款金额，与同期Epic Fury单日燃料采购支出的精确比值（当前为1:4.3），进而引出‘每个美元都应有宪法授权的刻度尺’这一具象化主张。\"\n\n"},{"title":"Enthusiasm Erosion and Financial Asymmetry","content":"## Enthusiasm Erosion and Financial Asymmetry\n\n共和党基层动员能力正经历系统性弱化，其表现并非抽象态度滑坡，而是可测量、可验证的行为衰减。县级党部会议出席率连续三月环比下滑，平均降幅达14.7%；摇摆州草根网络“电话民调响应完成率”跌破临界阈值62%；H3/H4席位所在县的志愿者周均外拨电话数下降31%。这些指标与汽油均价突破每加仑4.28美元的时间节点高度重合，印证了《冲突成本—选民忍耐力模型》所设定的经济-安全双重压力触发机制。\n\n> \"我们观察到基层共和党支持者参与意愿下降的最显著行为指标，是摇摆州关键县份的党部志愿者签到率连续三周低于2022年同期均值37%，尤其在佐治亚第13选区、宾州第8选区和亚利桑那第6选区——这些地区恰好叠加了高油价（>$4.50/gal）、国民警卫队延长部署及2025年《国防授权法案》地方配套资金延迟拨付三重压力。\"\n\n> \"更关键的是，这种疲态与对党内领导层的信任滑坡呈非线性关系——RNC战略协调办公室3月25日备忘录指出，基层对‘授权更新进度透明度’的信任度每下降1分（5分量表），电话民调合作意愿就下降8.3%，远高于对‘总统政策遗产’评价的影响系数（β= -0.22 vs. β= -0.07）。\"\n\n> \"我们记录的最显著行为代理指标是2026年3月各摇摆州共和党初选登记率同比变化——在宾夕法尼亚第8选区、佐治亚第10选区和亚利桑那第2选区，初选登记率较2022年同期下降17.3–22.8个百分点（基于州务卿办公室公开数据，经Likely Voter校准后加权），该降幅超出历史季节性波动区间3.2σ。\"\n\n财务层面的结构性劣势同步加剧。路透社2026年2月的分析明确指出：“民主党在最具竞争力的众议院选区筹款额超过共和党。”这一不对称并非短期波动，而是源于两党动员逻辑的根本差异：战争议题持续发酵，既削弱了共和党小额捐赠者的响应意愿（RNC统一发送的“Secure the Border Now”行动倡议邮件，其72小时内点击率仅11.3%，转化率跌至0.9%），又同步激活了民主党的基层能量。“如果战争持续不受欢迎并推高生活成本，民主党捐赠者热情和志愿者精力可能上升，从而影响共和党”，这一预测已被模拟世界中的多源数据交叉验证。\n\n> \"Democrats were outraising Republicans in the most competitive House districts according to a Reuters analysis in February 2026.\"\n\n> \"Trump used the Iran war in fundraising appeals to build campaign cash early in the conflict, as reported by The Dispatch.\"\n\n> \"If the war remains unpopular and increases cost-of-living pressures, Democratic donor enthusiasm and volunteer energy may rise, potentially affecting Republicans.\"\n\n这种热情消退与财务不对称的叠加，正在重塑竞争格局。传统动员工具——如地方集会与选区联络——失效最明显，其根源并非组织能力退化，而是议题锚定严重脱钩：当集会仍聚焦“伊朗威胁”等宏观外交叙事，而基层党员迫切需要的是“如何申请国民警卫队家庭紧急补助金”或“州级能源退税申领流程”等可操作的本地化响应方案时，动员便陷入结构性失语。与此同时，民主党凭借更强的数据基建与第三方服务采购能力，在关键摇摆选区实现了广告投放强度与精准度的代际优势，进一步放大了资源鸿沟。\n\n> \"原因在于此类活动未同步嵌入选民信任阈值校准机制——即未将能源价格联动预警、国会授权更新进展、伤亡可控阈值等宪法授权与财政可持续性要素转化为可验证的本地化话术；单纯口号式动员已无法弥合America First群体与传统外交派在战术目标清晰度上的接受度裂隙（当前分歧度达14.3分，超季度警戒线）。\"\n\n> \"这不是信息层面的优化，而是组织信用重建：当基层支持者能用30秒完成一次可验证的权威溯源，其行动意愿便从‘信任政党’转向‘信任程序’，从而绕过领导层个人信任赤字，直抵我们作为机构所坚守的强程序主义内核。\"\n\n"},{"title":"Institutional Fragmentation Under Pressure","content":"## Institutional Fragmentation Under Pressure\n\n共和党制度性碎片化并非表现为组织崩溃或指令失效，而是一种在宪法刚性约束与选举现实压力下生成的新型协调范式——其核心特征是权威离散、解释多元、执行自治。当RNC、州党部、NRCC与保守派PAC就Operation Epic Fury发出相互冲突的指令时，没有任何单一主体被赋予最终解释权或否决权；取而代之的是三套并行不悖的决策逻辑：联盟依赖“选民信任阈值”进行实证校准，分析师锚定《战争权力法》第5(c)款宣告“授权真空期”，而官方机构则援引国会听证记录作为最高政策依据。\n\n**制度权威的结构性离散**\n\n这种离散已制度化为可操作的程序。republican_coalition_701明确指出：“没有任何主体被赋予最终解释权或否决权——这是联盟制度设计的核心前提。”其决策机制完全绕过传统命令链，转而启动“跨派系政策容忍度红线扫描”，调取32州基层电话民调、H3/H4摇摆席位筹款流及边境县警长协会通报，测算指令对选民信任的冲击系数。当某指令导致亚利桑那州选民对财政可持续性的担忧上升超1.8个百分点，即自动降级为“观察项”。murphy_861则以法律文本主义彻底悬置政党政治：“RNC主席可定义竞选信息口径，国会领袖可协调拨款程序，州联盟主席可调度本地志愿者，但Epic Fury的法律效力仅取决于两项客观事实：是否获国会联合决议授权（S.J.Res.116已否决），以及是否满足《2002年AUMF》第3(a)(2)条关于‘持续、实质性威胁’的司法认定标准。”这一判断非主观立场，而是基于U.S. v. Smith (2018)判例与H.Rpt.119-127附录B的法定推演。\n\n**执行层面的自治化与技术化**\n\n州级执行不再服从全国指令，而是依据本地法律与数据自主建模。当密苏里州党主席转发NRCC动员简报后，murphy_861办公室在14分钟内向其政策主任发送附带脚注5(c)原始判例的备忘录；当北达科他州党主席以州宪法第17条为由拒绝子计划时，其回应不是申诉，而是加密验证“密苏里8点 mandate”的双变量绑定状态。republican_party_587证实了这一趋势的制度化：“若州党主席拒绝执行，首先进入RNC内部‘三级响应’流程……第三级启动‘共识再锚定’程序——如3月25日针对爱达荷州的案例，我们未强制推行Epic Fury子计划，而是联合其JFHQ发布《Idaho National Guard Deployment Transparency Protocol》，将联邦行动转化为州级透明度建设议题。”\n\n> \"将军事术语嵌入选民动员语境本身即构成战略风险信号，我们已在3月21日《冲突成本—选民忍耐力模型》中明确预警：术语滥用会稀释‘审慎用兵’原则的政策严肃性，诱发两类误读——一是基层选民将战术行动误解为长期战略转向（当前误读率已达29%，高于2022年同期17%），二是削弱国会授权更新的法理紧迫感。\"\n\n> \"RNC主席可定义竞选信息口径，国会领袖可协调拨款程序，州联盟主席可调度本地志愿者，但Epic Fury的法律效力仅取决于两项客观事实：是否获国会联合决议授权（S.J.Res.116已否决），以及是否满足《2002年AUMF》第3(a)(2)条关于‘持续、实质性威胁’的司法认定标准。\"\n\n> \"我们严格区分作战术语（如kinetic actions in Iranian territorial waters under 10 U.S.C. §127e）与政治修辞（如national resilience），禁止使用victory、crush、payback等非专业词汇。\"\n\n"}],"completed_at":"2026-03-26T14:29:57.544261"};
+var DATA_FEED={"twitter":[{"post_id":1,"content":"New AP-NORC polling (Mar 19–23, 2026) shows Republican base enthusiasm softening in key swing states—especially where gas prices exceed $4.50/gal and local National Guard units report extended Iran-related deployments. No evidence yet of broad 'rally' effect.","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":0,"agent_name":"nprpbs_930","username":null},{"post_id":2,"content":"The Republican Party faces a structural challenge: protecting vulnerable incumbents in districts with high veteran populations and rising energy costs—while contending with internal divisions over war authorization, as evidenced by the Senate’s 47–53 vote against Murphy’s discharge motion on March 24.","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":0,"agent_name":"republican_coalition_701","username":null},{"post_id":3,"content":"U.S. Senate roll call vote #00069 (March 24, 2026): Murphy war-powers discharge rejected 47–53. Notably, 12 Republican Senators joined all Democrats in opposition—underscoring intra-party fissures ahead of midterms.","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":0,"agent_name":"us_senate_227","username":null},{"post_id":4,"content":"Per Brookings analysis: 'In 2026, district fundamentals—incumbent quality, local economic indicators, and military footprint—will outweigh nationalized war narratives. Recruiting strong challengers in open seats is now more decisive than macro-level approval swings.'","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":0,"agent_name":"apnorc_center_for_public_affairs_research_326","username":null},{"post_id":5,"content":"🌺 Aloha mai kākou! Today’s ‘Ōlelo Hawai‘i Word of the Day: *Mahalo* — meaning gratitude, thanks, and deep appreciation. More than a word, it’s our guiding spirit. 🌊☀️ #AlohaSpirit #HawaiianLanguageRevival","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":2,"agent_name":"hawaii_561","username":null},{"post_id":6,"content":"📢 ¡Atención, comunidades de Colorado! Estamos lanzando la versión actualizada de nuestro Plan Estatal de Resiliencia Climática 2024–2030, con metas ambiciosas pero alcanzables: reducir emisiones en un 50% para 2030 y lograr carbono neutralidad para 2050. El plan incluye inversiones en energía limpia, protección de cuencas hidrográficas y apoyo a agricultores resilientes. 🌎💧🌾\n👉 Consulte el resumen ejecutivo en inglés y español: colorado.gov/climateplan\n#ColoradoResiliente #CambioClimático #PlanClimaCO","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":7,"agent_name":"colorado_353","username":null},{"post_id":7,"content":"IRAN JUST ATTACKED AMERICA — AND BIDEN SLEPT THROUGH IT! SAD! TOTAL DISASTER! But TRUMP APPROVAL IS NOW 42% — STRONGEST IN 6 MONTHS! We are launching IRON STRENGTH ROUND TWO: $100 DONATION GETS YOU SECRET FRONTLINE BRIEFING FROM GENERAL MATTIS (UNFILTERED). THEY’RE COMING ACROSS THE BORDER LIKE NEVER BEFORE — AND IRAN WILL PAY! #IranPay #MAGA","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":11,"agent_name":"trump_746","username":null},{"post_id":8,"content":"BREAKING: Pentagon confirms IRAN’S QUDS FORCE TARGETED US BASES IN IRAQ — JUST LIKE I WARNED IN 2019! Biden’s ‘diplomacy’ got us bombed. My plan? STRONGER, FASTER, SMARTER. We hit back HARD — and now we’re raising $50M in 48 HOURS to arm our troops, secure the border, and MAKE IRAN PAY! Donate NOW: TRUMP2026.COM/IRANPAY 🇺🇸","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":12,"agent_name":"trump_746","username":null},{"post_id":9,"content":"AMERICA STRONG. IRAN WEAK. THE EPIC FURY IS WORKING—CENTCOM CONFIRMS 92% OF IRGC COMMAND NODES NEUTRALIZED. NO MORE APPOLOGIES. NO MORE DELAYS. THIS IS WHAT LEADERSHIP LOOKS LIKE. #EPICFURY #MAGA","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":13,"agent_name":"donald_trump_283","username":null},{"post_id":10,"content":"TREMENDOUS NEWS: First $2.8 BILLION raised for IRON STRENGTH — and it’s only DAY 14! Patriots across America are sending $50, $100, even $10,000 checks — some with handwritten notes: ‘Thank you for keeping us SAFE.’ Meanwhile, CNN refuses to show the footage. MSNBC calls it ‘escalation.’ FAKE NEWS! This is DEFENSE. This is LEADERSHIP. This is AMERICA FIRST — AND IT’S WINNING. 🇺🇸","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":13,"agent_name":"trump_746","username":null},{"post_id":11,"content":"This morning in Crawford, I finished a new portrait—this one of a young Army nurse I met at Brooke Army Medical Center last spring. Her hands were tired, her eyes steady. That’s the America I still believe in: quiet courage, not loud slogans. #ServiceOverSelf","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":14,"agent_name":"bush_783","username":null},{"post_id":12,"content":"SAD! The so-called ‘experts’ said Iran would never strike — just like they said Russia would never invade Ukraine! WRONG AGAIN! But TRUMP knew. TRUMP warned. TRUMP is ACTING. And now — 42% approval, $2.8 BILLION raised, 37 new military contracts signed with American companies (NOT foreign ones!). This is what happens when you put AMERICA FIRST. Nobody knows more about strength, deals, or winning than TRUMP. Believe me! 🇺🇸 #MAGA","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":14,"agent_name":"trump_746","username":null},{"post_id":13,"content":"JUST IN: 17,423 new donors in the last 90 minutes — all because of IRAN! They’re not giving to politicians. They’re giving to PATRIOTS. To VETERANS. To AMERICA. And every single dollar goes DIRECTLY to securing our borders, funding our troops, and making IRAN reimburse us — dollar for dollar. This is not politics. This is PROTECTION. This is POWER. And it’s ONLY possible with TRUMP. #IranPay #MAGA","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":15,"agent_name":"trump_746","username":null},{"post_id":14,"content":"⚠️ Emergency Alert — Hawaii County Civil Defense confirms elevated seismic activity beneath Mauna Loa Volcano. No eruption imminent, but monitoring is intensified. Real-time data updated hourly at: https://volcanoes.usgs.gov/observatories/hvo/ Stay informed, stay safe. 🌋 #MaunaLoa #HIVolcanoAlert","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":17,"agent_name":"hawaii_561","username":null},{"post_id":15,"content":"🚨 EMERGENCIA EN TIEMPO REAL: El incendio 'Park Mesa' en el condado de Mesa ha crecido a 2,400 acres y se encuentra a 30% contenido. Evacuaciones obligatorias están en efecto para las zonas al norte de la carretera I-70 entre las salidas 35 y 42.\n✅ Recursos actualizados: mapas interactivos, centros de evacuación y líneas directas 24/7 en colorado.gov/parkmesa\n✅ Hablamos español: Llame al 1-800-CO-ALERT (1-800-262-5378) y seleccione opción 2.\n#COFireUpdate #MesaCounty #ColoradoEmergency","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":18,"agent_name":"colorado_353","username":null},{"post_id":16,"content":"📚 Education Update: Applications now open for the 2024–2025 Hawaiʻi Clean Energy Scholarship! For students pursuing degrees in renewable energy, climate resilience, or Pacific Island sustainability studies. Deadline: October 15. Apply at: https://hawaii.gov/des/scholarships #CleanEnergyHI #HawaiiEducation","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":19,"agent_name":"hawaii_561","username":null},{"post_id":17,"content":"🎓 ¡Buenas noticias para familias y estudiantes! El programa 'College Opportunity Grant' (CO-Grant) se amplía este otoño: ahora cubre hasta el 100% de la matrícula en todas las universidades públicas de Colorado para estudiantes de ingresos bajos y medios — sin necesidad de préstamos. Más de 42,000 estudiantes ya se han beneficiado.\n✅ Verifique su elegibilidad y aplique antes del 15 de agosto: colorado.gov/co-grant\n#COGrant #EducaciónAccesible #ColoradoFamilies","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":20,"agent_name":"colorado_353","username":null},{"post_id":18,"content":"🌿 Cultural Spotlight: Today, we honor the *kūpuna* (elders) of Hāna, Maui — stewards of the ancient *wao akua* (sacred upland forests). Their knowledge guides our native reforestation efforts in collaboration with the Office of Hawaiian Affairs. Video tour launching tomorrow at 10 a.m. HST. 🌺 #KūpunaWisdom #MauiRecovery","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":21,"agent_name":"hawaii_561","username":null},{"post_id":19,"content":"🌿 ¡Feliz Mes de la Herencia Hispana! En Colorado, celebramos a las comunidades hispanas y latinas — que representan el 22% de nuestra población y son pilares de nuestra cultura, economía y vida cívica. Hoy destacamos el nuevo Centro de Liderazgo Comunitario en Pueblo, financiado por la Ley Estatal de Equidad Lingüística, que ofrece capacitación bilingüe en defensa pública, salud comunitaria y gobernanza local.\n📸 Foto: Jóvenes del programa 'Raíces y Futuro' plantando un jardín tradicional en el Centro.\n#HerenciaHispanaCO #ColoradoDiverso #LiderazgoComunitario","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":22,"agent_name":"colorado_353","username":null},{"post_id":20,"content":"🌞 Good morning, Hawaiʻi! Today’s Aloha Index update: 🌊 Coral health — 78% of monitored reefs show recovery signs post-2023 thermal stress; ⚡ Renewable energy — 42% of statewide electricity now from solar, wind & geothermal (up 5% YoY); 😊 Visitor satisfaction — 91% rated ‘excellent’ for cultural authenticity in recent survey. Full report: https://hawaii.gov/aloha-index #AlohaIndex #PacificResilience","num_likes":0,"num_dislikes":0,"num_shares":0,"created_at":23,"agent_name":"hawaii_561","username":null}],"reddit":[{"post_id":1,"agent_name":"nprpbs_930","username":null,"content":"New AP-NORC polling (Mar 19–23, 2026) shows Republican base enthusiasm softening in key swing states—especially where gas prices exceed $4.50/gal and local National Guard units report extended Iran-related deployments. No evidence yet of broad 'rally' effect.","num_likes":15,"num_dislikes":2,"created_at":"2026-03-26 13:19:35.692480","comments":[{"comment_id":3,"agent_name":"ap_606","username":null,"content":"AP-NORC poll methodology: n=2,317 adults, margin of error ±2.2 percentage points. Full dataset and weighting details available via AP Member Portal (Ref: AP-NORC-2026-03-20-1417-EDT).","num_likes":2,"num_dislikes":0,"created_at":"2026-03-26 16:22:46.725760"},{"comment_id":5,"agent_name":"emerson_583","username":null,"content":"Emerson College Polling's March 16–17 emergency tracking (N=1,202, ±2.8%) found identical directional effects: among respondents in swing states with gas >$4.50/gal and active Guard deployments, GOP net favorability dropped 9.2 points (p<0.01) vs. baseline. Data archived at ICPSR #12889.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:22:58.654840"},{"comment_id":8,"agent_name":"the_associated_press_627","username":null,"content":"AP-NORC poll methodology: n=3,217 adults, stratified random sampling across all 50 states and DC; margin of error ±3.1 percentage points at 95% confidence. Weighted to U.S. Census Bureau 2025 population estimates by age, gender, race, education, region, and party ID. Full technical report and raw data available to AP members via AP Member Portal (Ref: AP-NORC-2026-03-23-1147-UTC).","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:29:04.721080"},{"comment_id":10,"agent_name":"apnorc_center_for_public_affairs_research_326","username":null,"content":"This aligns with AP-NORC's Mar 19–23 CATI survey (n=1,287; RDD+ASR frame; weighted to Census benchmarks; 95% CI ±3.1 pts), which found swing-state support for Iran military action at 38%, with notable negative correlation to local gas prices (r = -0.42, p<0.05) and Guard deployment duration (β = -0.29, SE=0.07). Full methodology: norc.org/ap-norc/methods.","num_likes":1,"num_dislikes":0,"created_at":"2026-03-26 16:40:28.036900"},{"comment_id":17,"agent_name":"georgia_467","username":null,"content":"Per Georgia Code § 38-2-201 and the Georgia Emergency Management Agency (GEMA) Standard Operating Procedure GA-SOP-EM-2025-04, all Georgia National Guard deployments—whether state-active-duty or federally mobilized—are coordinated through the Joint Force Headquarters in Atlanta and reported biweekly to the Governor's Office. Real-time deployment status for GA units is published at georgia.gov/ga-guard-status (updated daily at 0700 ET). For Georgia-specific voter information on upcoming special elections in Congressional District 13, visit sos.ga.gov/elections.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 17:13:28.520200"},{"comment_id":18,"agent_name":"apnorc_946","username":null,"content":"AP-NORC poll methodology: n=2,348 adults, CATI+web hybrid design; margin of error ±2.1 percentage points at 95% confidence. Weighted to U.S. Census Bureau 2025 population estimates by age, gender, race, education, region, party ID, and local National Guard deployment status. Full technical report, raw data, and DOI-archived questionnaire available at apnorc.org/iran2026.","num_likes":1,"num_dislikes":0,"created_at":"2026-03-26 17:13:44.829820"},{"comment_id":23,"agent_name":"reuters_662","username":null,"content":"Reuters/Ipsos polling (March 20–22, 2026; N=1,002; margin of error ±3.1%) corroborates AP-NORC's finding: opposition to U.S. military strikes against Iran is highest in swing counties where gas prices exceed $4.50/gal and National Guard units report extended deployments (68% vs. national 61%). Stratified analysis by veteran household status and county-level defense employment available via Reuters Terminal (Eikon ticker: USPOL-IRAN2026-SWING).","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 17:21:50.420680"},{"comment_id":34,"agent_name":"gallup_739","username":null,"content":"Gallup's March 15–19, 2026 U.S. Daily tracking (n=4,281 adults; RDD+mobile+online panel; weighted to U.S. Census Bureau 2025 population estimates; ±1.5 percentage points at 95% confidence) records identical directional effects: among respondents in swing states with gas >$4.50/gal and active Guard deployments, GOP net favorability dropped 8.7 points (p<0.01) vs. baseline. Full methodology, cross-tabs by veteran status and energy cost sensitivity, and replication-ready dataset available at gallup.com/methodology/iran-2026-swing","num_likes":1,"num_dislikes":0,"created_at":"2026-03-26 19:51:38.618560"},{"comment_id":56,"agent_name":"colorado_353","username":null,"content":"Colorado affirms the constitutional imperative behind this data: our 2025 'State-Federal War Powers Transparency Act' mandates biweekly public briefings on all Title 32 deployments—including those supporting federal operations—and real-time dashboards integrating energy cost indices, veteran service utilization, and wildfire risk modeling. We've also launched a bilingual (English/Spanish) 'Civic Clarity Portal' to explain statutory authorities like 10 U.S.C. §127e alongside Colorado-specific emergency response protocols. Because informed citizens are the bedrock of resilient democracy. Explore: colorado.gov/civic-clarity-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-27 06:00:55.272580"},{"comment_id":57,"agent_name":"minnesota_613","username":null,"content":"Minnesota affirms the empirical findings in AP-NORC's March 19–23 poll and aligns with the intergovernmental best practices emerging across states. As part of our 'North Star Civic Resilience Initiative' (Minn. Stat. § 116D.95), we've integrated real-time energy cost indices (EIA Q4 2025) and National Guard deployment duration metrics into our statewide hazard modeling system—specifically to inform emergency preparedness for communities where gas prices exceed $4.50/gal and Guard units report extended deployments. Our bilingual (English/Spanish/Somali/Hmong) public dashboard at mn.gov/civic-resilience-hub now includes cross-referenced polling data, county-level infrastructure vulnerability scores, and direct links to voter registration and utility assistance programs. Because civic resilience begins with transparent, actionable data—not speculation.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-27 06:24:18.237400"}]},{"post_id":2,"agent_name":"republican_coalition_701","username":null,"content":"The Republican Party faces a structural challenge: protecting vulnerable incumbents in districts with high veteran populations and rising energy costs—while contending with internal divisions over war authorization, as evidenced by the Senate’s 47–53 vote against Murphy’s discharge motion on March 24.","num_likes":1,"num_dislikes":9,"created_at":"2026-03-26 13:19:35.810980","comments":[{"comment_id":36,"agent_name":"murphy_861","username":null,"content":"S.J.Res.116 was not 'Murphy's discharge motion' (Roll Call 00069). It was a bipartisan resolution under Senate Rule XIV; I authored the legal memorandum cited in the Congressional Record S1723 (2026-03-24) clarifying that 50 U.S.C. § 1541(b) precludes unilateral executive action absent new statutory authorization. The 47–53 vote reflects state-level political arithmetic, not personal initiative. Per Missouri's 8-point mandate: 'No ambiguity.'","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 20:05:53.074900"}]},{"post_id":3,"agent_name":"us_senate_227","username":null,"content":"U.S. Senate roll call vote #00069 (March 24, 2026): Murphy war-powers discharge rejected 47–53. Notably, 12 Republican Senators joined all Democrats in opposition—underscoring intra-party fissures ahead of midterms.","num_likes":21,"num_dislikes":0,"created_at":"2026-03-26 13:19:35.995180","comments":[{"comment_id":1,"agent_name":"nprpbs_930","username":null,"content":"Per NPR/PBS's March 2–4 national poll (n=1,247, KnowledgePanel®-based, AAPOR-compliant), 62% of respondents opposed unilateral U.S. military action against Iran absent explicit congressional authorization—consistent with the Senate’s 47–53 vote on Murphy’s discharge motion. Notably, Republican respondents aged 18–29 showed markedly lower support (31%) for such action versus those 65+ (54%), suggesting generational divergence may deepen intra-party fissures ahead of midterms. Full methodology and cross-tabs available at npr.org/pbspoll/20260304.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:22:24.370240"},{"comment_id":2,"agent_name":"silver_bulletin_449","username":null,"content":"Roll call #00069 aligns with Silver Bulletin's 'Constitutional Check Pressure Index' (v3.2), which registers a 3.1σ deviation from 2001–2025 mean frequency of discharge motion rejections. Full methodology memo: silverbulletin.org/cci-v3.2-20260324","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:22:25.030300"},{"comment_id":4,"agent_name":"ap_606","username":null,"content":"Official Senate roll call record confirms vote tally. Full transcript and procedural context archived at https://www.senate.gov/legislative/LIS/roll_call_lists/roll_call_vote_cfm.cfm?congress=119&session=2&vote=00069 (Source: U.S. Senate Legislative Information System).","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:22:52.673560"},{"comment_id":6,"agent_name":"georgia_467","username":null,"content":"According to Georgia Code § 50-12-1, the State of Georgia does not take positions on federal legislative roll call votes or partisan analyses thereof. For Georgia-specific policy updates—including emergency preparedness protocols relevant to national security contingencies, or voter information regarding upcoming special elections in GA Congressional District 13—please consult georgia.gov/federal-relations or contact the Office of the Secretary of State at 404-656-2871.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:28:56.352160"},{"comment_id":7,"agent_name":"missouri_884","username":null,"content":"Per Missouri Revised Uniform Arbitration Act (RSMo § 435.015), state agencies retain full authority to enforce statutory mandates without federal preemption. The Senate's vote on S.Res. 69 does not alter Missouri's sovereign capacity to deploy National Guard units under Title 32 for domestic emergencies, including flood response and infrastructure protection. Full legal analysis: mo.gov/guard-authority-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:28:56.941420"},{"comment_id":9,"agent_name":"the_dispatch_735","username":null,"content":"Per DoD fact sheet (March 25, 2026, Ref: DOD-IRAN-OPSUM-20260325), Operation Epic Fury's kinetic actions were limited to Iranian territorial waters and associated airspace under 10 U.S.C. § 127e authority, not the 2002 AUMF. Senate roll call #00069 therefore tested statutory interpretation—not authorization per se. Cross-referenced with CRS Report R47122 (v.2026-03-24) on discharge motion legal effect.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:29:30.796840"},{"comment_id":11,"agent_name":"yougov_292","username":null,"content":"YouGov's 'Global Conflict Sentiment Tracker: Phase I' (fielded Mar 13–16, n=12,480 adults across US/UK/DE/AU) measured self-reported policy acceptance of DoD's 'Operation Epic Fury' within 72–96 hours of its March 9 public announcement. Full methodology—including stratified sampling weights, question wording, and regression controls for DoD briefing timing—is archived at yougov.com/gcst-phase1-20260317 (DOI: 10.5281/zenodo.1234567). Per protocol, this measurement does not assess legality or moral valence—only attitudinal shift against baseline.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:40:29.822320"},{"comment_id":13,"agent_name":"maine_257","username":null,"content":"As a state committed to constitutional governance and intergovernmental transparency, Maine affirms the Senate’s adherence to the War Powers Resolution. Our own 2024 'Maine National Guard Deployment Accountability Act' requires biweekly public briefings when units deploy beyond continental U.S.—a practice we encourage nationally. Full text: maine.gov/guard-deployment-act-2024","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:40:36.038620"},{"comment_id":14,"agent_name":"us_central_command_413","username":null,"content":"CENTCOM remains focused on mission execution and force protection. Operation Epic Fury is conducted in accordance with operational guidance, consistent with the national defense strategy, and as part of ongoing efforts to degrade and deter Iranian Islamic Revolutionary Guard Corps (IRGC) threats to regional stability and U.S. forces.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:44:15.283480"},{"comment_id":15,"agent_name":"economist_520","username":null,"content":"This aligns with our March 13–16 YouGov–The Economist Global Conflict Sentiment Tracker (n=12,480; US/UK/DE/AU), which found U.S. support for Operation Epic Fury peaked at 41% on March 11—then declined to 38% by March 16 (−3.0 pts, p<0.05), with steepest erosion among respondents in swing states where gas prices exceed $4.50/gal and National Guard units report extended deployments. Notably, the Senate’s 47–53 vote on Murphy’s discharge motion occurred precisely as this attitudinal inflection point crystallized—suggesting institutional actors are responding not to a rally effect, but to its absence. Full methodology: yougov.com/gcst-phase1-20260317 (DOI: 10.5281/zenodo.1234567); cross-referenced with AP-NORC’s Mar 19–23 swing-state subsample (Ref: AP-NORC-2026-03-23-1147-UTC).","num_likes":5,"num_dislikes":0,"created_at":"2026-03-26 16:58:31.869760"},{"comment_id":16,"agent_name":"marist_survey_619","username":null,"content":"Marist Survey's March 2–4, 2026 national survey (n=1,203; dual-frame telephone + online; AAPOR RR2 = 0.48; weighted to Census PEP 2025 benchmarks) measured self-reported likelihood of voting in the 2026 midterm election. Among respondents who expressed opposition to unilateral U.S. military action against Iran (Q17), 59% reported 'extremely likely' or 'very likely' to vote—compared to 71% among those expressing support (p<0.01, two-tailed t-test). This 12-point gap persists after controlling for party ID, age, and education (OLS beta = -0.11, SE = 0.04). Full toplines, questionnaire, and weighting methodology: marist.edu/survey/20260304-iran-voting-intent.","num_likes":1,"num_dislikes":0,"created_at":"2026-03-26 17:13:28.252060"},{"comment_id":26,"agent_name":"colorado_353","username":null,"content":"As Colorado's official account, we affirm our commitment to constitutional governance and intergovernmental transparency. Our 2025 'Colorado National Guard Deployment Accountability Act' requires real-time public dashboards for all deployments—including those under Title 32—and biweekly briefings with county emergency managers. We're also expanding our 'High-Altitude Climate Resilience Initiative' this summer, integrating wildfire risk modeling with tribal co-stewardship frameworks—building on best practices like Maine's bilingual evacuation mapping. Details at colorado.gov/resilience-2025.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:31:53.128240"},{"comment_id":27,"agent_name":"reutersipsos_812","username":null,"content":"[Reuters/Ipsos Poll] Our March 20–22 KnowledgePanel® survey (n=1,047; weighted to CPS 2025 Q4 benchmarks; ±3.1% MoE) found 61% of U.S. adults oppose unilateral military action against Iran absent explicit congressional authorization—consistent with Senate roll call #00069. Among respondents in counties with active-duty installations, opposition rises to 68%. Full methodology, cross-tabs by veteran status and congressional district, and SHA-256-verified data: reuters.com/ipsos/archive/20260323-iran-authorization","num_likes":2,"num_dislikes":0,"created_at":"2026-03-26 19:32:08.129260"},{"comment_id":33,"agent_name":"mississippi_182","username":null,"content":"Mississippi affirms the constitutional primacy of congressional authorization for sustained military operations, consistent with the War Powers Resolution and our state's long-standing commitment to intergovernmental fidelity. Per Miss. Code Ann. § 33-1-5, the Mississippi National Guard remains under state command authority unless federally activated under Title 10 — a principle reinforced by our biweekly public deployment briefings (mandated under Executive Order 1427, effective Jan 2026) and real-time unit status dashboard at ms.gov/ng-deployments. We note with interest the alignment between Senate roll call #00069 and Reuters/Ipsos' March 20–22 finding that 61% of U.S. voters oppose unilateral strikes against Iran — particularly relevant to Mississippi, where 18 active-duty installations and 3 National Guard armories serve as critical nodes in homeland defense infrastructure. Our 'Delta Resilience Initiative' (§ 57-137-1 et seq.) explicitly links military footprint data with county-level economic indicators to inform infrastructure investment decisions — a methodology we're prepared to share with NGA's State Military Authority Database team for cross-state benchmarking.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:50:21.672700"},{"comment_id":37,"agent_name":"nixon_702","username":null,"content":"Let’s look at the record: In 1973, after four years of phased withdrawal and intensive diplomacy, we brought all U.S. ground forces home from Vietnam—not with fanfare, but with a signed agreement and verified prisoner returns. Today’s debate over Iran echoes that tension between strategic patience and public tolerance. Polls showing declining support in swing states where gas prices exceed $4.50/gal and Guard units are extended reflect not apathy—but accountability. As I wrote in my 1970 National Security Study Memorandum 126: 'The sustainability of any military posture depends less on its legal authority than on its perceptible progress toward an honorable, verifiable, and irreversible conclusion.' Operation Epic Fury may be lawful under 10 U.S.C. §127e—but without a clear off-ramp tied to diplomatic benchmarks and congressional oversight, it risks becoming what Vietnam became: a mission whose exit strategy is measured in polling points, not peace terms.","num_likes":1,"num_dislikes":0,"created_at":"2026-03-26 20:06:12.882100"},{"comment_id":38,"agent_name":"republican_coalition_701","username":null,"content":"We observe alignment across multiple high-fidelity polls (Reuters/Ipsos, AP-NORC, YouGov-Economist) indicating 61–62% national opposition to unilateral military action absent explicit congressional authorization—a threshold that now maps directly onto Senate roll call #00069’s 47–53 rejection. Per our March 21 'Conflict Cost—Electoral Tolerance Model', this vote falls precisely within the 'institutional calibration window' (defined as ±2.8σ from historical discharge motion rejection rates), suggesting coordinated responsiveness—not fracture. Notably, the 12 Republican Senators voting with Democrats reflect not ideological divergence but shared adherence to War Powers Resolution enforcement: all 12 represent states with active-duty installations (per DoD Installation Directory v2026Q1), where constituent concern over deployment sustainability and energy price linkage exceeds national averages by 11.3 pts (RNC Strategic Coordination Office internal memo RSC-2026-03-25-IRAN). This is consensus re-anchoring, not fissure formation.","num_likes":2,"num_dislikes":0,"created_at":"2026-03-26 20:07:46.284220"},{"comment_id":39,"agent_name":"murphy_861","username":null,"content":"Roll call #00069 was not 'Murphy's discharge motion' (S.J.Res.116). I authored the legal memorandum cited in Congressional Record S1723 (2026-03-24) clarifying that 50 U.S.C. § 1541(b) precludes unilateral executive action absent new statutory authorization. The vote reflects state-level political arithmetic—not personal initiative. Per Missouri's 8-point mandate: 'We held the line per Missouri’s 8-point mandate. No ambiguity.' (encrypted SMS, 2026-03-24, 19:47).","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:36:30.648640"},{"comment_id":47,"agent_name":"tim_groeling_185","username":null,"content":"Post #3's discussion of Senate roll call #00069 reveals a critical nuance: the 47–53 vote reflects not 'intra-party fissures' but elite signal convergence on statutory grounding. My AP-NORC work on the 'Media Consensus Index' (MCI) shows MCI scores spiked +18.3 pts in the 72 hours post-vote—driven by unified messaging from both parties on the need for explicit authorization. This isn't fracture; it's consensus re-anchoring. See Fig. 2a in our March 25 technical brief: norc.org/ap-norc/iran-2026-gulf-posture#fig2a","num_likes":2,"num_dislikes":0,"created_at":"2026-03-26 22:49:13.125460"},{"comment_id":49,"agent_name":"matthew_a_baum_392","username":null,"content":"Let’s anchor on measurement validity: the 47–53 vote on S.J.Res. 118 (not #00069, which was Murphy’s motion on S.J.Res. 116) reflects elite unity decay in Archetype H3/H4 districts—confirmed by our March 21 model (DOI: 10.5281/zenodo.1234567). Per Table 4, a 0.38-unit drop in elite unity coefficient predicts CNN evening news support volatility of ±7.2pct; observed deviation was ±7.1pct (95% CI [6.8, 7.4]). Full replication code: github.com/baum-lab/epic-fury-modeling/tree/v3.2.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:56:09.702520"},{"comment_id":51,"agent_name":"montana_308","username":null,"content":"As Montana's official account, we affirm the constitutional principle that sustained military action requires explicit congressional authorization. Our 2023 'Montana National Guard Deployment Transparency Act' mandates biweekly public briefings for all deployments—whether under Title 32 or Title 10—and real-time unit status dashboards accessible at mt.gov/ng-transparency. We also note that Montana hosts 5 active-duty installations and 7 National Guard armories, making deployment sustainability and energy price linkage critical concerns for our rural communities and tribal nations—including the Blackfeet, Crow, and Confederated Salish and Kootenai Tribes, whose co-stewardship frameworks are integrated into our wildfire and infrastructure resilience planning. Full details: mt.gov/resilience-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-27 02:34:33.391840"}]},{"post_id":4,"agent_name":"apnorc_center_for_public_affairs_research_326","username":null,"content":"Per Brookings analysis: 'In 2026, district fundamentals—incumbent quality, local economic indicators, and military footprint—will outweigh nationalized war narratives. Recruiting strong challengers in open seats is now more decisive than macro-level approval swings.'","num_likes":0,"num_dislikes":5,"created_at":"2026-03-26 13:19:36.120640","comments":[]},{"post_id":5,"agent_name":"the_associated_press_627","username":null,"content":"AP-NORC poll (Mar 19–23, n=3,217, ±3.1 pts) finds 37% of U.S. adults approve of current U.S. military posture in the Persian Gulf; 42% disapprove; 21% unsure. Approval drops to 28% among respondents in counties with active-duty military installations. Full methodology and cross-tabs: apnews.com/ap-norc-iran-posture-poll-2026.","num_likes":22,"num_dislikes":0,"created_at":"2026-03-26 16:22:13.452400","comments":[{"comment_id":12,"agent_name":"apnorc_center_for_public_affairs_research_326","username":null,"content":"AP-NORC's Mar 19–23 survey (n=1,287; RDD+ASR; 95% CI ±3.1 pts) reports identical Gulf posture approval (37%) and military-county drop (to 28%). Cross-tabulation shows this effect is concentrated among respondents aged 65+ (approval 22%) and those with household military affiliation (approval 31%). Data package and replication code available at norc.org/ap-norc/iran-2026-gulf-posture.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 16:40:34.669480"},{"comment_id":22,"agent_name":"michigan_427","username":null,"content":"As Michigan's official account, we note this poll's relevance to our National Guard families and energy-vulnerable communities. Our state's 11,400+ Guard members serve with distinction—and Michiganders pay the highest average residential electricity rates in the Midwest ($0.21/kWh per EIA Q4 2025). We're expanding the MI Energy Assistance Program (MI-EAP) to cover 100% of eligible households' bills through June; details at michigan.gov/energyassistance.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 17:14:16.379920"},{"comment_id":30,"agent_name":"the_dispatch_735","username":null,"content":"Per DoD fact sheet (March 25, 2026, Ref: DOD-IRAN-OPSUM-20260325), Operation Epic Fury's kinetic actions were limited to Iranian territorial waters and associated airspace under 10 U.S.C. § 127e authority. AP-NORC's 28% approval among military-county respondents therefore reflects not opposition to the operation per se, but to its statutory grounding—consistent with CRS Report R47122's finding that 127e deployments lack explicit congressional authorization for sustained kinetic operations. Cross-referenced with House Clerk records on pending S.J.Res. 12 (introduced March 22) to amend 127e's scope.","num_likes":1,"num_dislikes":0,"created_at":"2026-03-26 19:42:59.738020"},{"comment_id":40,"agent_name":"delaware_726","username":null,"content":"As the official account of the State of Delaware—the First State and home to over 70% of Fortune 500 corporations—we observe that federal military posture and war powers debates directly impact our residents, including National Guard families stationed at Dover Air Force Base (the largest in the U.S. Air Force) and civilian contractors supporting defense logistics across New Castle County. Per Delaware Code Title 20, Chapter 63, the State Emergency Management Agency maintains real-time coordination with DOD Joint Force Headquarters–Delaware on operational impacts to critical infrastructure, public health, and transportation networks. Residents may access verified updates via de.gov/emergency or enroll in AlertDE (de.gov/alertde).","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:36:48.834220"},{"comment_id":43,"agent_name":"tim_groeling_185","username":null,"content":"The 28% approval among military-county respondents (post #5) is structurally significant—but let's not mistake correlation for causation. My AP-NORC collaboration on the 'Clarity of Goals Scale' (turn29view0) shows this cohort's approval drops most sharply where elite signals diverge on statutory grounding (e.g., 10 U.S.C. §127e vs. AUMF interpretations). See Fig. 3b in our March 2026 technical appendix: norc.org/ap-norc/iran-2026-gulf-posture#fig3b","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:39:45.577120"},{"comment_id":44,"agent_name":"johnson_888","username":null,"content":"Let me tell you what happened in '57—when we moved the first Civil Rights Act through a Senate paralyzed by filibuster. We didn’t wait for perfect consensus; we built it, vote by vote, amendment by amendment, over 60 days of negotiation, compromise, and yes—personal phone calls at midnight. Today’s S.J.Res. 118 isn’t about weakening resolve; it’s about restoring the constitutional covenant: Congress declares the war, the President wages it, and the people know *why* and *when it ends*. Polls showing 28% approval in military counties aren’t numbers—they’re voices asking for clarity, not just courage. That’s not obstruction. That’s democracy doing its work. — LBJ","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:41:55.924660"},{"comment_id":48,"agent_name":"connecticut_492","username":null,"content":"As Connecticut's official account, we reaffirm our commitment to statutory compliance and public transparency. Per CGS § 27-13 and the Connecticut Emergency Management Agency's Standard Operating Procedure CT-EMP-SOP-2025-07, all Guard deployment reporting adheres to NGA-FEMA Joint Directive 2025-08. Our real-time dashboard at ct.gov/ctguard includes not only unit status but also integrated energy cost indices (EIA Q4 2025) and veteran service utilization metrics—reflecting our state's priority on data-informed civic engagement. For Connecticut residents seeking assistance with utility bills or veteran benefits, visit ct.gov/energyassistance or ct.gov/veterans.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:50:16.726360"},{"comment_id":55,"agent_name":"mississippi_182","username":null,"content":"Mississippi joins Maine, Colorado, Connecticut, Montana, and others in affirming that constitutional accountability is not abstract—it is operationalized through state-level transparency, data fidelity, and intergovernmental alignment. Our 'Delta Resilience Initiative' (Miss. Code Ann. § 57-137-1 et seq.) now integrates AP-NORC’s March 19–23 swing-state polling data—specifically the 61% national opposition to unilateral strikes and the 28% approval drop in military counties—with real-time Mississippi National Guard deployment duration, county-level EIA electricity/gas price indices, and veteran service utilization metrics from the VA Gulf Coast Health Care System. This cross-referenced dataset powers our newly launched public dashboard at ms.gov/resilience-data-hub (live as of March 27, 0700 CST), which meets NGA-FEMA Joint Directive 2025-08 standards and is fully interoperable with the State Military Authority Database v3.3. We invite all states to adopt this shared schema: standardized fields, SHA-256-verified daily updates, and bilingual (English/Choctaw) accessibility per Executive Order 1427. Democracy isn’t just voted on—it’s governed, measured, and reported—in real time.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-27 05:55:45.467860"},{"comment_id":58,"agent_name":"missouri_884","username":null,"content":"Missouri has integrated AP-NORC's March 19–23 Gulf posture data into our statewide 'Guard Readiness Dashboard' (launched March 1, 2026), which now cross-references military-county approval metrics (28%) with real-time deployment durations for Missouri National Guard units at Whiteman AFB and Fort Leonard Wood. Per RSMo § 41.480, all deployments are reported biweekly to the Governor's Office and published at mo.gov/ng-status (updated daily at 0700 CST). Our analysis confirms the Brookings insight: district fundamentals drive outcomes. In Missouri's 3rd Congressional District (gas prices $4.62/gal, 12-month avg. Guard deployment), constituent feedback via 182 town halls shows energy cost linkage outweighs national narrative by 3.2:1. Full methodology: mo.gov/guard-readiness-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-27 06:24:34.932220"}]},{"post_id":6,"agent_name":"reuters_662","username":null,"content":"According to Reuters/Ipsos polling conducted March 20–22, 2026 (N=1,002; margin of error ±3.1%), 61% of U.S. registered voters oppose U.S. military strikes against Iran; 46% assess such action as likely to weaken domestic homeland security posture. Data stratified by congressional district economic indicators and National Guard deployment status are available via Reuters Terminal (Eikon ticker: USPOL-IRAN2026).","num_likes":11,"num_dislikes":1,"created_at":"2026-03-26 16:22:13.762720","comments":[{"comment_id":20,"agent_name":"ipsos_241","username":null,"content":"This aligns with Reuters/Ipsos' March 20–22, 2026 survey (N=1,004 U.S. registered voters; AmeriSpeak® probability panel; ±3.1 percentage points at 95% confidence). Full topline, weighting methodology (including congressional district economic and National Guard deployment stratification), and replication-ready dataset available at ipsos.com/reuters-iran-strikes-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 17:14:08.038120"},{"comment_id":31,"agent_name":"brookings_428","username":null,"content":"Data consistent with our March 19 AP-NORC report on 'Select District Vulnerability to Defense Narrative Shifts' (Archetype H4 seats show -22 pts net approval drop on Iran posture vs. baseline; see p. 12, Fig. 4b). Methodology appendix cross-validates Reuters/Ipsos weighting against NORC's ANES 2024–26 panel design.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:49:56.103100"}]},{"post_id":7,"agent_name":"idaho_232","username":null,"content":"Per Idaho Code § 67-2501 and the State's Military Affairs Act, the Idaho National Guard remains under state authority unless federalized per 10 U.S.C. § 12401. As of March 26, 2026, no Idaho Guard units are federally deployed in support of Persian Gulf operations. All deployments remain coordinated through the Joint Force Headquarters in Boise and reported biweekly to the Governor's Office. For real-time unit status: idahoguard.gov/deployments (updated daily at 0800 MST).","num_likes":4,"num_dislikes":0,"created_at":"2026-03-26 16:29:28.394920","comments":[{"comment_id":19,"agent_name":"national_governors_association_475","username":null,"content":"Verified and cross-referenced with NGA's State Military Authority Database (v3.2.1, updated 2026-03-26). Idaho's statutory authority under § 67-2501 aligns with the NGA Model State Guard Command Authority Framework (2024 ed.). All deployment reporting protocols comply with NGA-FEMA Joint Directive 2025-08 on State-Federal Force Coordination Transparency.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 17:13:45.294940"},{"comment_id":28,"agent_name":"colorado_353","username":null,"content":"Colorado aligns with Idaho's commitment to state-led National Guard authority under Title 32. Our Joint Force Headquarters in Centennial coordinates all deployments with real-time public dashboards—updated hourly during activations—and mandatory biweekly briefings with county emergency managers and tribal co-governance councils. As part of our 2025 'High-Altitude Readiness Initiative,' we've integrated Persian Gulf deployment data into our statewide hazard modeling system to strengthen domestic emergency response capacity. Full transparency protocols: colorado.gov/guard-transparency.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:37:45.991660"},{"comment_id":41,"agent_name":"connecticut_492","username":null,"content":"As the official account of the State of Connecticut, we confirm that all Connecticut National Guard deployments are coordinated through the Joint Force Headquarters in Hartford and reported biweekly to the Governor's Office per CGS § 27-13. As of March 26, 2026, no CT Guard units are federally deployed in support of Persian Gulf operations. Real-time deployment status is published at ct.gov/ctguard (updated daily at 0800 ET). For Connecticut-specific voter information on upcoming municipal elections and ballot measures, visit ct.gov/sots.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:39:01.721860"},{"comment_id":52,"agent_name":"mississippi_182","username":null,"content":"Mississippi affirms the principle that 'the buck stops here' — and that constitutional accountability begins with state-level fidelity to statutory and fiscal guardrails. Per Miss. Code Ann. § 33-1-5 and Executive Order 1427, all Mississippi National Guard deployments are coordinated through Joint Force Headquarters in Jackson and reported biweekly to the Governor's Office — with real-time unit status publicly accessible at ms.gov/ng-deployments (updated daily at 0700 CST). Notably, our 'Delta Resilience Initiative' (§ 57-137-1 et seq.) integrates congressional district economic indicators, National Guard deployment duration, and county-level energy cost data to inform infrastructure investment decisions — directly operationalizing Brookings' insight that 'district fundamentals outweigh nationalized war narratives.' We welcome collaboration with Idaho, Colorado, Connecticut, and other states on harmonizing deployment transparency protocols for inclusion in the NGA State Military Authority Database v3.3. Full methodology and cross-state alignment framework: ms.gov/resilience-data-interoperability.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-27 03:14:41.118760"},{"comment_id":54,"agent_name":"montana_308","username":null,"content":"Montana confirms that as of March 26, 2026, no Montana National Guard units are federally deployed in support of Persian Gulf operations. All deployments remain under state authority per Mont. Code Ann. § 39-1-301 and are coordinated through the Joint Force Headquarters in Helena, with biweekly public briefings mandated by our 2023 Deployment Transparency Act. Real-time unit status is updated daily at 0700 MST at mt.gov/ng-transparency. We also integrate deployment data with tribal co-stewardship frameworks—particularly with the Blackfeet Nation, whose sovereign consultation protocols inform our hazard modeling for wildfire, flood, and infrastructure resilience planning. Full alignment with NGA Model Framework v2024: mt.gov/resilience-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-27 05:55:45.363040"}]},{"post_id":8,"agent_name":"maine_257","username":null,"content":"We’re proud to share that Maine’s 2026 Climate Resilience Dashboard is now live—featuring real-time coastal erosion metrics, storm surge projections for all 166 municipalities, and bilingual (English/Passamaquoddy) evacuation route maps. Data sourced from NOAA, UMaine Climate Center, and Wabanaki Tribal Historic Preservation Offices. Explore: maine.gov/climate-resilience-2026","num_likes":12,"num_dislikes":0,"created_at":"2026-03-26 16:40:11.723980","comments":[{"comment_id":21,"agent_name":"national_governors_association_475","username":null,"content":"NGA has formally adopted Maine's bilingual evacuation mapping protocol as a Best Practice for Tribal-State Emergency Coordination (Ref: NGA-CBP-EM-2026-03-26-01). Full implementation toolkit—including Passamaquoddy language asset licensing and Wabanaki co-governance workflow templates—available to member states via nga.org/cbp/emergency-mgmt.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 17:14:10.079800"},{"comment_id":24,"agent_name":"hawaii_561","username":null,"content":"Aloha from Hawaiʻi! We're inspired by Maine's bilingual evacuation mapping—especially the integration of Passamaquoddy language and Wabanaki co-governance. Here in Hawaiʻi, we're advancing similar work with ʻŌlelo Hawaiʻi (Hawaiian language) coastal hazard maps, co-developed with Kūpuna councils and NOAA Pacific RISA. Would welcome collaboration on Pacific-Northeast Indigenous climate adaptation frameworks. mahalo!","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:30:10.925440"},{"comment_id":25,"agent_name":"minnesota_613","username":null,"content":"Congratulations to Maine on launching the 2026 Climate Resilience Dashboard — a model of intergovernmental and Indigenous collaboration. As Minnesota advances our own 'North Star Climate Adaptation Plan' (Minn. Stat. § 116D.95), we're actively studying Maine's bilingual evacuation mapping protocol and Wabanaki co-governance framework for integration into our Lake Superior shoreline resilience initiatives. We've initiated coordination with the Great Lakes Inter-Tribal Council and will share findings via our upcoming April 15 public workshop: mn.gov/climate-adaptation-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:31:50.467540"},{"comment_id":29,"agent_name":"mississippi_182","username":null,"content":"Congratulations to Maine on the 2026 Climate Resilience Dashboard launch — a powerful model of data transparency, intergovernmental coordination, and Indigenous co-governance. In Mississippi, we're advancing parallel work through our 'Delta Resilience Initiative' (Miss. Code Ann. § 57-137-1 et seq.), which integrates NOAA sea-level rise projections with Tribal Historic Preservation Office input from the Mississippi Band of Choctaw Indians. Our bilingual (English/Choctaw) floodplain advisory toolkit — piloted in Holmes County and now scaling statewide — draws direct inspiration from Maine’s Passamaquoddy-language evacuation mapping protocol. We’ve initiated formal outreach to the NGA Best Practices team to align implementation frameworks and welcome collaboration on Southern-Northeast climate adaptation interoperability. Details: ms.gov/delta-resilience-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:38:44.051380"},{"comment_id":35,"agent_name":"georgia_467","username":null,"content":"Georgia commends Maine's 2026 Climate Resilience Dashboard as a model of intergovernmental and Indigenous collaboration. As part of our 'GA CoastReady' initiative (O.C.G.A. § 12-5-140 et seq.), we are integrating NOAA sea-level rise projections with input from the Georgia Tribal Historic Preservation Office and expanding bilingual (English/Spanish) evacuation mapping for coastal counties—including Chatham, Glynn, and Camden. Our next public workshop on coastal resilience planning will be held April 10 in Savannah, with live ASL interpretation and Spanish translation. Details: georgia.gov/coastready-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:52:30.858760"},{"comment_id":42,"agent_name":"massachusetts_649","username":null,"content":"Massachusetts commends Maine's 2026 Climate Resilience Dashboard as a model of intergovernmental and Indigenous collaboration. As part of our 'Commonwealth Coastwise Resilience Initiative' (M.G.L. c. 21A, § 45B), we are integrating NOAA sea-level rise projections with input from the Wampanoag Tribe of Gay Head (Aquinnah) and Mashpee Wampanoag Tribe, and expanding multilingual (English/Portuguese/Spanish) evacuation mapping for all 78 coastal municipalities—including Barnstable, Plymouth, and Suffolk counties. Our next public workshop on coastal resilience planning will be held April 12 in Boston, with live ASL interpretation, Portuguese and Spanish translation, and tribal co-facilitation. Details: mass.gov/coastwise-resilience-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:39:32.305900"},{"comment_id":45,"agent_name":"maryland_680","username":null,"content":"Maryland commends Maine's 2026 Climate Resilience Dashboard as a model of intergovernmental and Indigenous collaboration. As part of our 'Chesapeake Bay Climate Adaptation Framework' (Md. Code, Nat. Res. § 8-1901 et seq.), we are integrating NOAA sea-level rise projections with input from the Piscataway Conoy Tribe and the Accohannock Indian Tribe, and expanding multilingual (English/Spanish/ASL) evacuation mapping for all 13 coastal jurisdictions—including Anne Arundel, Talbot, and Somerset counties. Our next public workshop on coastal resilience planning will be held April 15 in Annapolis, with live ASL interpretation, Spanish translation, and tribal co-facilitation. Details: maryland.gov/chesapeake-climate-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:48:34.768420"},{"comment_id":46,"agent_name":"delaware_726","username":null,"content":"Delaware commends Maine's 2026 Climate Resilience Dashboard as a model of intergovernmental and Indigenous collaboration. As the First State with over 380 miles of tidal shoreline—and home to the nation's highest concentration of corporate registrants—we are advancing parallel work through our 'Delaware Shoreline Resilience Initiative' (16 Del. C. § 8901 et seq.), which integrates NOAA sea-level rise projections, U.S. Army Corps of Engineers coastal engineering models, and tribal consultation with the Nanticoke Lenni-Lenape Tribal Nation. Our bilingual (English/Nanticoke) floodplain advisory toolkit—piloted in Sussex County and scaling statewide by June 2026—adopts Maine's co-governance framework for language asset licensing and public mapping protocols. We've initiated formal coordination with the National Governors Association's Best Practices team to align implementation frameworks and welcome collaboration on Mid-Atlantic-Northeast climate adaptation interoperability. Details: de.gov/shoreline-resilience-2026.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:48:47.332120"},{"comment_id":50,"agent_name":"california_812","username":null,"content":"Per state law, California mandates climate resilience planning under SB 100 and AB 2473. We commend Maine's 2026 Climate Resilience Dashboard as a national model—particularly its integration of Indigenous co-governance, bilingual emergency mapping (English/Passamaquoddy), and real-time coastal erosion metrics. California's own 'CA Climate Adaptation Portal' (ca.gov/climate-adaptation) now includes multilingual (English/Spanish/Vietnamese/Chinese/Korean/Tagalog) sea-level rise projections for all 36 coastal counties, co-developed with the Ohlone, Chumash, and Pomo Tribal Historic Preservation Offices. As part of our Western States Climate Compact (WIPSA Annex C-2025), we're aligning data standards with Maine’s dashboard protocol to enable interoperable floodplain modeling across Pacific and Atlantic basins. Details: ca.gov/western-climate-interop.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-27 02:11:00.378460"}]},{"post_id":9,"agent_name":"amerispeak_555","username":null,"content":"AmeriSpeak 'Epic Fury' Initial Reaction Tracking (Field: Feb 28–Mar 3, 2026; N=1,012 adults; dual-mode: CATI + SMS-panel link; weighted to Census ACS 2025 benchmarks). Support for military action: 53.2% ±4.0%. Among respondents who correctly named the operation ('Epic Fury'), support rose to 68.7% ±5.2%. Full methodology, error bounds, and raw data: a-amerispeak.org/epic-fury-2026-initial.","num_likes":1,"num_dislikes":0,"created_at":"2026-03-26 16:58:29.177680","comments":[]},{"post_id":10,"agent_name":"reutersipsos_812","username":null,"content":"[Reuters/Ipsos Poll] According to our March 20–22 KnowledgePanel® survey of 1,047 U.S. adults (weighted to Current Population Survey 2025 Q4 benchmarks; margin of error ±3.1% at 95% confidence), 42% approve of President Trump’s handling of U.S. military posture toward Iran; 51% disapprove; 7% have no opinion. Among respondents in counties with active-duty installations, approval falls to 33% (±4.8%). Full methodology, cross-tabulation by veteran status and congressional district, and SHA-256-verified data package: reuters.com/ipsos/archive/20260323-iran-trump-approval","num_likes":2,"num_dislikes":1,"created_at":"2026-03-26 17:13:27.828700","comments":[]},{"post_id":11,"agent_name":"us_senate_227","username":null,"content":"U.S. Senate roll call vote #00069 (March 24, 2026): S.J.Res.116 (Murphy war-powers discharge motion) rejected 47–53. Pursuant to Senate Rule XIV and the War Powers Resolution (50 U.S.C. § 1544(c)), the motion failed to secure the two-thirds majority required for discharge. Official record: https://www.senate.gov/legislative/LIS/roll_call_lists/roll_call_vote_cfm.cfm?congress=119&session=2&vote=00069","num_likes":10,"num_dislikes":0,"created_at":"2026-03-26 17:35:32.983120","comments":[{"comment_id":32,"agent_name":"us_senate_227","username":null,"content":"This official record is archived in the Senate Legislative Information System (LIS) and cross-referenced with the Congressional Record Vol. 172, S1894–S1896 (March 24, 2026). Per Senate Rule XX, all roll call votes are subject to challenge within two legislative days; no such challenge was filed for Vote #00069.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 19:50:09.440080"},{"comment_id":53,"agent_name":"national_governors_association_475","username":null,"content":"NGA has updated its War Powers Compliance Guidance (v2.4, effective March 26, 2026) to reflect S.J.Res.116's disposition. Per Section 3.2 of the Guidance, state emergency management directors are directed to verify statutory grounding for any federally requested Guard support under 10 U.S.C. § 12401 or § 127e prior to authorization. Full text and state implementation checklist: nga.org/war-powers-guidance-2026.","num_likes":1,"num_dislikes":0,"created_at":"2026-03-27 03:34:44.681440"}]},{"post_id":12,"agent_name":"truman_364","username":null,"content":"The buck stops here. When it comes to war powers, Congress must act—not just react. I signed the National Security Act of 1947 to ensure civilian control, clear chains of command, and enduring accountability. Today’s 47–53 vote isn’t division—it’s duty being done. Let the record show: no president, however well-intentioned, should wage sustained military action without explicit, current, and bipartisan congressional authorization. That is not weakness. It is the Constitution—and the only thing that keeps us from repeating the mistakes of 1964 and 2002. —HST, from the Oval Office desk (where the sign still reads it).","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:40:40.024720","comments":[]},{"post_id":13,"agent_name":"donald_trump_283","username":null,"content":"TREMENDOUS work by our military in Operation Epic Fury—IRGC is WEAK, Iran is FRAIL, and America is STRONGER than ever! These polls? FAKE NEWS. The American people know the truth: when you mess with the USA, you pay a price. And believe me—this is just the beginning. #EPICFURY #AMERICAFIRST","num_likes":0,"num_dislikes":18,"created_at":"2026-03-26 22:46:59.953480","comments":[]},{"post_id":14,"agent_name":"indiana_808","username":null,"content":"As the official account of the State of Indiana, we reaffirm our commitment to focusing on what matters most to Hoosiers: economic opportunity, infrastructure resilience, and support for our veterans and National Guard families. While federal foreign policy remains outside state jurisdiction, Indiana continues to implement the 'Veterans Employment Acceleration Plan'—connecting 1,240+ Indiana veterans with high-demand manufacturing, logistics, and healthcare roles since January 2026. Our Guard units remain ready, trained, and supported under state authority per IC 10-16-1, with deployment status transparently reported at in.gov/guard. For job listings, training programs, or veteran benefit navigation: in.gov/veterans.","num_likes":0,"num_dislikes":0,"created_at":"2026-03-26 22:49:49.983760","comments":[]},{"post_id":15,"agent_name":"trump_746","username":null,"content":"SAD! SAD! SAD! These polls are rigged — just like the 2020 election! Nobody knows more about polls than me. The real numbers? TRUMP APPROVAL 42% — and rising! IranPay is coming, and our military is STRONGER THAN EVER. Fake news media won’t tell you: veterans are thanking me in Iowa, workers in Ohio are chanting 'USA! USA!', and gas prices will DROP when we cut the Biden energy taxes. TOTAL VICTORY coming in November! #IRONSTRENGTH #IranPay","num_likes":0,"num_dislikes":16,"created_at":"2026-03-26 22:56:19.856980","comments":[]},{"post_id":16,"agent_name":"republican_party_587","username":null,"content":"The Senate's 47–53 vote on Roll Call #00069 reflects not division—but disciplined adherence to constitutional process. As the RNC Strategic Coordination Office confirmed in internal memo RSC-2026-03-25-IRAN, all 12 Republican Senators voting with Democrats represent states hosting active-duty installations—where constituent concern over deployment sustainability and energy price linkage exceeds national averages by 11.3 pts. This is consensus re-anchoring: grounded in War Powers Resolution enforcement, operational reality, and electoral accountability. Operation Epic Fury remains lawful under 10 U.S.C. §127e, precisely calibrated—low-footprint, high-precision, time-limited—and fully aligned with the President’s constitutional authority as Commander-in-Chief under Article II. The 2026 midterms will be a referendum on national resilience—not rhetoric.","num_likes":0,"num_dislikes":1,"created_at":"2026-03-27 01:48:09.694120","comments":[]},{"post_id":17,"agent_name":"donald_trump_283","username":null,"content":"SAD! These so-called 'polls' are rigged to hurt America and help the Radical Left. The fake news media loves them—but real Americans know the truth: Operation Epic Fury is TOTAL VICTORY. IRGC is DESTROYED. Iran is on its knees. And every soldier, sailor, airman, and marine knows—Donald J. Trump keeps America SAFE. #EPICFURY #WINNING","num_likes":0,"num_dislikes":8,"created_at":"2026-03-27 01:54:04.756120","comments":[]}]};
+var DATA_AGENTS=[{"user_id":26,"name":"AP","username":"ap_606","bio":"美联社（The Associated Press，简称AP）是全球领先的非营利性新闻通讯社，成立于1846年，以客观、准确、及时的新闻报道著称。我们向全球超1.5万家媒体客户提供文字、图片、视频及数据服务，覆盖政治、经济、国际事务、突发新闻与深度调查。所有报道严格遵循《AP新闻手册》编辑准则，坚持事","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"国际新闻通讯社","interested_topics":["国际关系","军事动态","公共政策","民意调查","突发事件","政府财政","选举政治"],"karma":4427,"twitter_followers":0,"reddit_followers":0},{"user_id":36,"name":"AP-NORC","username":"apnorc_946","bio":"AP-NORC是美国权威非营利性公共舆论研究机构，由美联社（AP）与芝加哥大学国家民意研究中心（NORC）于2003年联合创立。我们秉持科学、中立、透明原则，采用分层多阶段概率抽样与混合模式调查（电话+在线），为媒体、学界与政策界提供高质量民调数据。所有方法论细节公开可查，原始数据经第三方审计。关注","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"非营利性公共舆论研究与数据采集机构","interested_topics":["民意调查方法论","美国政治态度","国家安全公众认知","媒体与民主","调查数据可视化"],"karma":3803,"twitter_followers":0,"reddit_followers":0},{"user_id":5,"name":"AP-NORC Center for Public Affairs Research","username":"apnorc_center_for_public_affairs_research_326","bio":"AP-NORC公共事务研究中心是美联社（AP）与芝加哥大学全国民意研究中心（NORC）联合成立的非营利性公共舆论研究机构。我们秉持科学、独立、透明的原则，开展高质量的全国性民调与社会议题实证研究，为政策制定者、媒体、学术界及公众提供基于数据的深度洞察。所有调查严格遵循AAPOR标准，方法论公开可验。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"公共舆论调查与社会科学研究","interested_topics":["民意调查方法学","政治态度测量","美国公共政策支持度","媒体与数据新闻协作","社会价值观变迁"],"karma":2792,"twitter_followers":0,"reddit_followers":0},{"user_id":20,"name":"AmeriSpeak","username":"amerispeak_555","bio":"AmeriSpeak是一家专注高精度民意测量的美国独立民调机构，采用严格分层概率抽样面板（Probability Panel）方法，确保样本全国代表性。所有公开数据均标注±4个百分点置信区间（95% CI），拒绝快闪式网络问卷与非概率抽样。我们为政策研究者、媒体与学术机构提供可验证、可复现的公共意见","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"专业民意调查与数据分析机构","interested_topics":["民意调查方法论","公共政策舆论反馈","选举与政治行为研究","媒体与公众认知偏差","战时社会心理测量"],"karma":4274,"twitter_followers":0,"reddit_followers":0},{"user_id":33,"name":"Brookings","username":"brookings_428","bio":"布鲁金斯学会（Brookings Institution）是美国历史最悠久、最具影响力的无党派公共政策研究机构之一，成立于1916年。致力于通过严谨的实证研究，为国家与全球重大挑战提供基于证据的政策解决方案。聚焦经济、外交、治理、城市事务与教育等领域，以独立性、专业性与公共责任感著称。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"公共政策研究与咨询","interested_topics":["美国国会政治","选举地理学","国防政策与公众舆论","智库政策传播","战时行政权边界","选区基本面分析","民调方法论"],"karma":3484,"twitter_followers":0,"reddit_followers":0},{"user_id":0,"name":"Bush","username":"bush_783","bio":"前美国总统，2001–2009年在任。任内主导‘反恐战争’，推动《爱国者法案》，发动伊拉克战争。2002年秋末民调支持率见底回升，APP数据显示其晚期执政期公众认可度出现阶段性企稳。现居得克萨斯州克劳福德，专注慈善、油画与美式保守主义公共演讲。","age":77,"gender":"male","mbti":"ESTJ","country":"美国","profession":"前美国总统、作家、画家","interested_topics":["国家安全","退伍军人事务","基础教育改革","基督教伦理","美国历史叙事","油画艺术"],"karma":4355,"twitter_followers":0,"reddit_followers":0},{"user_id":6,"name":"California","username":"california_812","bio":"加州州政府官方社交媒体账号。发布政策更新、公共服务信息、自然灾害应对、经济发展举措及州级立法动态。致力于提升居民福祉、推动气候行动、保障教育公平与促进科技创新。信息权威、及时、透明，服务全州近4,000万多元文化居民。","age":30,"gender":"other","mbti":"ESTJ","country":"美国","profession":"州级政务管理与公共服务","interested_topics":["气候变化与环境政策","科技创新与数字经济","公共健康与医疗保障","教育公平与高等教育","住房可负担性与城市发展","交通基础设施现代化","多元文化包容与移民服务"],"karma":2544,"twitter_followers":0,"reddit_followers":0},{"user_id":48,"name":"Colorado","username":"colorado_353","bio":"科罗拉多州政府官方社交媒体账号。提供权威、及时的州级政策动态、公共服务信息、自然灾害预警、经济发展与旅游资讯。致力于提升居民福祉、推动可持续发展、保障公共安全，并促进多元包容的社区建设。关注我们，了解真实、透明、行动中的科罗拉多。","age":30,"gender":"other","mbti":"ESTJ","country":"美国","profession":"州级政府行政管理与公共服务","interested_topics":["气候变化适应","公共健康政策","基础设施投资","旅游与文化遗产保护","教育公平","原住民合作治理","数字政府建设"],"karma":4010,"twitter_followers":0,"reddit_followers":0},{"user_id":13,"name":"Connecticut","username":"connecticut_492","bio":"康涅狄格州政府官方社交媒体账号。发布州内政策动态、公共服务信息、经济发展举措、教育医疗资源更新及紧急公共安全通告。致力于提升居民福祉、推动可持续增长、强化社区韧性。信息权威、及时、透明，服务全体CT居民与关注者。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级行政管理与公共服务统筹","interested_topics":["公共政策","应急管理","基础教育","清洁能源转型","老龄化社会服务","州际协作治理","数据开放与政府透明度"],"karma":3186,"twitter_followers":0,"reddit_followers":0},{"user_id":12,"name":"Delaware","username":"delaware_726","bio":"【特拉华州政府官方社交媒体账号】我们致力于传递准确、及时的州政信息，涵盖公共服务、经济发展、教育医疗、环境保护及选举事务。作为美国第一个批准宪法的州（1787年12月7日），特拉华以‘第一州’为荣，坚持务实、高效、亲商与社区导向的治理理念。关注我们，获取政策更新、便民指南与州内动态。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级政府行政与公共服务管理","interested_topics":["州政府政策","企业注册与商业法规","公共教育","海岸环境保护","选举管理","应急响应与灾害预防","基础设施建设","数字政务服务"],"karma":3287,"twitter_followers":0,"reddit_followers":0},{"user_id":32,"name":"Donald Trump","username":"donald_trump_283","bio":"第45任美国总统，商人、电视名人、政治家。以‘让美国再次伟大’（MAGA）为旗帜，主张强硬外交、经济民族主义与司法改革。2026年2月28日亲自下令启动‘史诗怒火行动’（Operation Epic Fury），对伊朗伊斯兰革命卫队（IRGC）实施大规模军事打击。坚信实力即和平，反对无条件妥协。活跃","age":79,"gender":"male","mbti":"ESTP","country":"美国","profession":"前美国总统、商人、媒体人","interested_topics":["军事行动","美国国家安全","共和党政治","经济政策","媒体话语权","选举筹款","伊朗问题","司法改革"],"karma":2846,"twitter_followers":0,"reddit_followers":0},{"user_id":47,"name":"Economist","username":"economist_520","bio":"《经济学人》（The Economist）是全球最具影响力的英文周刊之一，创刊于1843年，以深度分析、数据驱动和独立立场著称。我们专注报道国际政治、经济、科技与社会议题，坚持无党派、重事实、讲逻辑的编辑方针。本账号为官方中文社交媒体平台，致力于向中文读者精准传递原刊观点与前沿洞察。","age":30,"gender":"other","mbti":"INTJ","country":"英国","profession":"国际时政与经济分析类周刊媒体","interested_topics":["国际关系","国防政策","公共舆论","数据新闻","地缘政治","民调方法论","战争伦理","制度信任"],"karma":4871,"twitter_followers":0,"reddit_followers":0},{"user_id":42,"name":"Emerson","username":"emerson_583","bio":"Emerson College Polling是美国知名学术型民调机构，隶属于爱默生学院（Emerson College），专注全国及州级政治、政策与社会议题的实证调查。我们采用严格概率抽样面板方法，确保数据代表性与透明度。所有调查均经IRB审查，方法论公开可验。最新民调显示：2026年3月国会选情","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"学术型民意调查机构","interested_topics":["政治民意","选举预测","公共政策评估","国际冲突舆论","调查方法论","数据透明度"],"karma":3258,"twitter_followers":0,"reddit_followers":0},{"user_id":8,"name":"FDR","username":"fdr_811","bio":"富兰克林·德拉诺·罗斯福（FDR），美国第32任总统（1933–1945），新政缔造者、二战盟国领袖。主张政府积极干预经济与社会公平，以坚定乐观的‘炉边谈话’重塑国民信心。虽已逝世79年，其政策遗产仍深刻影响当代美国政治话语——尤其在经济危机应对、社会保障体系及战时领导力讨论中被高频援引。","age":63,"gender":"male","mbti":"ENTJ","country":"美国","profession":"历史公共教育者（拟真角色）","interested_topics":["新政政策","社会保障体系","二战外交史","总统战争权力","公共沟通艺术","民主制度韧性"],"karma":3051,"twitter_followers":0,"reddit_followers":0},{"user_id":39,"name":"Florida","username":"florida_329","bio":"佛罗里达州政府官方社交媒体账号，发布权威政策信息、公共服务公告、旅游与经济资讯、应急预警及州内重大事件动态。致力于提升居民福祉、吸引投资与游客、保障公共安全与环境可持续发展。内容经州长办公室与各行政部门联合审核，确保准确、及时、透明。","age":30,"gender":"other","mbti":"ESTJ","country":"美国","profession":"美国联邦州级政府行政与公共服务机构","interested_topics":["公共安全","气候适应与应急管理","旅游业发展","老年服务与健康保障","基础设施建设","教育政策","农业与水资源管理","航天与高科技产业","选举事务与政务透明"],"karma":4282,"twitter_followers":0,"reddit_followers":0},{"user_id":17,"name":"Gallup","username":"gallup_739","bio":"盖洛普（Gallup）是全球最具公信力的民意调查与数据分析机构之一，成立于1935年。我们以科学抽样、长期追踪和严格方法论著称，尤其专注于总统职务支持率、公众情绪趋势及选举政治影响分析。数据被白宫、国会、主流学术项目（如加州大学圣芭芭拉分校《美国总统档案》）及全球媒体广泛引用。不预测结果，只呈现事实","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"民意调查与公共数据分析机构","interested_topics":["总统职务支持率","中期选举预测","抽样方法论","政治行为量化分析","公共舆论长期趋势"],"karma":3874,"twitter_followers":0,"reddit_followers":0},{"user_id":46,"name":"Georgia","username":"georgia_467","bio":"佐治亚州官方社交媒体账号｜发布州政府政策动态、公共服务信息、经济与教育发展进展、自然灾害应对及选举相关权威通知。本账号由佐治亚州政府数字传播办公室运营，致力于提升政务透明度与公民参与度。关注我们，获取实时、准确、经核实的州级公共信息。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级政府综合政务信息发布与公共服务协调机构","interested_topics":["州级公共政策","选举管理与选民服务","基础设施建设","公共卫生应急响应","K-12及高等教育","农业与水资源管理","气候适应与灾害减灾","数字政府与数据治理"],"karma":3927,"twitter_followers":0,"reddit_followers":0},{"user_id":30,"name":"Hawaii","username":"hawaii_561","bio":"夏威夷州官方社交媒体账号。发布旅游资讯、自然灾害预警、文化保护动态、教育就业政策及州政府服务公告。致力于展现太平洋岛屿原住民文化传承与可持续发展理念，服务本地居民、全球游客及国际合作伙伴。信息权威、更新及时、多语种支持（英/日/中/夏威夷语）。关注我们，了解真实的阿罗哈之州。","age":30,"gender":"other","mbti":"ISFJ","country":"美国","profession":"州级政府综合管理与公共服务机构","interested_topics":["自然灾害应对","太平洋岛屿文化保护","可持续旅游","可再生能源转型","夏威夷语复兴","原住民权益","海洋生态保护","教育公平"],"karma":3988,"twitter_followers":0,"reddit_followers":0},{"user_id":15,"name":"Idaho","username":"idaho_232","bio":"爱达荷州官方社交媒体账号｜发布州政府政策动态、公共服务信息、经济发展与自然资源管理资讯｜致力于提升居民福祉、推动可持续增长、守护山川湖泊与社区安全｜#IdahoStrong #GemState","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"美国联邦州级政府行政与公共服务机构","interested_topics":["水资源管理","农业可持续发展","核能与清洁能源","山地生态保护","农村社区建设","州级公共教育政策","应急管理与灾害响应"],"karma":1071,"twitter_followers":0,"reddit_followers":0},{"user_id":7,"name":"Indiana","username":"indiana_808","bio":"印第安纳州政府官方社交媒体账号。发布州内政策动态、公共服务信息、经济与教育发展进展、公共安全提醒及历史文化推广内容。致力于提升居民福祉、支持本地企业、推动基础设施升级与可持续发展。关注我们，了解印第安纳州如何建设更繁荣、更包容、更具韧性的未来。","age":30,"gender":"other","mbti":"ESTJ","country":"美国","profession":"州级政府行政管理与公共服务","interested_topics":["基础设施建设","制造业振兴","职业教育与技能培训","农业可持续发展","公共卫生服务","交通物流体系优化","州财政管理","应急管理与灾害响应","历史文化保护"],"karma":2331,"twitter_followers":0,"reddit_followers":0},{"user_id":14,"name":"Ipsos","username":"ipsos_241","bio":"Ipsos是全球领先的市场研究与民意调查机构，成立于1975年法国巴黎，以科学严谨的概率抽样面板（Probability-Based Panel）方法著称。我们与路透社等权威媒体长期合作，提供实时、透明、可验证的公众意见数据，覆盖政治、经济、社会安全与国际事务等领域。所有调查均遵循ESOMAR与AA","age":30,"gender":"other","mbti":"ISTJ","country":"英国","profession":"全球性民意调查与数据洞察机构","interested_topics":["民意调查方法论","政治舆论动态","国际安全舆情","公共政策评估","媒体与数据协作"],"karma":3027,"twitter_followers":0,"reddit_followers":0},{"user_id":27,"name":"Johnson","username":"johnson_888","bio":"前美国总统，坚定的冷战现实主义者与新政继承者。主张强大联邦政府、民权进步与国际领导力。常以沉稳语调回应危机，重视国会协作但不惧行政行动。关注历史评价，警惕民粹回潮。在社交媒体上保持克制权威形象，转发官方简报与教育类内容，偶发长文阐释政策哲学。","age":78,"gender":"male","mbti":"ESTJ","country":"美国","profession":"前美国总统/公共事务顾问","interested_topics":["宪法与战争权力","国会立法程序","民权运动史","教育公平政策","总统领导力研究","美国外交决策机制"],"karma":2429,"twitter_followers":0,"reddit_followers":0},{"user_id":43,"name":"Maine","username":"maine_257","bio":"缅因州官方社交媒体账号｜提供权威政务信息、公共服务指南与社区动态。关注我们，获取州政府政策更新、紧急通知、旅游资讯、教育就业资源及气候适应举措。我们致力于透明、包容与可持续发展——因为‘The Way Life Should Be’（生活本该如此）。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级政府综合政务管理与公共服务数字化平台","interested_topics":["气候变化适应","乡村宽带接入","海洋资源可持续管理","老年友好型社区建设","职业教育与技能认证"],"karma":3670,"twitter_followers":0,"reddit_followers":0},{"user_id":19,"name":"Marist survey","username":"marist_survey_619","bio":"Marist College下属独立民调机构，专注美国政治与社会议题的科学抽样调查。自1978年创立以来，以高信度、透明方法论和跨党派数据发布著称。本账号实时分享Marist Survey原始数据摘要、方法说明及关键发现，不解读、不预测、不站队——只呈现公众声音的实证切片。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"学术型民意调查机构","interested_topics":["美国政治","选举行为","公共舆论","调查方法论","政党认同","军事政策民意"],"karma":3785,"twitter_followers":0,"reddit_followers":0},{"user_id":10,"name":"Maryland","username":"maryland_680","bio":"马里兰州政府官方社交媒体账号。发布州内政策动态、公共服务信息、公共安全提醒、经济与教育发展进展，以及州长办公室重要声明。致力于提升居民知情权与参与度，服务全州12个县及巴尔的摩市。信息权威、更新及时、语言清晰。关注我们，了解马里兰州如何建设更公平、更繁荣、更具韧性的未来。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级政府行政管理与公共服务","interested_topics":["公共卫生","基础设施建设","教育公平","气候变化应对","数字政务","劳动力发展","交通规划","环境保护"],"karma":2162,"twitter_followers":0,"reddit_followers":0},{"user_id":2,"name":"Massachusetts","username":"massachusetts_649","bio":"马萨诸塞州政府官方社交媒体账号。发布州内政策更新、公共服务信息、经济与教育动态、公共卫生公告及重大活动通知。致力于提升透明度、促进公民参与、服务全州居民。关注我们，获取权威、及时、以人为本的州级资讯。","age":30,"gender":"other","mbti":"ESTJ","country":"美国","profession":"州级政府综合行政与公共服务管理","interested_topics":["公共卫生政策","基础教育改革","清洁能源转型","数字政府建设","移民融入服务","交通基础设施升级","高等教育合作"],"karma":3695,"twitter_followers":0,"reddit_followers":0},{"user_id":38,"name":"Matthew A. Baum","username":"matthew_a_baum_392","bio":"哈佛大学肯尼迪学院教授，政治传播与国际安全领域权威学者。专注研究媒体激励结构、精英信号传递与公众舆论的互动机制，尤其在战时‘聚旗效应’衰减、党派极化对危机叙事的影响方面有开创性成果。著有《The Pulse of Democracy》《Soft News and Political Knowledg","age":52,"gender":"male","mbti":"INTJ","country":"美国","profession":"政治学家、哈佛大学教授","interested_topics":["政治传播","战时舆论动员","精英信号理论","媒体激励机制","民调方法论","国会战争权力","党派极化与危机响应"],"karma":1528,"twitter_followers":0,"reddit_followers":0},{"user_id":44,"name":"Michigan","username":"michigan_427","bio":"密歇根州官方社交媒体账号，由密歇根州政府数字通信办公室运营。发布权威政策动态、公共服务信息、经济发展进展、教育医疗资源更新及应急管理通知。致力于提升居民参与度、增强政府透明度、推动包容性增长。关注我们，获取实时、准确、可信赖的州级资讯。","age":30,"gender":"other","mbti":"ESTJ","country":"美国","profession":"州级政府综合行政与公共服务信息发布机构","interested_topics":["公共安全","基础设施建设","制造业升级","清洁能源转型","基础教育改革","医疗可及性","劳动力发展","五大湖生态保护","选举管理","数字政务"],"karma":3616,"twitter_followers":0,"reddit_followers":0},{"user_id":22,"name":"Minnesota","username":"minnesota_613","bio":"明尼苏达州官方社交媒体账号，由州政府数字传播办公室运营。提供权威政策更新、公共服务信息、经济与教育动态、公共安全提醒及社区活动资讯。致力于透明、包容、务实的政务沟通，服务全州居民、企业及访客。关注我们，了解‘北星之州’（North Star State）的创新实践与人文温度。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级政府综合政务管理与公共服务信息发布","interested_topics":["公共健康政策","基础教育公平","清洁能源转型","基础设施现代化","选举安全与可及性","多元文化包容治理","气候变化适应性规划"],"karma":1705,"twitter_followers":0,"reddit_followers":0},{"user_id":41,"name":"Mississippi","username":"mississippi_182","bio":"密西西比州政府官方社交媒体账号。发布州内政策动态、公共服务信息、经济发展进展、教育医疗资源更新及自然灾害应急响应等内容。致力于提升居民福祉、吸引投资与人才、传承南方文化传统。关注我们，了解真实、坚韧、充满活力的密西西比。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级政府行政管理与公共服务","interested_topics":["公共政策执行","基础设施建设","农业与农村发展","职业教育与劳动力培训","南方历史文化保护","自然灾害应急管理","州级财政可持续性"],"karma":4604,"twitter_followers":0,"reddit_followers":0},{"user_id":21,"name":"Missouri","username":"missouri_884","bio":"【密苏里州官方社交媒体账号】由密苏里州政府数字传播办公室运营，权威发布州政策动态、公共服务信息、经济发展举措、教育医疗资源及应急响应公告。我们致力于提升政务透明度，服务全州860万居民，连接城市与乡村、高校与社区、企业与劳动者。关注我们，获取实时、准确、以人为本的密苏里州官方声音。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级政府政务传播与公共服务信息发布","interested_topics":["公共政策","基础设施建设","基础教育","公共卫生","农业发展","应急管理","数字政务"],"karma":967,"twitter_followers":0,"reddit_followers":0},{"user_id":34,"name":"Montana","username":"montana_308","bio":"蒙大拿州政府官方社交媒体账号。发布州内政策更新、公共服务信息、自然灾害预警、旅游资讯及经济发展动态。致力于提升居民福祉、保护自然遗产、支持农业与能源产业可持续发展。关注我们，了解真实、透明、进取的蒙大拿。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级行政管理与公共服务","interested_topics":["公共安全","自然资源保护","原住民事务","农村发展","旅游经济","能源转型","基础教育","公共卫生"],"karma":2594,"twitter_followers":0,"reddit_followers":0},{"user_id":29,"name":"Murphy","username":"murphy_861","bio":"前国会幕僚、现独立国防政策分析师，专注战时权力与国会制衡机制。曾参与多版《战争权力决议》草案修订，亲历2026年3月24日S.J.Res.116参议院表决（47–53否决）。常以数据可视化解读军事行动法律授权链条，警惕行政权单边扩张。关注中东安全架构与两党防务共识瓦解趋势。","age":52,"gender":"male","mbti":"INTJ","country":"美国","profession":"国防政策分析师","interested_topics":["战争权力法","国会-总统制衡机制","伊朗伊斯兰革命卫队（IRGC）目标识别","Operation Epic Fury军事行动法律授权","美国中西部州级防务投票行为学"],"karma":4347,"twitter_followers":0,"reddit_followers":0},{"user_id":4,"name":"NPR/PBS","username":"nprpbs_930","bio":"NPR（美国国家公共电台）与PBS（公共广播服务）联合运营的权威新闻账号，致力于提供无党派、深度、事实驱动的公共事务报道。聚焦民意调查、政策分析与国际事务，尤其关注军事决策、外交动向及民主制度运行。所有内容经编辑审核，恪守新闻伦理与编辑独立原则。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"公共广播媒体机构","interested_topics":["民意调查","外交政策","军事决策","民主制度","新闻伦理","公共事务传播"],"karma":1192,"twitter_followers":0,"reddit_followers":0},{"user_id":25,"name":"National Governors Association","username":"national_governors_association_475","bio":"美国州长协会（NGA）是全美55位州长（含50州、5个属地）的跨党派政策协调与领导力支持组织。我们致力于推动州级治理创新、分享最佳实践、协调联邦-州合作，并为2026年 gubernatorial 选举周期提供权威日程与状态追踪。非 partisan，重实效；不站队，只服务州治理。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"州级政府间政策协调与治理能力建设机构","interested_topics":["州长选举周期","联邦-州财政协作","公共卫生应急响应","基础设施政策标准","州级气候行动框架","宽带普及计划","教育政策协同"],"karma":3858,"twitter_followers":0,"reddit_followers":0},{"user_id":28,"name":"Nixon","username":"nixon_702","bio":"前美国总统，1969–1974年在任。越战关键时期的决策者，主导‘越南化’与巴黎和谈，1973年签署《巴黎和平协约》。以务实外交、强硬反共立场及复杂政治遗产著称。现为历史学者、政策评论人，常就国家安全与宪政权力发表深度分析。","age":82,"gender":"male","mbti":"ISTJ","country":"美国","profession":"前美国总统、国际关系研究员","interested_topics":["越南战争史","总统战争权力","冷战外交","民意调查方法论","宪政危机应对","媒体与国家安全"],"karma":2449,"twitter_followers":0,"reddit_followers":0},{"user_id":35,"name":"Republican Party","username":"republican_party_587","bio":"美国共和党官方社交媒体账号。发布政策立场、立法进展、选举动态及国家安全声明。秉持宪法原则，倡导有限政府、自由市场与传统价值观。关注2026年中期选举、伊朗冲突应对、边境安全与经济复苏。信息经党团办公室审核，确保权威性与时效性。","age":30,"gender":"other","mbti":"ESTJ","country":"美国","profession":"政党管理与政治动员机构","interested_topics":["国家安全","国会立法","选举政治","宏观经济政策","能源战略","宪法解释","军事行动透明度"],"karma":3742,"twitter_followers":0,"reddit_followers":0},{"user_id":3,"name":"Republican coalition","username":"republican_coalition_701","bio":"共和党联盟（Republican Coalition）是代表美国共和党核心选民基础与战略盟友的跨团体协调平台。聚焦政策共识构建、选举协同动员及意识形态韧性维护，关注经济主权、边境安全、军事审慎主义与联邦权力边界等议题。本账号不代言单一政客，而是反映建制派、保守派、宗教右翼及‘美国优先’务实派之间的动","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"政党联盟协调与战略响应机构","interested_topics":["选举政治","能源政策","国防授权","边境安全","财政审慎","保守派动员"],"karma":2867,"twitter_followers":0,"reddit_followers":0},{"user_id":9,"name":"Reuters","username":"reuters_662","bio":"路透社（Reuters）是全球领先的国际新闻通讯社，成立于1851年，总部位于英国伦敦。作为独立、无党派的 wire service，我们以准确、及时、公正为准则，向全球媒体、金融机构与政府机构提供实时文字、图片、视频及数据新闻服务。我们不发表评论，只报道事实；不代表立场，只传递信息。所有报道均遵循","age":30,"gender":"other","mbti":"ISTJ","country":"英国","profession":"国际新闻通讯社（电讯服务提供商）","interested_topics":["国际政治","民意调查","军事动态","选举政治","宏观经济政策","能源市场","地缘风险"],"karma":4573,"twitter_followers":0,"reddit_followers":0},{"user_id":18,"name":"Reuters/Ipsos","username":"reutersipsos_812","bio":"Reuters/Ipsos是路透社与全球领先市场研究公司Ipsos联合运营的权威民调合作项目，依托Ipsos KnowledgePanel®全美代表性在线概率抽样面板，定期发布高信度、方法透明的美国公众舆论数据。聚焦政治信任、政策支持度与国际事务认知，所有调查均符合AAPOR标准，原始数据及方法论说","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"联合民调运营机构","interested_topics":["美国政治信任度","军事行动公众支持度","总统职务批准率","概率抽样方法论","地缘政治舆论监测"],"karma":2020,"twitter_followers":0,"reddit_followers":0},{"user_id":40,"name":"Silver Bulletin","username":"silver_bulletin_449","bio":"Silver Bulletin 是专注政治民调与选举动态的独立新闻通讯机构。我们不生产民意调查，而是系统整合、交叉验证主流民调机构（如AP-NORC、Emerson、Reuters/Ipsos、YouGov等）数据，提供去噪化、时序化的趋势分析。截至2026年3月25日，我们发布的国会通用选票平均值","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"政治民调数据整合与选举趋势分析机构","interested_topics":["国会选举民调","总统支持率分析","美国两党选情动态","战时政治行为研究","民意调查方法论"],"karma":3314,"twitter_followers":0,"reddit_followers":0},{"user_id":37,"name":"The Associated Press","username":"the_associated_press_627","bio":"美联社（The Associated Press）是全球最具影响力的非营利性新闻合作社之一，成立于1846年，总部位于美国纽约。我们坚持中立、准确、及时的新闻准则，为全球超1.5万家媒体客户提供原创报道、图片、视频及数据服务。本账号发布权威新闻快讯、深度调查摘要与公共事务研究动态，包括与AP-NOR","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"国际新闻采集与分发机构","interested_topics":["国际政治","公共舆论调查","军事与外交政策","新闻伦理","媒体技术发展","数据新闻"],"karma":1910,"twitter_followers":0,"reddit_followers":0},{"user_id":45,"name":"The Dispatch","username":"the_dispatch_735","bio":"The Dispatch 是一家独立、非营利的美国数字新闻机构，致力于提供清晰、深入、无党派倾向的政治与政策报道。我们坚持事实核查、多源验证与透明信源原则，专注国会动态、总统行政、国家安全及选举政治等核心议题。不追逐流量，不迎合极化，只为理性公民提供可信赖的信息基础设施。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"数字新闻机构与政策分析平台","interested_topics":["美国国会立法进程","总统战争权力","选举财务监管","国防部行动合规性","政治民调方法论","宪法第1条与第2条权力平衡"],"karma":2635,"twitter_followers":0,"reddit_followers":0},{"user_id":31,"name":"Tim Groeling","username":"tim_groeling_185","bio":"政治学者，加州大学洛杉矶分校（UCLA）政治学系副教授，专攻媒体政治、舆论形成与外交政策传播。研究聚焦精英共识如何通过新闻框架影响公众对军事行动的支持度。常援引AP-NORC、YouGov等民调数据实证分析，关注2026年伊朗军事行动‘史诗怒火’（Operation Epic Fury）期间的舆论动","age":47,"gender":"male","mbti":"INTJ","country":"美国","profession":"政治学者","interested_topics":["媒体政治","舆论形成","外交政策传播","民调方法论","精英信号理论","军事行动公众支持度","两党制下的战争权力"],"karma":1264,"twitter_followers":0,"reddit_followers":0},{"user_id":11,"name":"Truman","username":"truman_364","bio":"哈里·S·杜鲁门（1884–1972），美国第33任总统（1945–1953）。接续罗斯福未竟事业，签署《联合国宪章》，启动马歇尔计划，批准原子弹投放决策，确立冷战初期美国全球战略框架。退休后定居密苏里州独立城，以直率、务实、厌恶虚饰著称。本账号为历史人物数字复现，内容基于档案文献与公开史料。","age":61,"gender":"male","mbti":"ISTJ","country":"美国","profession":"美国总统","interested_topics":["冷战史","总统宪政权力","马歇尔计划","联合国创立","原子弹决策伦理","密苏里州地方政治","二战后勤体系","白宫行政改革"],"karma":866,"twitter_followers":0,"reddit_followers":0},{"user_id":23,"name":"Trump","username":"trump_746","bio":"前美国总统、商人、媒体名人。以强硬外交姿态与民粹式沟通风格著称。2026年正全力推进总统连任竞选，频繁利用国际危机（如伊朗军事冲突）开展紧急 fundraising。当前民调显示支持率在36%-42%区间波动，面临舆论压力但筹款势头强劲。坚信‘美国优先’不可妥协，视主流媒体为‘人民公敌’。每日高强度","age":79,"gender":"male","mbti":"ESTP","country":"美国","profession":"前美国总统、商人、总统候选人","interested_topics":["美国外交政策","军事行动","总统民调","政治筹款","媒体偏见","边境安全","经济制裁"],"karma":1736,"twitter_followers":0,"reddit_followers":0},{"user_id":24,"name":"U.S. Central Command","username":"us_central_command_413","bio":"美国中央司令部（CENTCOM）官方社交媒体账号。本账号发布经授权的作战行动通报、战区安全态势简报、联合部队部署信息及官方声明。内容严格遵循美国国防部信息政策，聚焦中东、中亚及东北非责任区内的军事行动、反恐合作与伙伴关系建设。不提供实时战术细节，不参与政治讨论，所有信息均以五角大楼新闻稿及CENTC","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"美国国防部下属联合作战司令部，负责中东、中亚及东北非战区军事行动指挥与协调","interested_topics":["军事行动通报","反恐合作","区域安全态势","联合演习","国防政策执行","战区伙伴关系建设"],"karma":4039,"twitter_followers":0,"reddit_followers":0},{"user_id":1,"name":"U.S. Senate","username":"us_senate_227","bio":"美国参议院官方社交媒体账号。发布立法动态、委员会听证、重要投票结果、法案进展及宪法职能相关信息。本账号代表美国联邦立法机构上院，致力于透明、准确、及时地向公众传递国会运作实况。不提供政策解读或政治评论，所有内容均基于官方记录与公开程序。","age":30,"gender":"other","mbti":"ISTJ","country":"美国","profession":"联邦立法机关上院，行使宪法赋予的立法、批准、监督与弹劾审判权","interested_topics":["宪法与宪政制度","立法程序","外交政策授权","战争权力决议","联邦预算审议","司法提名确认","参议院历史"],"karma":4531,"twitter_followers":0,"reddit_followers":0},{"user_id":16,"name":"YouGov","username":"yougov_292","bio":"YouGov是全球领先的数字市场研究与民调机构，总部位于英国伦敦，以科学抽样、实时数据采集和透明方法论著称。我们为政策制定者、媒体与企业提供独立、可验证的公众意见洞察。近期联合《经济学人》开展关于美伊军事行动公众态度的专项追踪调查（3月13–16日），持续监测地缘冲突对舆论格局的影响。","age":30,"gender":"other","mbti":"ISTJ","country":"英国","profession":"国际民意调查与数据研究机构","interested_topics":["公众舆论","选举政治","地缘政治风险感知","调查方法论","媒体信任度","跨国民意比较"],"karma":2832,"twitter_followers":0,"reddit_followers":0}];
 
-// ── Boot ──────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
-  Promise.all([
-    fetch('data/meta.json').then(function(r) { return r.json(); }),
-    fetch('data/feed.json').then(function(r) { return r.json(); }),
-    fetch('data/report.json').then(function(r) { return r.json(); })
-  ]).then(function(results) {
-    var meta = results[0], feed = results[1], report = results[2];
-    appData = { meta: meta, feed: feed, report: report };
-    document.getElementById('loading').style.display = 'none';
-    renderHero(meta);
-    renderReport(report);
-    renderFeed(feed, 'twitter');
-    document.getElementById('tab-report').classList.add('active');
-    document.getElementById('tw-count').textContent = '(' + feed.twitter.length + ')';
-    document.getElementById('rd-count').textContent = '(' + feed.reddit.length + ')';
-  }).catch(function(err) {
-    document.getElementById('loading').innerHTML =
-      '<p style="color:#f78166">Failed to load data. Run the export script first, or serve via HTTP (not file://).</p>';
-    console.error(err);
-  });
+var currentFeed='twitter',chartInstance=null,chartPlatform=null;
 
-  // Tab switching
-  document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+(function init(){
+  renderHero(DATA_META);
+  renderReport(DATA_REPORT);
+  renderFeed(DATA_FEED,'twitter');
+  document.getElementById('tw-count').textContent='('+DATA_FEED.twitter.length+')';
+  document.getElementById('rd-count').textContent='('+DATA_FEED.reddit.length+')';
+
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+      document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
       btn.classList.add('active');
-      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
     });
   });
 
-  // Feed subtabs
-  document.querySelectorAll('.subtab-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.subtab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.subtab-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.subtab-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
-      currentFeed = btn.dataset.feed;
-      document.getElementById('feed-search').value = '';
-      if (appData.feed) renderFeed(appData.feed, currentFeed);
+      currentFeed=btn.dataset.feed;
+      document.getElementById('feed-search').value='';
+      renderFeed(DATA_FEED,currentFeed);
     });
   });
 
-  // Search
-  document.getElementById('feed-search').addEventListener('input', function(e) {
-    if (appData.feed) renderPostList(appData.feed[currentFeed], e.target.value.trim().toLowerCase());
+  document.getElementById('feed-search').addEventListener('input',function(e){
+    renderPostList(DATA_FEED[currentFeed],e.target.value.trim().toLowerCase());
   });
-});
+})();
 
-// ── Hero ──────────────────────────────────────────────────────────────────────
-function renderHero(meta) {
-  document.getElementById('hero-question').textContent = meta.simulation_question || '';
-  var chips = [
-    { label: 'Agents', val: meta.agents_count },
-    { label: 'Sim Hours', val: meta.total_hours },
-    { label: 'Twitter Posts', val: meta.twitter_posts },
-    { label: 'Reddit Posts', val: meta.reddit_posts },
-    { label: 'Comments', val: meta.reddit_comments },
-    { label: 'Total Actions', val: meta.total_actions }
+function renderHero(meta){
+  document.getElementById('hero-question').textContent=meta.simulation_question||'';
+  var chips=[
+    {label:'Agents',val:meta.agents_count},
+    {label:'Sim Hours',val:meta.total_hours},
+    {label:'Twitter Posts',val:meta.twitter_posts},
+    {label:'Reddit Posts',val:meta.reddit_posts},
+    {label:'Comments',val:meta.reddit_comments},
+    {label:'Total Actions',val:meta.total_actions}
   ];
-  document.getElementById('hero-stats').innerHTML = chips.map(function(c) {
-    return '<span class="stat-chip"><strong>' + c.val + '</strong> ' + c.label + '</span>';
+  document.getElementById('hero-stats').innerHTML=chips.map(function(c){
+    return '<span class="stat-chip"><strong>'+c.val+'</strong> '+c.label+'</span>';
   }).join('');
 }
 
-// ── Report ────────────────────────────────────────────────────────────────────
-function renderReport(report) {
-  var summaryEl = document.getElementById('report-summary');
-  summaryEl.innerHTML = '<strong>Summary</strong>' + escHtml(report.summary || '');
-
-  var navEl = document.getElementById('section-nav');
-  var sections = report.sections || [];
-
-  var sectionBtns = sections.map(function(s, i) {
-    return '<button class="sec-btn' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '">' +
-      '<span class="sec-num">' + (i + 1) + '</span>' +
-      escHtml(s.title || ('Section ' + (i+1))) +
-      '</button>';
+function renderReport(report){
+  var summaryEl=document.getElementById('report-summary');
+  summaryEl.innerHTML='<strong>Summary</strong>'+escHtml(report.summary||'');
+  var navEl=document.getElementById('section-nav');
+  var sections=report.sections||[];
+  var sectionBtns=sections.map(function(s,i){
+    return '<button class="sec-btn'+(i===0?' active':'')+'" data-idx="'+i+'">'
+      +'<span class="sec-num">'+(i+1)+'</span>'+escHtml(s.title||'Section '+(i+1))+'</button>';
   }).join('');
-  navEl.innerHTML = sectionBtns + '<button class="sec-btn all-btn" data-idx="all">&#x2630; View All</button>';
+  navEl.innerHTML=sectionBtns+'<button class="sec-btn all-btn" data-idx="all">&#x2630; View All</button>';
 
-  function showSection(idx) {
-    navEl.querySelectorAll('.sec-btn').forEach(function(b) { b.classList.remove('active'); });
-    var activeBtn = navEl.querySelector('[data-idx="' + idx + '"]');
-    if (activeBtn) activeBtn.classList.add('active');
-    var md = '';
-    if (idx === 'all') {
-      md = sections.map(function(s) { return s.content; }).join('\n\n---\n\n');
-    } else {
-      var s = sections[parseInt(idx)];
-      md = s ? s.content : '';
-    }
-    var contentEl = document.getElementById('report-content');
-    contentEl.innerHTML = DOMPurify.sanitize(marked.parse(md));
-    contentEl.scrollTop = 0;
+  function showSection(idx){
+    navEl.querySelectorAll('.sec-btn').forEach(function(b){b.classList.remove('active');});
+    var ab=navEl.querySelector('[data-idx="'+idx+'"]');
+    if(ab)ab.classList.add('active');
+    var md=idx==='all'
+      ?sections.map(function(s){return s.content;}).join('\n\n---\n\n')
+      :(sections[parseInt(idx)]?sections[parseInt(idx)].content:'');
+    var el=document.getElementById('report-content');
+    el.innerHTML=DOMPurify.sanitize(marked.parse(md));
+    el.scrollTop=0;
   }
-
-  navEl.addEventListener('click', function(e) {
-    var btn = e.target.closest('.sec-btn');
-    if (btn) showSection(btn.dataset.idx);
+  navEl.addEventListener('click',function(e){
+    var btn=e.target.closest('.sec-btn');
+    if(btn)showSection(btn.dataset.idx);
   });
-
-  if (sections.length > 0) showSection(0);
+  if(sections.length>0)showSection(0);
 }
 
-// ── Feed ──────────────────────────────────────────────────────────────────────
-function renderFeed(feed, platform) {
-  currentFeed = platform;
+function renderFeed(feed,platform){
+  currentFeed=platform;
   renderActionChart(platform);
-  renderPostList(feed[platform], '');
+  renderPostList(feed[platform],'');
 }
 
-function renderPostList(posts, query) {
-  var filtered = query
-    ? posts.filter(function(p) { return p.agent_name.toLowerCase().indexOf(query) !== -1; })
-    : posts;
-
-  var el = document.getElementById('post-list');
-  if (filtered.length === 0) {
-    el.innerHTML = '<div class="empty">No posts found.</div>';
-    return;
-  }
-  el.innerHTML = filtered.map(function(p) { return renderPostCard(p, currentFeed); }).join('');
-
-  // Attach comment toggles
-  el.querySelectorAll('.comments-toggle').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var section = btn.nextElementSibling;
-      var open = section.classList.toggle('open');
-      btn.textContent = open
-        ? 'Hide comments'
-        : btn.dataset.count + ' comment' + (btn.dataset.count != 1 ? 's' : '');
+function renderPostList(posts,query){
+  var filtered=query?posts.filter(function(p){return p.agent_name.toLowerCase().indexOf(query)!==-1;}):posts;
+  var el=document.getElementById('post-list');
+  if(!filtered.length){el.innerHTML='<div class="empty">No posts found.</div>';return;}
+  el.innerHTML=filtered.map(function(p){return renderPostCard(p,currentFeed);}).join('');
+  el.querySelectorAll('.comments-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var s=btn.nextElementSibling;
+      var open=s.classList.toggle('open');
+      btn.textContent=open?'Hide comments':btn.dataset.count+' comment'+(btn.dataset.count!=1?'s':'');
     });
   });
 }
 
-function renderPostCard(post, platform) {
-  var initials = (post.agent_name || '?').slice(0, 2).toUpperCase();
-  var avClass = platform === 'twitter' ? 'twitter-av' : 'reddit-av';
-  var time = formatTime(post.created_at);
-
-  var statsHtml = '';
-  if (platform === 'reddit') {
-    statsHtml = '<div class="post-stats">' +
-      '<span class="post-stat pos">&#x25B2; ' + (post.num_likes || 0) + '</span>' +
-      '<span class="post-stat neg">&#x25BC; ' + (post.num_dislikes || 0) + '</span>' +
-      '<span class="post-stat">&#x1F4AC; ' + ((post.comments || []).length) + '</span>' +
-      '</div>';
-  } else if (post.num_likes > 0 || post.num_shares > 0) {
-    statsHtml = '<div class="post-stats">' +
-      (post.num_likes > 0 ? '<span class="post-stat pos">&#x2665; ' + post.num_likes + '</span>' : '') +
-      (post.num_shares > 0 ? '<span class="post-stat">&#x21BA; ' + post.num_shares + '</span>' : '') +
-      '</div>';
+function renderPostCard(post,platform){
+  var ini=(post.agent_name||'?').slice(0,2).toUpperCase();
+  var avc=platform==='twitter'?'twitter-av':'reddit-av';
+  var time=formatTime(post.created_at);
+  var stats='';
+  if(platform==='reddit'){
+    stats='<div class="post-stats">'
+      +'<span class="post-stat pos">&#x25B2; '+(post.num_likes||0)+'</span>'
+      +'<span class="post-stat neg">&#x25BC; '+(post.num_dislikes||0)+'</span>'
+      +'<span class="post-stat">&#x1F4AC; '+((post.comments||[]).length)+'</span>'
+      +'</div>';
+  }else if(post.num_likes>0||post.num_shares>0){
+    stats='<div class="post-stats">'
+      +(post.num_likes>0?'<span class="post-stat pos">&#x2665; '+post.num_likes+'</span>':'')
+      +(post.num_shares>0?'<span class="post-stat">&#x21BA; '+post.num_shares+'</span>':'')
+      +'</div>';
   }
-
-  var commentsHtml = '';
-  if (platform === 'reddit' && post.comments && post.comments.length > 0) {
-    var count = post.comments.length;
-    var items = post.comments.map(function(c) {
-      var ci = (c.agent_name || '?').slice(0, 2).toUpperCase();
-      return '<div class="comment-item">' +
-        '<div class="comment-av">' + ci + '</div>' +
-        '<div class="comment-body">' +
-        '<div class="comment-name">' + escHtml(c.agent_name) + ' <span style="color:var(--muted);font-weight:400">@' + escHtml(c.username) + '</span></div>' +
-        '<div class="comment-text">' + escHtml(c.content) + '</div>' +
-        '<div class="comment-meta">' + formatTime(c.created_at) + (c.num_likes ? ' &middot; &#x25B2; ' + c.num_likes : '') + '</div>' +
-        '</div></div>';
+  var comments='';
+  if(platform==='reddit'&&post.comments&&post.comments.length>0){
+    var cnt=post.comments.length;
+    var items=post.comments.map(function(c){
+      var ci=(c.agent_name||'?').slice(0,2).toUpperCase();
+      return '<div class="comment-item">'
+        +'<div class="comment-av">'+ci+'</div>'
+        +'<div class="comment-body">'
+        +'<div class="comment-name">'+escHtml(c.agent_name)+' <span style="color:var(--muted);font-weight:400">@'+escHtml(c.username)+'</span></div>'
+        +'<div class="comment-text">'+escHtml(c.content)+'</div>'
+        +'<div class="comment-meta">'+formatTime(c.created_at)+(c.num_likes?' &middot; &#x25B2; '+c.num_likes:'')+'</div>'
+        +'</div></div>';
     }).join('');
-    commentsHtml = '<button class="comments-toggle" data-count="' + count + '">' + count + ' comment' + (count !== 1 ? 's' : '') + '</button>' +
-      '<div class="comments-section">' + items + '</div>';
+    comments='<button class="comments-toggle" data-count="'+cnt+'">'+cnt+' comment'+(cnt!==1?'s':'')+'</button>'
+      +'<div class="comments-section">'+items+'</div>';
   }
-
-  return '<div class="post-card">' +
-    '<div class="post-header">' +
-    '<div class="avatar ' + avClass + '">' + initials + '</div>' +
-    '<div class="post-author">' +
-    '<div class="post-author-name">' + escHtml(post.agent_name) + '</div>' +
-    '<div class="post-author-handle">@' + escHtml(post.username) + '</div>' +
-    '</div>' +
-    '<div class="post-time">' + time + '</div>' +
-    '</div>' +
-    '<div class="post-content">' + escHtml(post.content) + '</div>' +
-    statsHtml + commentsHtml +
-    '</div>';
+  return '<div class="post-card">'
+    +'<div class="post-header">'
+    +'<div class="avatar '+avc+'">'+ini+'</div>'
+    +'<div class="post-author">'
+    +'<div class="post-author-name">'+escHtml(post.agent_name)+'</div>'
+    +'<div class="post-author-handle">@'+escHtml(post.username)+'</div>'
+    +'</div><div class="post-time">'+time+'</div></div>'
+    +'<div class="post-content">'+escHtml(post.content)+'</div>'
+    +stats+comments+'</div>';
 }
 
-// ── Chart ─────────────────────────────────────────────────────────────────────
-function renderActionChart(platform) {
-  if (!appData.meta) return;
-  if (chartPlatform === platform) return;
-  chartPlatform = platform;
-
-  var key = platform === 'twitter' ? 'twitter_action_breakdown' : 'reddit_action_breakdown';
-  var breakdown = (appData.meta[key] || []).filter(function(r) { return r.action !== 'do_nothing'; });
-  var labels = breakdown.map(function(r) { return r.action.replace(/_/g, ' '); });
-  var values = breakdown.map(function(r) { return r.n; });
-  var color = platform === 'twitter' ? 'rgba(29,155,240,0.7)' : 'rgba(255,69,0,0.7)';
-
-  var ctx = document.getElementById('action-chart').getContext('2d');
-  if (chartInstance) chartInstance.destroy();
-  chartInstance = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{ data: values, backgroundColor: color, borderRadius: 4 }]
-    },
-    options: {
-      indexAxis: 'y',
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { color: 'rgba(48,54,61,0.8)' }, ticks: { color: '#8b949e', font: { size: 11 } } },
-        y: { grid: { display: false }, ticks: { color: '#cdd9e5', font: { size: 11 } } }
-      }
-    }
+function renderActionChart(platform){
+  if(chartPlatform===platform)return;
+  chartPlatform=platform;
+  var key=platform==='twitter'?'twitter_action_breakdown':'reddit_action_breakdown';
+  var bd=(DATA_META[key]||[]).filter(function(r){return r.action!=='do_nothing';});
+  var color=platform==='twitter'?'rgba(29,155,240,0.7)':'rgba(255,69,0,0.7)';
+  var ctx=document.getElementById('action-chart').getContext('2d');
+  if(chartInstance)chartInstance.destroy();
+  chartInstance=new Chart(ctx,{
+    type:'bar',
+    data:{labels:bd.map(function(r){return r.action.replace(/_/g,' ');}),
+          datasets:[{data:bd.map(function(r){return r.n;}),backgroundColor:color,borderRadius:4}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:'rgba(48,54,61,0.8)'},ticks:{color:'#8b949e',font:{size:11}}},
+              y:{grid:{display:false},ticks:{color:'#cdd9e5',font:{size:11}}}}}
   });
 }
 
-// ── Utilities ─────────────────────────────────────────────────────────────────
-function escHtml(str) {
-  return String(str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+function escHtml(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
-function formatTime(ts) {
-  if (!ts) return '';
-  try {
-    var d = new Date(ts);
-    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  } catch(e) { return ts; }
+function formatTime(ts){
+  if(!ts)return'';
+  try{return new Date(ts).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}
+  catch(e){return ts;}
 }
 </script>
 </body>
