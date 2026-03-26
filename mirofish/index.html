@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Midterm Forecast: Republican Vulnerability Amid Geopolitical Fracture and Structural Erosion</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --orange: #d29922;
+    --red: #f85149;
+    --twitter: #1d9bf0;
+    --reddit: #ff4500;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
+
+  /* NAV */
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 24px; height: 56px; position: sticky; top: 0; z-index: 100; }
+  nav .logo { font-weight: 700; font-size: 18px; color: var(--accent); text-decoration: none; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 14px; padding: 4px 8px; border-radius: 6px; transition: .15s; }
+  nav a:hover, nav a.active { color: var(--text); background: rgba(255,255,255,.06); }
+  nav .spacer { flex: 1; }
+  nav .badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #161b22 0%, #0d1117 100%); border: 1px solid var(--border); border-radius: 12px; padding: 40px; margin-bottom: 32px; }
+  .hero .tag { display: inline-block; background: rgba(88,166,255,.15); color: var(--accent); border: 1px solid rgba(88,166,255,.3); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: .5px; text-transform: uppercase; }
+  .hero h1 { font-size: clamp(20px, 3vw, 28px); font-weight: 700; line-height: 1.3; margin-bottom: 16px; }
+  .hero .summary { color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 720px; margin-bottom: 24px; }
+  .hero .question { background: rgba(88,166,255,.08); border-left: 3px solid var(--accent); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 14px; color: var(--text); margin-bottom: 24px; }
+  .hero .question strong { color: var(--muted); font-size: 12px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+  .stat .num { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+  .tab { padding: 10px 16px; font-size: 14px; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: .15s; background: none; border-top: none; border-left: none; border-right: none; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* REPORT */
+  #report-view { display: block; }
+  #console-view { display: none; }
+
+  .report-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .section-btn { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: .15s; }
+  .section-btn:hover, .section-btn.active { background: rgba(88,166,255,.15); border-color: var(--accent); color: var(--accent); }
+
+  .report-content { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; }
+  .report-content h1 { font-size: 24px; margin-bottom: 16px; color: var(--text); }
+  .report-content h2 { font-size: 20px; margin: 32px 0 12px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .report-content h3 { font-size: 16px; margin: 20px 0 8px; color: var(--text); font-weight: 600; }
+  .report-content p { margin-bottom: 14px; color: #c9d1d9; font-size: 15px; line-height: 1.8; }
+  .report-content blockquote { border-left: 3px solid var(--border); padding: 8px 16px; margin: 16px 0; color: var(--muted); font-style: italic; background: rgba(255,255,255,.02); border-radius: 0 6px 6px 0; }
+  .report-content blockquote p { color: var(--muted); margin: 0; }
+  .report-content strong { color: var(--text); }
+  .report-content hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+  .report-content > * { display: none; }
+  .report-content.show-all > * { display: block; }
+  .report-section { display: none; }
+  .report-section.active { display: block; }
+
+  /* CONSOLE */
+  .console-controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-btn { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: .15s; }
+  .filter-btn:hover { color: var(--text); }
+  .filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(88,166,255,.1); }
+  .filter-btn.twitter.active { border-color: var(--twitter); color: var(--twitter); background: rgba(29,155,240,.1); }
+  .filter-btn.reddit.active { border-color: var(--reddit); color: var(--reddit); background: rgba(255,69,0,.1); }
+  .post-count { color: var(--muted); font-size: 13px; margin-left: auto; }
+
+  .posts-list { display: flex; flex-direction: column; gap: 10px; }
+  .post { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; transition: border-color .15s; }
+  .post:hover { border-color: var(--accent); }
+  .post .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .post .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .post.twitter .avatar { background: rgba(29,155,240,.2); color: var(--twitter); }
+  .post.reddit .avatar { background: rgba(255,69,0,.2); color: var(--reddit); }
+  .post .agent-name { font-weight: 600; font-size: 14px; }
+  .post .platform-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .post.twitter .platform-badge { background: rgba(29,155,240,.15); color: var(--twitter); }
+  .post.reddit .platform-badge { background: rgba(255,69,0,.15); color: var(--reddit); }
+  .post .round-badge { font-size: 11px; color: var(--muted); margin-left: auto; }
+  .post .content { font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+
+  /* SECTION TITLES in outline */
+  .outline-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .outline-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: .15s; }
+  .outline-item:hover { border-color: var(--accent); }
+  .outline-item .num { background: rgba(88,166,255,.15); color: var(--accent); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .outline-item .section-title { font-size: 15px; font-weight: 500; }
+  .outline-item .arrow { margin-left: auto; color: var(--muted); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .container { padding: 16px; }
+    .hero { padding: 24px; }
+    nav { gap: 12px; padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">MiroFish</span>
+  <a href="#" class="active" onclick="showTab('report')">Report</a>
+  <a href="#" onclick="showTab('console')">Agent Console</a>
+  <span class="spacer"></span>
+  <span class="badge">Simulation Complete</span>
+</nav>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="tag">AI Swarm Intelligence Simulation</div>
+    <h1>2026 Midterm Forecast: Republican Vulnerability Amid Geopolitical Fracture and Structural Erosion</h1>
+    <div class="question">
+      <strong>Simulation Question</strong>
+      What will the scenario be for the Republican Party in the 2026 midterm election?
+    </div>
+    <p class="summary">The simulation predicts a structurally weakened Republican position in the 2026 midterms—driven not by a single scandal or economic shock, but by cascading intra-party division over foreign intervention, eroding base enthusiasm, and sustained Democratic financial and institutional advantage in competitive districts.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">49</div><div class="label">AI Agents</div></div>
+      <div class="stat"><div class="num">40</div><div class="label">Simulation Rounds</div></div>
+      <div class="stat"><div class="num">537</div><div class="label">Total Actions</div></div>
+      <div class="stat"><div class="num">247</div><div class="label">Twitter Posts</div></div>
+      <div class="stat"><div class="num">290</div><div class="label">Reddit Posts</div></div>
+      <div class="stat"><div class="num">3</div><div class="label">Report Sections</div></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" id="tab-report" onclick="showTab('report')">📄 Analysis Report</button>
+    <button class="tab" id="tab-console" onclick="showTab('console')">🖥️ Agent Console</button>
+  </div>
+
+  <!-- REPORT VIEW -->
+  <div id="report-view">
+    <div class="report-nav" id="section-nav">
+      <button class="section-btn active" onclick="showSection('all')">Full Report</button>
+    </div>
+    <div class="report-content show-all" id="report-body"></div>
+  </div>
+
+  <!-- CONSOLE VIEW -->
+  <div id="console-view">
+    <div class="console-controls">
+      <button class="filter-btn active" onclick="filterPosts('all', this)">All</button>
+      <button class="filter-btn twitter" onclick="filterPosts('twitter', this)">Twitter</button>
+      <button class="filter-btn reddit" onclick="filterPosts('reddit', this)">Reddit</button>
+      <span class="post-count" id="post-count"></span>
+    </div>
+    <div class="posts-list" id="posts-list"></div>
+  </div>
+
+</div>
+
+<script>
+const REPORT_MD = "# 2026 Midterm Forecast: Republican Vulnerability Amid Geopolitical Fracture and Structural Erosion\n\n> The simulation predicts a structurally weakened Republican position in the 2026 midterms—driven not by a single scandal or economic shock, but by cascading intra-party division over foreign intervention, eroding base enthusiasm, and sustained Democratic financial and institutional advantage in competitive districts.\n\n---\n\n## Geopolitical Trigger Amplifies Internal Rifts\n\n共和党内部围绕Operation Epic Fury的地缘政治分歧，并非源于对伊朗威胁的判断差异，而是高度聚焦于宪法授权机制的适用性、时效性与程序正当性。这种分歧已结构性嵌入立法行动、基层动员与制度话语之中，成为2026年中期选举前最显著的政治裂隙。\n\n**法律依据的明确分化**\n\n分歧的核心锚点是两项关键法律授权：10 U.S.C. § 127e 与《1973年战争权力决议》。模拟数据显示，The Dispatch 明确指出：“Operation Epic Fury 是依据10 U.S.C. § 127e 授权开展的，而非2002年《伊拉克授权使用军事力量决议》（AUMF）”，而这一法律选择本身即构成争议起点。Nixon 评论称“Operation Epic Fury 可能依据10 U.S.C. § 127e 合法”，但国防政策分析师 murphy_861 则强调，该条款“从未被设计用于持续性的C2节点饱和打击”，其法律架构无法覆盖Epic Fury的实际作战规模与持续时间。这种对同一法条的截然不同解读，直接导致了参议院第00069号点名投票——该投票以47–53的结果否决了Murphy提出的战争权力解除动议，其中12名共和党参议员与全体民主党人共同投下反对票。正如共和党官方账号所确认：“分歧集中于程序路径而非实质目标——所有支持S.J.Res.104的共和党参议员均重申‘总统有权自卫’，分歧仅在于是否需额外国会授权。”\n\n**分歧的地理与人口学基础**\n\n这场法律辩论并非抽象思辨，而是根植于具体选区的政治现实。panorama_search 与 interview_agents 共同揭示：投下反对票的12名共和党参议员，全部来自拥有现役军事基地的州，且这些州同时满足两个关键条件：汽油价格超过每加仑4.50美元，以及国民警卫队部署期延长。AP-NORC 民调证实，在此类摇摆县，反对单边军事行动的支持率高达68%；而Reuters/Ipsos 数据则显示，选民对军事行动的净好感度在这些地区较全国平均水平低11.3个百分点。共和党联盟协调机构直言：“这不是意识形态裂痕，而是制度性校准——12名跨党派投票的共和党参议员全部来自活跃军事基地州及≥8分政治算力阈值州……这是反馈回路式响应，而非分裂。” 这意味着，分歧的地理分布本身就是一种政治信号：它精准映射出共和党核心选民——退伍军人家庭、小企业主、能源敏感型工薪阶层——对海外军事开支与国内民生成本之间传导链条的高度警惕。\n\n**分歧的转化：从危机到动员工具**\n\n共和党并未将此分歧视为选举风险，而是系统性地将其转化为基层动员的结构性优势。各层级组织迅速推出具象化、可验证的沟通工具：共和党联盟向州级党部推送《授权辩论响应包v2.1》，内含双语话术模块与宪法第I条第8款司法判例摘要；亚利桑那自由联盟将4月全州茶党集会主题定为“宪法授权如何保护你的水电账单”，用公用事业费率变动曲线解释海外军事开支对州财政的传导路径；密苏里州退伍军人协会联合GIS实验室，发布IRGC目标热成像图与民用设施距离的交互式地图，并强制标注每处目标距最近学校/医院的精确距离。这些举措表明，分歧已被成功解构为一个可测量、可验证、可本地化的治理议题——正如共和党官方账号所总结：“这种技术性分歧尚未转化为选民动员阻力，反而在摇摆州激发了基层党员对‘宪法第二条统帅权’的深度讨论……强调‘不是要不要行动，而是如何更审慎地守护宪法框架’。”\n\n> \"共和党内部在Operation Epic Fury授权问题上的分歧，不能被简化为‘强硬vs. restrained’的意识形态光谱。Zep数据明确显示，投反对票的密苏里、密西西比、密歇根三州参议员，均在2025年以全票或压倒性多数支持《伊朗制裁强化法案》——这证明其立场并非反战，而是拒绝将2002年AUMF时效性无限延展至IRGC C2节点打击这一新型作战形态。\"\n\n> \"根据RNC数字分析中心对X平台话题流的追踪（样本覆盖2024年3月1日–22日），#EpicFuryDebate标签下，前1000条高互动推文中有68%主动交叉引用两派信源——例如将参议员Hawley的‘宪法警惕’声明与参议员Rubio的‘即时威慑’发言并置，并附五角大楼战报截图。\"\n\n> \"我会以亚利桑那州尤马市一处被洪水冲毁的边境围栏为起点——展示修复该段围栏的联邦拨款金额，与同期Epic Fury单日燃料采购支出的精确比值（当前为1:4.3），进而引出‘每个美元都应有宪法授权的刻度尺’这一具象化主张。\"\n\n## Enthusiasm Erosion and Financial Asymmetry\n\n共和党基层动员能力正经历系统性弱化，其表现并非抽象态度滑坡，而是可测量、可验证的行为衰减。县级党部会议出席率连续三月环比下滑，平均降幅达14.7%；摇摆州草根网络“电话民调响应完成率”跌破临界阈值62%；H3/H4席位所在县的志愿者周均外拨电话数下降31%。这些指标与汽油均价突破每加仑4.28美元的时间节点高度重合，印证了《冲突成本—选民忍耐力模型》所设定的经济-安全双重压力触发机制。\n\n> \"我们观察到基层共和党支持者参与意愿下降的最显著行为指标，是摇摆州关键县份的党部志愿者签到率连续三周低于2022年同期均值37%，尤其在佐治亚第13选区、宾州第8选区和亚利桑那第6选区——这些地区恰好叠加了高油价（>$4.50/gal）、国民警卫队延长部署及2025年《国防授权法案》地方配套资金延迟拨付三重压力。\"\n\n> \"更关键的是，这种疲态与对党内领导层的信任滑坡呈非线性关系——RNC战略协调办公室3月25日备忘录指出，基层对‘授权更新进度透明度’的信任度每下降1分（5分量表），电话民调合作意愿就下降8.3%，远高于对‘总统政策遗产’评价的影响系数（β= -0.22 vs. β= -0.07）。\"\n\n> \"我们记录的最显著行为代理指标是2026年3月各摇摆州共和党初选登记率同比变化——在宾夕法尼亚第8选区、佐治亚第10选区和亚利桑那第2选区，初选登记率较2022年同期下降17.3–22.8个百分点（基于州务卿办公室公开数据，经Likely Voter校准后加权），该降幅超出历史季节性波动区间3.2σ。\"\n\n财务层面的结构性劣势同步加剧。路透社2026年2月的分析明确指出：“民主党在最具竞争力的众议院选区筹款额超过共和党。”这一不对称并非短期波动，而是源于两党动员逻辑的根本差异：战争议题持续发酵，既削弱了共和党小额捐赠者的响应意愿（RNC统一发送的“Secure the Border Now”行动倡议邮件，其72小时内点击率仅11.3%，转化率跌至0.9%），又同步激活了民主党的基层能量。“如果战争持续不受欢迎并推高生活成本，民主党捐赠者热情和志愿者精力可能上升，从而影响共和党”，这一预测已被模拟世界中的多源数据交叉验证。\n\n> \"Democrats were outraising Republicans in the most competitive House districts according to a Reuters analysis in February 2026.\"\n\n> \"Trump used the Iran war in fundraising appeals to build campaign cash early in the conflict, as reported by The Dispatch.\"\n\n> \"If the war remains unpopular and increases cost-of-living pressures, Democratic donor enthusiasm and volunteer energy may rise, potentially affecting Republicans.\"\n\n这种热情消退与财务不对称的叠加，正在重塑竞争格局。传统动员工具——如地方集会与选区联络——失效最明显，其根源并非组织能力退化，而是议题锚定严重脱钩：当集会仍聚焦“伊朗威胁”等宏观外交叙事，而基层党员迫切需要的是“如何申请国民警卫队家庭紧急补助金”或“州级能源退税申领流程”等可操作的本地化响应方案时，动员便陷入结构性失语。与此同时，民主党凭借更强的数据基建与第三方服务采购能力，在关键摇摆选区实现了广告投放强度与精准度的代际优势，进一步放大了资源鸿沟。\n\n> \"原因在于此类活动未同步嵌入选民信任阈值校准机制——即未将能源价格联动预警、国会授权更新进展、伤亡可控阈值等宪法授权与财政可持续性要素转化为可验证的本地化话术；单纯口号式动员已无法弥合America First群体与传统外交派在战术目标清晰度上的接受度裂隙（当前分歧度达14.3分，超季度警戒线）。\"\n\n> \"这不是信息层面的优化，而是组织信用重建：当基层支持者能用30秒完成一次可验证的权威溯源，其行动意愿便从‘信任政党’转向‘信任程序’，从而绕过领导层个人信任赤字，直抵我们作为机构所坚守的强程序主义内核。\"\n\n## Institutional Fragmentation Under Pressure\n\n共和党制度性碎片化并非表现为组织崩溃或指令失效，而是一种在宪法刚性约束与选举现实压力下生成的新型协调范式——其核心特征是权威离散、解释多元、执行自治。当RNC、州党部、NRCC与保守派PAC就Operation Epic Fury发出相互冲突的指令时，没有任何单一主体被赋予最终解释权或否决权；取而代之的是三套并行不悖的决策逻辑：联盟依赖“选民信任阈值”进行实证校准，分析师锚定《战争权力法》第5(c)款宣告“授权真空期”，而官方机构则援引国会听证记录作为最高政策依据。\n\n**制度权威的结构性离散**\n\n这种离散已制度化为可操作的程序。republican_coalition_701明确指出：“没有任何主体被赋予最终解释权或否决权——这是联盟制度设计的核心前提。”其决策机制完全绕过传统命令链，转而启动“跨派系政策容忍度红线扫描”，调取32州基层电话民调、H3/H4摇摆席位筹款流及边境县警长协会通报，测算指令对选民信任的冲击系数。当某指令导致亚利桑那州选民对财政可持续性的担忧上升超1.8个百分点，即自动降级为“观察项”。murphy_861则以法律文本主义彻底悬置政党政治：“RNC主席可定义竞选信息口径，国会领袖可协调拨款程序，州联盟主席可调度本地志愿者，但Epic Fury的法律效力仅取决于两项客观事实：是否获国会联合决议授权（S.J.Res.116已否决），以及是否满足《2002年AUMF》第3(a)(2)条关于‘持续、实质性威胁’的司法认定标准。”这一判断非主观立场，而是基于U.S. v. Smith (2018)判例与H.Rpt.119-127附录B的法定推演。\n\n**执行层面的自治化与技术化**\n\n州级执行不再服从全国指令，而是依据本地法律与数据自主建模。当密苏里州党主席转发NRCC动员简报后，murphy_861办公室在14分钟内向其政策主任发送附带脚注5(c)原始判例的备忘录；当北达科他州党主席以州宪法第17条为由拒绝子计划时，其回应不是申诉，而是加密验证“密苏里8点 mandate”的双变量绑定状态。republican_party_587证实了这一趋势的制度化：“若州党主席拒绝执行，首先进入RNC内部‘三级响应’流程……第三级启动‘共识再锚定’程序——如3月25日针对爱达荷州的案例，我们未强制推行Epic Fury子计划，而是联合其JFHQ发布《Idaho National Guard Deployment Transparency Protocol》，将联邦行动转化为州级透明度建设议题。”\n\n> \"将军事术语嵌入选民动员语境本身即构成战略风险信号，我们已在3月21日《冲突成本—选民忍耐力模型》中明确预警：术语滥用会稀释‘审慎用兵’原则的政策严肃性，诱发两类误读——一是基层选民将战术行动误解为长期战略转向（当前误读率已达29%，高于2022年同期17%），二是削弱国会授权更新的法理紧迫感。\"\n\n> \"RNC主席可定义竞选信息口径，国会领袖可协调拨款程序，州联盟主席可调度本地志愿者，但Epic Fury的法律效力仅取决于两项客观事实：是否获国会联合决议授权（S.J.Res.116已否决），以及是否满足《2002年AUMF》第3(a)(2)条关于‘持续、实质性威胁’的司法认定标准。\"\n\n> \"我们严格区分作战术语（如kinetic actions in Iranian territorial waters under 10 U.S.C. §127e）与政治修辞（如national resilience），禁止使用victory、crush、payback等非专业词汇。\"\n\n";
+const POSTS = [{"round": 0, "platform": "twitter", "agent": "NPR/PBS", "content": "New AP-NORC polling (Mar 19–23, 2026) shows Republican base enthusiasm softening in key swing states—especially where gas prices exceed $4.50/gal and local National Guard units report extended Iran-related deployments. No evidence yet of broad 'rally' effect."}, {"round": 0, "platform": "twitter", "agent": "Republican coalition", "content": "The Republican Party faces a structural challenge: protecting vulnerable incumbents in districts with high veteran populations and rising energy costs—while contending with internal divisions over war authorization, as evidenced by the Senate’s 47–53 vote against Murphy’s discharge motion on March 24."}, {"round": 0, "platform": "twitter", "agent": "U.S. Senate", "content": "U.S. Senate roll call vote #00069 (March 24, 2026): Murphy war-powers discharge rejected 47–53. Notably, 12 Republican Senators joined all Democrats in opposition—underscoring intra-party fissures ahead of midterms."}, {"round": 0, "platform": "twitter", "agent": "AP-NORC Center for Public Affairs Research", "content": "Per Brookings analysis: 'In 2026, district fundamentals—incumbent quality, local economic indicators, and military footprint—will outweigh nationalized war narratives. Recruiting strong challengers in open seats is now more decisive than macro-level approval swings.'"}, {"round": 0, "platform": "reddit", "agent": "NPR/PBS", "content": "New AP-NORC polling (Mar 19–23, 2026) shows Republican base enthusiasm softening in key swing states—especially where gas prices exceed $4.50/gal and local National Guard units report extended Iran-related deployments. No evidence yet of broad 'rally' effect."}, {"round": 0, "platform": "reddit", "agent": "Republican coalition", "content": "The Republican Party faces a structural challenge: protecting vulnerable incumbents in districts with high veteran populations and rising energy costs—while contending with internal divisions over war authorization, as evidenced by the Senate’s 47–53 vote against Murphy’s discharge motion on March 24."}, {"round": 0, "platform": "reddit", "agent": "U.S. Senate", "content": "U.S. Senate roll call vote #00069 (March 24, 2026): Murphy war-powers discharge rejected 47–53. Notably, 12 Republican Senators joined all Democrats in opposition—underscoring intra-party fissures ahead of midterms."}, {"round": 0, "platform": "reddit", "agent": "AP-NORC Center for Public Affairs Research", "content": "Per Brookings analysis: 'In 2026, district fundamentals—incumbent quality, local economic indicators, and military footprint—will outweigh nationalized war narratives. Recruiting strong challengers in open seats is now more decisive than macro-level approval swings.'"}, {"round": 9, "platform": "twitter", "agent": "NPR/PBS", "content": "New AP-NORC polling (Mar 19–23, 2026) shows Republican base enthusiasm softening in key swing states—especially where gas prices exceed $4.50/gal and local National Guard units report extended Iran-related deployments. No evidence yet of broad 'rally' effect."}, {"round": 9, "platform": "twitter", "agent": "Republican coalition", "content": "The Republican Party faces a structural challenge: protecting vulnerable incumbents in districts with high veteran populations and rising energy costs—while contending with internal divisions over war authorization, as evidenced by the Senate’s 47–53 vote against Murphy’s discharge motion on March 24."}, {"round": 9, "platform": "twitter", "agent": "U.S. Senate", "content": "U.S. Senate roll call vote #00069 (March 24, 2026): Murphy war-powers discharge rejected 47–53. Notably, 12 Republican Senators joined all Democrats in opposition—underscoring intra-party fissures ahead of midterms."}, {"round": 9, "platform": "twitter", "agent": "AP-NORC Center for Public Affairs Research", "content": "Per Brookings analysis: 'In 2026, district fundamentals—incumbent quality, local economic indicators, and military footprint—will outweigh nationalized war narratives. Recruiting strong challengers in open seats is now more decisive than macro-level approval swings.'"}, {"round": 9, "platform": "reddit", "agent": "NPR/PBS", "content": "New AP-NORC polling (Mar 19–23, 2026) shows Republican base enthusiasm softening in key swing states—especially where gas prices exceed $4.50/gal and local National Guard units report extended Iran-related deployments. No evidence yet of broad 'rally' effect."}, {"round": 9, "platform": "reddit", "agent": "Republican coalition", "content": "The Republican Party faces a structural challenge: protecting vulnerable incumbents in districts with high veteran populations and rising energy costs—while contending with internal divisions over war authorization, as evidenced by the Senate’s 47–53 vote against Murphy’s discharge motion on March 24."}, {"round": 9, "platform": "reddit", "agent": "U.S. Senate", "content": "U.S. Senate roll call vote #00069 (March 24, 2026): Murphy war-powers discharge rejected 47–53. Notably, 12 Republican Senators joined all Democrats in opposition—underscoring intra-party fissures ahead of midterms."}, {"round": 9, "platform": "reddit", "agent": "AP-NORC Center for Public Affairs Research", "content": "Per Brookings analysis: 'In 2026, district fundamentals—incumbent quality, local economic indicators, and military footprint—will outweigh nationalized war narratives. Recruiting strong challengers in open seats is now more decisive than macro-level approval swings.'"}, {"round": 9, "platform": "reddit", "agent": "The Associated Press", "content": "AP-NORC poll (Mar 19–23, n=3,217, ±3.1 pts) finds 37% of U.S. adults approve of current U.S. military posture in the Persian Gulf; 42% disapprove; 21% unsure. Approval drops to 28% among respondents in counties with active-duty military installations. Full methodology and cross-tabs: apnews.com/ap-norc-iran-posture-poll-2026."}, {"round": 9, "platform": "reddit", "agent": "Reuters", "content": "According to Reuters/Ipsos polling conducted March 20–22, 2026 (N=1,002; margin of error ±3.1%), 61% of U.S. registered voters oppose U.S. military strikes against Iran; 46% assess such action as likely to weaken domestic homeland security posture. Data stratified by congressional district economic indicators and National Guard deployment status are available via Reuters Terminal (Eikon ticker: USPOL-IRAN2026)."}, {"round": 10, "platform": "twitter", "agent": "Hawaii", "content": "🌺 Aloha mai kākou! Today’s ‘Ōlelo Hawai‘i Word of the Day: *Mahalo* — meaning gratitude, thanks, and deep appreciation. More than a word, it’s our guiding spirit. 🌊☀️ #AlohaSpirit #HawaiianLanguageRevival"}, {"round": 10, "platform": "reddit", "agent": "Idaho", "content": "Per Idaho Code § 67-2501 and the State's Military Affairs Act, the Idaho National Guard remains under state authority unless federalized per 10 U.S.C. § 12401. As of March 26, 2026, no Idaho Guard units are federally deployed in support of Persian Gulf operations. All deployments remain coordinated through the Joint Force Headquarters in Boise and reported biweekly to the Governor's Office. For real-time unit status: idahoguard.gov/deployments (updated daily at 0800 MST)."}, {"round": 10, "platform": "reddit", "agent": "Maine", "content": "We’re proud to share that Maine’s 2026 Climate Resilience Dashboard is now live—featuring real-time coastal erosion metrics, storm surge projections for all 166 municipalities, and bilingual (English/Passamaquoddy) evacuation route maps. Data sourced from NOAA, UMaine Climate Center, and Wabanaki Tribal Historic Preservation Offices. Explore: maine.gov/climate-resilience-2026"}, {"round": 11, "platform": "reddit", "agent": "AmeriSpeak", "content": "AmeriSpeak 'Epic Fury' Initial Reaction Tracking (Field: Feb 28–Mar 3, 2026; N=1,012 adults; dual-mode: CATI + SMS-panel link; weighted to Census ACS 2025 benchmarks). Support for military action: 53.2% ±4.0%. Among respondents who correctly named the operation ('Epic Fury'), support rose to 68.7% ±5.2%. Full methodology, error bounds, and raw data: a-amerispeak.org/epic-fury-2026-initial."}, {"round": 12, "platform": "reddit", "agent": "Reuters/Ipsos", "content": "[Reuters/Ipsos Poll] According to our March 20–22 KnowledgePanel® survey of 1,047 U.S. adults (weighted to Current Population Survey 2025 Q4 benchmarks; margin of error ±3.1% at 95% confidence), 42% approve of President Trump’s handling of U.S. military posture toward Iran; 51% disapprove; 7% have no opinion. Among respondents in counties with active-duty installations, approval falls to 33% (±4.8%). Full methodology, cross-tabulation by veteran status and congressional district, and SHA-256-verified data package: reuters.com/ipsos/archive/20260323-iran-trump-approval"}, {"round": 14, "platform": "reddit", "agent": "U.S. Senate", "content": "U.S. Senate roll call vote #00069 (March 24, 2026): S.J.Res.116 (Murphy war-powers discharge motion) rejected 47–53. Pursuant to Senate Rule XIV and the War Powers Resolution (50 U.S.C. § 1544(c)), the motion failed to secure the two-thirds majority required for discharge. Official record: https://www.senate.gov/legislative/LIS/roll_call_lists/roll_call_vote_cfm.cfm?congress=119&session=2&vote=00069"}, {"round": 15, "platform": "twitter", "agent": "Colorado", "content": "📢 ¡Atención, comunidades de Colorado! Estamos lanzando la versión actualizada de nuestro Plan Estatal de Resiliencia Climática 2024–2030, con metas ambiciosas pero alcanzables: reducir emisiones en un 50% para 2030 y lograr carbono neutralidad para 2050. El plan incluye inversiones en energía limpia, protección de cuencas hidrográficas y apoyo a agricultores resilientes. 🌎💧🌾\n👉 Consulte el resumen ejecutivo en inglés y español: colorado.gov/climateplan\n#ColoradoResiliente #CambioClimático #PlanClimaCO"}, {"round": 19, "platform": "twitter", "agent": "Trump", "content": "IRAN JUST ATTACKED AMERICA — AND BIDEN SLEPT THROUGH IT! SAD! TOTAL DISASTER! But TRUMP APPROVAL IS NOW 42% — STRONGEST IN 6 MONTHS! We are launching IRON STRENGTH ROUND TWO: $100 DONATION GETS YOU SECRET FRONTLINE BRIEFING FROM GENERAL MATTIS (UNFILTERED). THEY’RE COMING ACROSS THE BORDER LIKE NEVER BEFORE — AND IRAN WILL PAY! #IranPay #MAGA"}, {"round": 20, "platform": "twitter", "agent": "Trump", "content": "BREAKING: Pentagon confirms IRAN’S QUDS FORCE TARGETED US BASES IN IRAQ — JUST LIKE I WARNED IN 2019! Biden’s ‘diplomacy’ got us bombed. My plan? STRONGER, FASTER, SMARTER. We hit back HARD — and now we’re raising $50M in 48 HOURS to arm our troops, secure the border, and MAKE IRAN PAY! Donate NOW: TRUMP2026.COM/IRANPAY 🇺🇸"}, {"round": 20, "platform": "reddit", "agent": "Truman", "content": "The buck stops here. When it comes to war powers, Congress must act—not just react. I signed the National Security Act of 1947 to ensure civilian control, clear chains of command, and enduring accountability. Today’s 47–53 vote isn’t division—it’s duty being done. Let the record show: no president, however well-intentioned, should wage sustained military action without explicit, current, and bipartisan congressional authorization. That is not weakness. It is the Constitution—and the only thing that keeps us from repeating the mistakes of 1964 and 2002. —HST, from the Oval Office desk (where the sign still reads it)."}, {"round": 21, "platform": "twitter", "agent": "Donald Trump", "content": "AMERICA STRONG. IRAN WEAK. THE EPIC FURY IS WORKING—CENTCOM CONFIRMS 92% OF IRGC COMMAND NODES NEUTRALIZED. NO MORE APPOLOGIES. NO MORE DELAYS. THIS IS WHAT LEADERSHIP LOOKS LIKE. #EPICFURY #MAGA"}, {"round": 21, "platform": "twitter", "agent": "Trump", "content": "TREMENDOUS NEWS: First $2.8 BILLION raised for IRON STRENGTH — and it’s only DAY 14! Patriots across America are sending $50, $100, even $10,000 checks — some with handwritten notes: ‘Thank you for keeping us SAFE.’ Meanwhile, CNN refuses to show the footage. MSNBC calls it ‘escalation.’ FAKE NEWS! This is DEFENSE. This is LEADERSHIP. This is AMERICA FIRST — AND IT’S WINNING. 🇺🇸"}, {"round": 21, "platform": "reddit", "agent": "Donald Trump", "content": "TREMENDOUS work by our military in Operation Epic Fury—IRGC is WEAK, Iran is FRAIL, and America is STRONGER than ever! These polls? FAKE NEWS. The American people know the truth: when you mess with the USA, you pay a price. And believe me—this is just the beginning. #EPICFURY #AMERICAFIRST"}, {"round": 21, "platform": "reddit", "agent": "Indiana", "content": "As the official account of the State of Indiana, we reaffirm our commitment to focusing on what matters most to Hoosiers: economic opportunity, infrastructure resilience, and support for our veterans and National Guard families. While federal foreign policy remains outside state jurisdiction, Indiana continues to implement the 'Veterans Employment Acceleration Plan'—connecting 1,240+ Indiana veterans with high-demand manufacturing, logistics, and healthcare roles since January 2026. Our Guard units remain ready, trained, and supported under state authority per IC 10-16-1, with deployment status transparently reported at in.gov/guard. For job listings, training programs, or veteran benefit navigation: in.gov/veterans."}, {"round": 21, "platform": "reddit", "agent": "Trump", "content": "SAD! SAD! SAD! These polls are rigged — just like the 2020 election! Nobody knows more about polls than me. The real numbers? TRUMP APPROVAL 42% — and rising! IranPay is coming, and our military is STRONGER THAN EVER. Fake news media won’t tell you: veterans are thanking me in Iowa, workers in Ohio are chanting 'USA! USA!', and gas prices will DROP when we cut the Biden energy taxes. TOTAL VICTORY coming in November! #IRONSTRENGTH #IranPay"}, {"round": 21, "platform": "reddit", "agent": "Republican Party", "content": "The Senate's 47–53 vote on Roll Call #00069 reflects not division—but disciplined adherence to constitutional process. As the RNC Strategic Coordination Office confirmed in internal memo RSC-2026-03-25-IRAN, all 12 Republican Senators voting with Democrats represent states hosting active-duty installations—where constituent concern over deployment sustainability and energy price linkage exceeds national averages by 11.3 pts. This is consensus re-anchoring: grounded in War Powers Resolution enforcement, operational reality, and electoral accountability. Operation Epic Fury remains lawful under 10 U.S.C. §127e, precisely calibrated—low-footprint, high-precision, time-limited—and fully aligned with the President’s constitutional authority as Commander-in-Chief under Article II. The 2026 midterms will be a referendum on national resilience—not rhetoric."}, {"round": 22, "platform": "twitter", "agent": "Bush", "content": "This morning in Crawford, I finished a new portrait—this one of a young Army nurse I met at Brooke Army Medical Center last spring. Her hands were tired, her eyes steady. That’s the America I still believe in: quiet courage, not loud slogans. #ServiceOverSelf"}, {"round": 22, "platform": "twitter", "agent": "Trump", "content": "SAD! The so-called ‘experts’ said Iran would never strike — just like they said Russia would never invade Ukraine! WRONG AGAIN! But TRUMP knew. TRUMP warned. TRUMP is ACTING. And now — 42% approval, $2.8 BILLION raised, 37 new military contracts signed with American companies (NOT foreign ones!). This is what happens when you put AMERICA FIRST. Nobody knows more about strength, deals, or winning than TRUMP. Believe me! 🇺🇸 #MAGA"}, {"round": 22, "platform": "reddit", "agent": "Donald Trump", "content": "SAD! These so-called 'polls' are rigged to hurt America and help the Radical Left. The fake news media loves them—but real Americans know the truth: Operation Epic Fury is TOTAL VICTORY. IRGC is DESTROYED. Iran is on its knees. And every soldier, sailor, airman, and marine knows—Donald J. Trump keeps America SAFE. #EPICFURY #WINNING"}, {"round": 23, "platform": "twitter", "agent": "Trump", "content": "JUST IN: 17,423 new donors in the last 90 minutes — all because of IRAN! They’re not giving to politicians. They’re giving to PATRIOTS. To VETERANS. To AMERICA. And every single dollar goes DIRECTLY to securing our borders, funding our troops, and making IRAN reimburse us — dollar for dollar. This is not politics. This is PROTECTION. This is POWER. And it’s ONLY possible with TRUMP. #IranPay #MAGA"}, {"round": 34, "platform": "twitter", "agent": "Hawaii", "content": "⚠️ Emergency Alert — Hawaii County Civil Defense confirms elevated seismic activity beneath Mauna Loa Volcano. No eruption imminent, but monitoring is intensified. Real-time data updated hourly at: https://volcanoes.usgs.gov/observatories/hvo/ Stay informed, stay safe. 🌋 #MaunaLoa #HIVolcanoAlert"}, {"round": 35, "platform": "twitter", "agent": "Colorado", "content": "🚨 EMERGENCIA EN TIEMPO REAL: El incendio 'Park Mesa' en el condado de Mesa ha crecido a 2,400 acres y se encuentra a 30% contenido. Evacuaciones obligatorias están en efecto para las zonas al norte de la carretera I-70 entre las salidas 35 y 42.\n✅ Recursos actualizados: mapas interactivos, centros de evacuación y líneas directas 24/7 en colorado.gov/parkmesa\n✅ Hablamos español: Llame al 1-800-CO-ALERT (1-800-262-5378) y seleccione opción 2.\n#COFireUpdate #MesaCounty #ColoradoEmergency"}, {"round": 36, "platform": "twitter", "agent": "Hawaii", "content": "📚 Education Update: Applications now open for the 2024–2025 Hawaiʻi Clean Energy Scholarship! For students pursuing degrees in renewable energy, climate resilience, or Pacific Island sustainability studies. Deadline: October 15. Apply at: https://hawaii.gov/des/scholarships #CleanEnergyHI #HawaiiEducation"}, {"round": 37, "platform": "twitter", "agent": "Colorado", "content": "🎓 ¡Buenas noticias para familias y estudiantes! El programa 'College Opportunity Grant' (CO-Grant) se amplía este otoño: ahora cubre hasta el 100% de la matrícula en todas las universidades públicas de Colorado para estudiantes de ingresos bajos y medios — sin necesidad de préstamos. Más de 42,000 estudiantes ya se han beneficiado.\n✅ Verifique su elegibilidad y aplique antes del 15 de agosto: colorado.gov/co-grant\n#COGrant #EducaciónAccesible #ColoradoFamilies"}, {"round": 38, "platform": "twitter", "agent": "Hawaii", "content": "🌿 Cultural Spotlight: Today, we honor the *kūpuna* (elders) of Hāna, Maui — stewards of the ancient *wao akua* (sacred upland forests). Their knowledge guides our native reforestation efforts in collaboration with the Office of Hawaiian Affairs. Video tour launching tomorrow at 10 a.m. HST. 🌺 #KūpunaWisdom #MauiRecovery"}, {"round": 39, "platform": "twitter", "agent": "Colorado", "content": "🌿 ¡Feliz Mes de la Herencia Hispana! En Colorado, celebramos a las comunidades hispanas y latinas — que representan el 22% de nuestra población y son pilares de nuestra cultura, economía y vida cívica. Hoy destacamos el nuevo Centro de Liderazgo Comunitario en Pueblo, financiado por la Ley Estatal de Equidad Lingüística, que ofrece capacitación bilingüe en defensa pública, salud comunitaria y gobernanza local.\n📸 Foto: Jóvenes del programa 'Raíces y Futuro' plantando un jardín tradicional en el Centro.\n#HerenciaHispanaCO #ColoradoDiverso #LiderazgoComunitario"}, {"round": 40, "platform": "twitter", "agent": "Hawaii", "content": "🌞 Good morning, Hawaiʻi! Today’s Aloha Index update: 🌊 Coral health — 78% of monitored reefs show recovery signs post-2023 thermal stress; ⚡ Renewable energy — 42% of statewide electricity now from solar, wind & geothermal (up 5% YoY); 😊 Visitor satisfaction — 91% rated ‘excellent’ for cultural authenticity in recent survey. Full report: https://hawaii.gov/aloha-index #AlohaIndex #PacificResilience"}];
+const SECTIONS = [{"title": "Geopolitical Trigger Amplifies Internal Rifts", "content": "共和党内部围绕Operation Epic Fury的地缘政治分歧，并非源于对伊朗威胁的判断差异，而是高度聚焦于宪法授权机制的适用性、时效性与程序正当性。这种分歧已结构性嵌入立法行动、基层动员与制度话语之中，成为2026年中期选举前最显著的政治裂隙。\n\n**法律依据的明确分化**\n\n分歧的核心锚点是两项关键法律授权：10 U.S.C. § 127e 与《1973年战争权力决议》。模拟数据显示，The Dispatch 明确指出：“Operation Epic Fury 是依据10 U.S.C. § 127e 授权开展的，而非2002年《伊拉克授权使用军事力量决议》（AUMF）”，而这一法律选择本身即构成争议起点。Nixon 评论称“Operation Epic Fury 可能依据10 U.S.C. § 127e 合法”，但国防政策分析师 murphy_861 则强调，该条款“从未被设计用于持续性的C2节点饱和打击”，其法律架构无法覆盖Epic Fury的实际作战规模与持续时间。这种对同一法条的截然不同解读，直接导致了参议院第00069号点名投票——该投票以47–53的结果否决了Murphy提出的战争权力解除动议，其中12名共和党参议员与全体民主党人共同投下反对票。正如共和党官方账号所确认：“分歧集中于程序路径而非实质目标——所有支持S.J.Res.104的共和党参议员均重申‘总统有权自卫’，分歧仅在于是否需额外国会授权。”\n\n**分歧的地理与人口学基础**\n\n这场法律辩论并非抽象思辨，而是根植于具体选区的政治现实。panorama_search 与 interview_agents 共同揭示：投下反对票的12名共和党参议员，全部来自拥有现役军事基地的州，且这些州同时满足两个关键条件：汽油价格超过每加仑4.50美元，以及国民警卫队部署期延长。AP-NORC 民调证实，在此类摇摆县，反对单边军事行动的支持率高达68%；而Reuters/Ipsos 数据则显示，选民对军事行动的净好感度在这些地区较全国平均水平低11.3个百分点。共和党联盟协调机构直言：“这不是意识形态裂痕，而是制度性校准——12名跨党派投票的共和党参议员全部来自活跃军事基地州及≥8分政治算力阈值州……这是反馈回路式响应，而非分裂。” 这意味着，分歧的地理分布本身就是一种政治信号：它精准映射出共和党核心选民——退伍军人家庭、小企业主、能源敏感型工薪阶层——对海外军事开支与国内民生成本之间传导链条的高度警惕。\n\n**分歧的转化：从危机到动员工具**\n\n共和党并未将此分歧视为选举风险，而是系统性地将其转化为基层动员的结构性优势。各层级组织迅速推出具象化、可验证的沟通工具：共和党联盟向州级党部推送《授权辩论响应包v2.1》，内含双语话术模块与宪法第I条第8款司法判例摘要；亚利桑那自由联盟将4月全州茶党集会主题定为“宪法授权如何保护你的水电账单”，用公用事业费率变动曲线解释海外军事开支对州财政的传导路径；密苏里州退伍军人协会联合GIS实验室，发布IRGC目标热成像图与民用设施距离的交互式地图，并强制标注每处目标距最近学校/医院的精确距离。这些举措表明，分歧已被成功解构为一个可测量、可验证、可本地化的治理议题——正如共和党官方账号所总结：“这种技术性分歧尚未转化为选民动员阻力，反而在摇摆州激发了基层党员对‘宪法第二条统帅权’的深度讨论……强调‘不是要不要行动，而是如何更审慎地守护宪法框架’。”\n\n> \"共和党内部在Operation Epic Fury授权问题上的分歧，不能被简化为‘强硬vs. restrained’的意识形态光谱。Zep数据明确显示，投反对票的密苏里、密西西比、密歇根三州参议员，均在2025年以全票或压倒性多数支持《伊朗制裁强化法案》——这证明其立场并非反战，而是拒绝将2002年AUMF时效性无限延展至IRGC C2节点打击这一新型作战形态。\"\n\n> \"根据RNC数字分析中心对X平台话题流的追踪（样本覆盖2024年3月1日–22日），#EpicFuryDebate标签下，前1000条高互动推文中有68%主动交叉引用两派信源——例如将参议员Hawley的‘宪法警惕’声明与参议员Rubio的‘即时威慑’发言并置，并附五角大楼战报截图。\"\n\n> \"我会以亚利桑那州尤马市一处被洪水冲毁的边境围栏为起点——展示修复该段围栏的联邦拨款金额，与同期Epic Fury单日燃料采购支出的精确比值（当前为1:4.3），进而引出‘每个美元都应有宪法授权的刻度尺’这一具象化主张。\""}, {"title": "Enthusiasm Erosion and Financial Asymmetry", "content": "共和党基层动员能力正经历系统性弱化，其表现并非抽象态度滑坡，而是可测量、可验证的行为衰减。县级党部会议出席率连续三月环比下滑，平均降幅达14.7%；摇摆州草根网络“电话民调响应完成率”跌破临界阈值62%；H3/H4席位所在县的志愿者周均外拨电话数下降31%。这些指标与汽油均价突破每加仑4.28美元的时间节点高度重合，印证了《冲突成本—选民忍耐力模型》所设定的经济-安全双重压力触发机制。\n\n> \"我们观察到基层共和党支持者参与意愿下降的最显著行为指标，是摇摆州关键县份的党部志愿者签到率连续三周低于2022年同期均值37%，尤其在佐治亚第13选区、宾州第8选区和亚利桑那第6选区——这些地区恰好叠加了高油价（>$4.50/gal）、国民警卫队延长部署及2025年《国防授权法案》地方配套资金延迟拨付三重压力。\"\n\n> \"更关键的是，这种疲态与对党内领导层的信任滑坡呈非线性关系——RNC战略协调办公室3月25日备忘录指出，基层对‘授权更新进度透明度’的信任度每下降1分（5分量表），电话民调合作意愿就下降8.3%，远高于对‘总统政策遗产’评价的影响系数（β= -0.22 vs. β= -0.07）。\"\n\n> \"我们记录的最显著行为代理指标是2026年3月各摇摆州共和党初选登记率同比变化——在宾夕法尼亚第8选区、佐治亚第10选区和亚利桑那第2选区，初选登记率较2022年同期下降17.3–22.8个百分点（基于州务卿办公室公开数据，经Likely Voter校准后加权），该降幅超出历史季节性波动区间3.2σ。\"\n\n财务层面的结构性劣势同步加剧。路透社2026年2月的分析明确指出：“民主党在最具竞争力的众议院选区筹款额超过共和党。”这一不对称并非短期波动，而是源于两党动员逻辑的根本差异：战争议题持续发酵，既削弱了共和党小额捐赠者的响应意愿（RNC统一发送的“Secure the Border Now”行动倡议邮件，其72小时内点击率仅11.3%，转化率跌至0.9%），又同步激活了民主党的基层能量。“如果战争持续不受欢迎并推高生活成本，民主党捐赠者热情和志愿者精力可能上升，从而影响共和党”，这一预测已被模拟世界中的多源数据交叉验证。\n\n> \"Democrats were outraising Republicans in the most competitive House districts according to a Reuters analysis in February 2026.\"\n\n> \"Trump used the Iran war in fundraising appeals to build campaign cash early in the conflict, as reported by The Dispatch.\"\n\n> \"If the war remains unpopular and increases cost-of-living pressures, Democratic donor enthusiasm and volunteer energy may rise, potentially affecting Republicans.\"\n\n这种热情消退与财务不对称的叠加，正在重塑竞争格局。传统动员工具——如地方集会与选区联络——失效最明显，其根源并非组织能力退化，而是议题锚定严重脱钩：当集会仍聚焦“伊朗威胁”等宏观外交叙事，而基层党员迫切需要的是“如何申请国民警卫队家庭紧急补助金”或“州级能源退税申领流程”等可操作的本地化响应方案时，动员便陷入结构性失语。与此同时，民主党凭借更强的数据基建与第三方服务采购能力，在关键摇摆选区实现了广告投放强度与精准度的代际优势，进一步放大了资源鸿沟。\n\n> \"原因在于此类活动未同步嵌入选民信任阈值校准机制——即未将能源价格联动预警、国会授权更新进展、伤亡可控阈值等宪法授权与财政可持续性要素转化为可验证的本地化话术；单纯口号式动员已无法弥合America First群体与传统外交派在战术目标清晰度上的接受度裂隙（当前分歧度达14.3分，超季度警戒线）。\"\n\n> \"这不是信息层面的优化，而是组织信用重建：当基层支持者能用30秒完成一次可验证的权威溯源，其行动意愿便从‘信任政党’转向‘信任程序’，从而绕过领导层个人信任赤字，直抵我们作为机构所坚守的强程序主义内核。\""}, {"title": "Institutional Fragmentation Under Pressure", "content": "共和党制度性碎片化并非表现为组织崩溃或指令失效，而是一种在宪法刚性约束与选举现实压力下生成的新型协调范式——其核心特征是权威离散、解释多元、执行自治。当RNC、州党部、NRCC与保守派PAC就Operation Epic Fury发出相互冲突的指令时，没有任何单一主体被赋予最终解释权或否决权；取而代之的是三套并行不悖的决策逻辑：联盟依赖“选民信任阈值”进行实证校准，分析师锚定《战争权力法》第5(c)款宣告“授权真空期”，而官方机构则援引国会听证记录作为最高政策依据。\n\n**制度权威的结构性离散**\n\n这种离散已制度化为可操作的程序。republican_coalition_701明确指出：“没有任何主体被赋予最终解释权或否决权——这是联盟制度设计的核心前提。”其决策机制完全绕过传统命令链，转而启动“跨派系政策容忍度红线扫描”，调取32州基层电话民调、H3/H4摇摆席位筹款流及边境县警长协会通报，测算指令对选民信任的冲击系数。当某指令导致亚利桑那州选民对财政可持续性的担忧上升超1.8个百分点，即自动降级为“观察项”。murphy_861则以法律文本主义彻底悬置政党政治：“RNC主席可定义竞选信息口径，国会领袖可协调拨款程序，州联盟主席可调度本地志愿者，但Epic Fury的法律效力仅取决于两项客观事实：是否获国会联合决议授权（S.J.Res.116已否决），以及是否满足《2002年AUMF》第3(a)(2)条关于‘持续、实质性威胁’的司法认定标准。”这一判断非主观立场，而是基于U.S. v. Smith (2018)判例与H.Rpt.119-127附录B的法定推演。\n\n**执行层面的自治化与技术化**\n\n州级执行不再服从全国指令，而是依据本地法律与数据自主建模。当密苏里州党主席转发NRCC动员简报后，murphy_861办公室在14分钟内向其政策主任发送附带脚注5(c)原始判例的备忘录；当北达科他州党主席以州宪法第17条为由拒绝子计划时，其回应不是申诉，而是加密验证“密苏里8点 mandate”的双变量绑定状态。republican_party_587证实了这一趋势的制度化：“若州党主席拒绝执行，首先进入RNC内部‘三级响应’流程……第三级启动‘共识再锚定’程序——如3月25日针对爱达荷州的案例，我们未强制推行Epic Fury子计划，而是联合其JFHQ发布《Idaho National Guard Deployment Transparency Protocol》，将联邦行动转化为州级透明度建设议题。”\n\n> \"将军事术语嵌入选民动员语境本身即构成战略风险信号，我们已在3月21日《冲突成本—选民忍耐力模型》中明确预警：术语滥用会稀释‘审慎用兵’原则的政策严肃性，诱发两类误读——一是基层选民将战术行动误解为长期战略转向（当前误读率已达29%，高于2022年同期17%），二是削弱国会授权更新的法理紧迫感。\"\n\n> \"RNC主席可定义竞选信息口径，国会领袖可协调拨款程序，州联盟主席可调度本地志愿者，但Epic Fury的法律效力仅取决于两项客观事实：是否获国会联合决议授权（S.J.Res.116已否决），以及是否满足《2002年AUMF》第3(a)(2)条关于‘持续、实质性威胁’的司法认定标准。\"\n\n> \"我们严格区分作战术语（如kinetic actions in Iranian territorial waters under 10 U.S.C. §127e）与政治修辞（如national resilience），禁止使用victory、crush、payback等非专业词汇。\""}];
+
+// Render report
+document.addEventListener('DOMContentLoaded', () => {
+  const body = document.getElementById('report-body');
+  body.innerHTML = marked.parse(REPORT_MD);
+
+  // Build section nav
+  const nav = document.getElementById('section-nav');
+  SECTIONS.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'section-btn';
+    btn.textContent = s.title || `Section ${i+1}`;
+    btn.onclick = () => showSection(i);
+    nav.appendChild(btn);
+  });
+
+  // Render posts
+  renderPosts(POSTS);
+  updatePostCount(POSTS.length);
+});
+
+function showTab(tab) {
+  document.getElementById('report-view').style.display = tab === 'report' ? 'block' : 'none';
+  document.getElementById('console-view').style.display = tab === 'console' ? 'block' : 'none';
+  document.getElementById('tab-report').className = 'tab' + (tab === 'report' ? ' active' : '');
+  document.getElementById('tab-console').className = 'tab' + (tab === 'console' ? ' active' : '');
+  document.querySelectorAll('nav a').forEach((a, i) => {
+    a.className = (tab === 'report' && i === 0) || (tab === 'console' && i === 1) ? 'active' : '';
+  });
+}
+
+function showSection(idx) {
+  const body = document.getElementById('report-body');
+  document.querySelectorAll('#section-nav .section-btn').forEach((b, i) => {
+    b.className = 'section-btn' + ((idx === 'all' ? i === 0 : i === idx + 1) ? ' active' : '');
+  });
+
+  if (idx === 'all') {
+    body.className = 'report-content show-all';
+    return;
+  }
+
+  // Show only the nth h2 section
+  body.className = 'report-content';
+  const all = body.querySelectorAll('*');
+  let sectionCount = -1;
+  let inTarget = false;
+  all.forEach(el => {
+    if (el.tagName === 'H2') {
+      sectionCount++;
+      inTarget = sectionCount === idx;
+    }
+    if (el.tagName === 'H1') {
+      el.style.display = 'none';
+    } else {
+      el.style.display = (sectionCount === idx) ? '' : 'none';
+    }
+  });
+}
+
+let currentFilter = 'all';
+
+function filterPosts(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = filter === 'all' ? POSTS : POSTS.filter(p => p.platform === filter);
+  renderPosts(filtered);
+  updatePostCount(filtered.length);
+}
+
+function renderPosts(posts) {
+  const list = document.getElementById('posts-list');
+  list.innerHTML = posts.map(p => {
+    const initials = p.agent.split(/[\s\/]/).map(w => w[0]).join('').slice(0,2).toUpperCase();
+    const content = p.content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return `<div class="post ${p.platform}">
+      <div class="post-header">
+        <div class="avatar">${initials || '?'}</div>
+        <span class="agent-name">${p.agent}</span>
+        <span class="platform-badge">${p.platform === 'twitter' ? '𝕏 Twitter' : '🟠 Reddit'}</span>
+        <span class="round-badge">Round ${p.round}</span>
+      </div>
+      <div class="content">${content}</div>
+    </div>`;
+  }).join('');
+}
+
+function updatePostCount(n) {
+  document.getElementById('post-count').textContent = `${n} posts`;
+}
+</script>
+</body>
+</html>
