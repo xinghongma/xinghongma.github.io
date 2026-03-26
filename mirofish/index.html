@@ -309,10 +309,10 @@ function renderReport(report) {
     if (activeBtn) activeBtn.classList.add('active');
     var md = '';
     if (idx === 'all') {
-      md = sections.map(function(s) { return '## ' + s.title + '\n\n' + s.content; }).join('\n\n---\n\n');
+      md = sections.map(function(s) { return s.content; }).join('\n\n---\n\n');
     } else {
       var s = sections[parseInt(idx)];
-      md = s ? ('## ' + s.title + '\n\n' + s.content) : '';
+      md = s ? s.content : '';
     }
     var contentEl = document.getElementById('report-content');
     contentEl.innerHTML = DOMPurify.sanitize(marked.parse(md));
