@@ -1,0 +1,81 @@
+{
+  "simulation_id": "sim_9c94c59dbb5a",
+  "simulation_question": "What will the scenario be for the Republican Party in the 2026 midterm election?",
+  "total_hours": 96,
+  "agents_count": 49,
+  "total_actions": 998,
+  "twitter_posts": 20,
+  "twitter_actions": 362,
+  "twitter_action_breakdown": [
+    {
+      "action": "do_nothing",
+      "n": 223
+    },
+    {
+      "action": "interview",
+      "n": 70
+    },
+    {
+      "action": "sign_up",
+      "n": 49
+    },
+    {
+      "action": "create_post",
+      "n": 20
+    }
+  ],
+  "reddit_posts": 17,
+  "reddit_comments": 58,
+  "reddit_actions": 636,
+  "reddit_action_breakdown": [
+    {
+      "action": "refresh",
+      "n": 243
+    },
+    {
+      "action": "like_post",
+      "n": 99
+    },
+    {
+      "action": "dislike_post",
+      "n": 61
+    },
+    {
+      "action": "create_comment",
+      "n": 58
+    },
+    {
+      "action": "interview",
+      "n": 58
+    },
+    {
+      "action": "sign_up",
+      "n": 49
+    },
+    {
+      "action": "like_comment",
+      "n": 20
+    },
+    {
+      "action": "create_post",
+      "n": 17
+    },
+    {
+      "action": "search_user",
+      "n": 15
+    },
+    {
+      "action": "search_posts",
+      "n": 14
+    },
+    {
+      "action": "do_nothing",
+      "n": 2
+    }
+  ],
+  "report_id": "report_cef1b9f61666",
+  "report_title": "2026 Midterm Forecast: Republican Vulnerability Amid Geopolitical Fracture and Structural Erosion",
+  "report_summary": "The simulation predicts a structurally weakened Republican position in the 2026 midterms—driven not by a single scandal or economic shock, but by cascading intra-party division over foreign intervention, eroding base enthusiasm, and sustained Democratic financial and institutional advantage in competitive districts.",
+  "report_completed_at": "2026-03-26T14:29:57.544261",
+  "exported_at": "2026-03-26T18:15:19.613707"
+}
