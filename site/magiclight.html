@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Magiclight WF · Product Workflow</title>
+    <meta name="description" content="Magiclight 的产品经理 WF：从用户意图到 Agent 执行、评估与恢复。" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono&family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+      :root { --bg:#fff; --fg:#0a0a0a; --muted:#f5f5f5; --muted-fg:#737373; --border:#e5e5e5; --success:#3d9e34; --warning:#d69f00; --accent:#0a924b; --serif:"Playfair Display","Noto Serif SC",Georgia,serif; --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; }
+      * { box-sizing:border-box; }
+      body { margin:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; }
+      main { max-width:42rem; margin:0 auto; padding:4rem 1.5rem 6rem; }
+      h1 { margin:0; font:400 2.25rem/1.1 var(--serif); letter-spacing:-.025em; }
+      .lede { margin:1.5rem 0 0; color:var(--muted-fg); font:1rem var(--mono); }
+      .tagline { margin:1.25rem 0 0; font-size:1rem; line-height:1.7; }
+      .tagline strong { font-weight:700; }
+      .prompt-card { margin-top:2.5rem; overflow:hidden; background:var(--muted); border:1px solid var(--border); border-radius:.625rem; }
+      .prompt-header { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.625rem 1rem; color:var(--muted-fg); border-bottom:1px solid var(--border); font-size:.75rem; }
+      .copy-btn { padding:.25rem .625rem; color:var(--muted-fg); cursor:pointer; background:var(--bg); border:1px solid var(--border); border-radius:.4375rem; font-size:.75rem; }
+      .copy-btn:hover { color:var(--fg); background:var(--muted); }
+      pre { margin:0; white-space:pre-wrap; overflow-x:auto; font:.8125rem/1.6 var(--mono); }
+      .prompt-body,.code-block { padding:1rem 1.25rem 1.25rem; }
+      .section-label { margin:3rem 0 .75rem; color:var(--muted-fg); font:.6875rem var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+      .arch-grid,.siblings { display:grid; gap:1rem; }
+      .arch-card { padding:1.125rem 1.25rem 1.25rem; border:1px solid var(--border); border-radius:.625rem; }
+      .arch-kind { margin:0; font:700 .8125rem var(--mono); }
+      .arch-list { display:flex; flex-direction:column; gap:.4rem; margin:.75rem 0 0; padding:0; list-style:none; font-size:.875rem; }
+      .arch-list li::before { margin-right:.5rem; color:var(--accent); content:"·"; }
+      .arch-note { margin:.875rem 0 0; padding-top:.75rem; color:var(--muted-fg); border-top:1px solid var(--border); font-size:.75rem; line-height:1.6; }
+      table { width:100%; border-collapse:collapse; }
+      th,td { padding:.5rem 0; text-align:left; border-bottom:1px solid var(--border); font-size:.875rem; vertical-align:top; }
+      th { color:var(--muted-fg); font-weight:400; }
+      .success { color:var(--success); } .warning { color:var(--warning); }
+      .code-block { background:var(--muted); border:1px solid var(--border); border-radius:.625rem; }
+      .screenshot-card,.video-card { overflow:hidden; background:var(--muted); border:1px solid var(--border); border-radius:.625rem; }
+      .screenshot-card { margin-top:1rem; }
+      .screenshot-card img { display:block; width:100%; height:auto; }
+      .screenshot-card figcaption,.video-card figcaption { border-top:1px solid var(--border); }
+      .screenshot-card figcaption { padding:.75rem 1.25rem .875rem; font-size:.8125rem; }
+      .video-grid { display:grid; gap:1rem; margin-top:1rem; }
+      .video-card video { display:block; width:100%; height:auto; background:#111; }
+      .video-card figcaption { display:flex; flex-direction:column; gap:.25rem; padding:.75rem 1rem .875rem; }
+      .video-title { font-size:.8125rem; }
+      .video-meta { color:var(--muted-fg); font-size:.6875rem; }
+      .sibling { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.875rem 1.125rem; color:inherit; text-decoration:none; border:1px solid var(--border); border-radius:.625rem; transition:border-color .14s; }
+      .sibling:hover { border-color:var(--accent); }
+      .sibling-name,.sibling-desc { display:block; } .sibling-name { font-size:.9375rem; } .sibling-desc { margin-top:.125rem; color:var(--muted-fg); font-size:.8125rem; } .sibling-arrow { color:var(--muted-fg); font-family:var(--mono); }
+      footer { display:flex; justify-content:space-between; gap:1rem; margin-top:4rem; padding-top:1.5rem; color:var(--muted-fg); border-top:1px solid var(--border); font-size:.75rem; }
+      .disclaimer { margin-top:1.5rem; color:var(--muted-fg); font-size:.6875rem; line-height:1.6; }
+      @media (min-width:640px) { main { padding-top:6rem; } h1 { font-size:3rem; } .arch-grid,.siblings,.video-grid { grid-template-columns:1fr 1fr; } }
+      @media (max-width:520px) { footer { flex-direction:column; gap:.6rem; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Magiclight WF</h1>
+      <p class="lede">$ product-manager --mode workflow --scope video-agent</p>
+      <p class="tagline">把复杂的视频 AI 生产，从固定 pipeline 变成可理解、可控制、可恢复的产品工作流。<strong>产品经理不控制每个节点，而是设计正确的上下文、边界和反馈回路。</strong></p>
+      <section class="prompt-card">
+        <div class="prompt-header"><span>复制到 Claude Code / Codex / Cursor</span><button class="copy-btn" type="button">⧉ 复制</button></div>
+        <pre class="prompt-body">帮我把一个视频需求跑成可控的 WF。
+
+先确认目标、受众、平台、时长、比例和成功标准；
+再选择创意路线，生成 Script、Storyboard 和 Edit Plan；
+把资产、生成任务、字幕、合成和 QA 记录成可追踪状态；
+低风险步骤自动推进，结构、成本和不可逆动作需要确认；
+失败时优先局部修复或重新路由，不要默认整条链路重做；
+最后用首剪接受率、任务完成率、恢复率、成本和延迟复盘。</pre>
+      </section>
+      <p class="section-label">PM WF · 产品经理的工作层</p>
+      <div class="arch-grid">
+        <section class="arch-card"><h2 class="arch-kind">Intent &amp; Product Layer</h2><ul class="arch-list"><li>目标 / 受众 / 平台 / 时长</li><li>创意路线与成功标准</li><li>澄清问题与用户确认点</li></ul><p class="arch-note">把用户说的“做一个好看的视频”变成可执行、可评估的产品问题。</p></section>
+        <section class="arch-card"><h2 class="arch-kind">Harness &amp; Execution Layer</h2><ul class="arch-list"><li>Skill 路由 / 任务状态 / 资产事实</li><li>生成 / 合成 / 字幕 / QA</li><li>局部重试与失败恢复</li></ul><p class="arch-note">让长链路任务可观察、可解释、可暂停，也能从最小影响范围恢复。</p></section>
+      </div>
+      <p class="section-label">Workflow Routing · 工作流路由</p>
+      <table><thead><tr><th>阶段</th><th>事实产物</th><th>产品判断</th></tr></thead><tbody><tr><td>需求</td><td>Intent Brief</td><td class="success">先澄清，再执行</td></tr><tr><td>规划</td><td>Script · Storyboard</td><td class="success">高成本生成前确认</td></tr><tr><td>生产</td><td>Asset DAG · Run Report</td><td class="warning">可观察 · 可恢复</td></tr><tr><td>评估</td><td>QA · Feedback</td><td class="warning">局部修复或重路由</td></tr></tbody></table>
+      <p class="section-label">Agent Loop · 从固定 Pipeline 到 Agent</p>
+      <pre class="code-block">User Brief
+    ↓
+Intent Parser → Style Extractor → Skill Router
+    ↓
+Generation Plan → Skill Execution → Evaluation
+    ↓
+Refine / Re-route → Approval → Accepted Creative</pre>
+      <figure class="screenshot-card"><img src="assets/magiclight/character-match-rewrite.png" alt="角色匹配和模型改写工作流界面" /><figcaption>角色匹配&amp;模型改写</figcaption></figure>
+      <p class="section-label">E-commerce Replication Skills · 电商复刻 Skills</p>
+      <pre class="code-block">commerce_replication_skill
+  → parse product page, assets, claims, and visual language
+  → map product value props to a short-form creative brief
+  → generate scene plan, copy variants, and platform-native edits
+  → validate product consistency, CTA, price, and policy boundaries
+  → return: source assets / prompt versions / edit plan / QA report</pre>
+      <div class="video-grid">
+        <figure class="video-card"><video controls preload="metadata" playsinline><source src="assets/magiclight/commerce-replication.mp4" type="video/mp4" /></video><figcaption><strong class="video-title">商品视觉复刻</strong><span class="video-meta">电商复刻 Skill · 视频模块 01</span></figcaption></figure>
+        <figure class="video-card"><video controls preload="metadata" playsinline><source src="assets/magiclight/pinduoduo-replication.mp4" type="video/mp4" /></video><figcaption><strong class="video-title">拼多多内容复刻</strong><span class="video-meta">电商复刻 Skill · 视频模块 02</span></figcaption></figure>
+      </div>
+      <p class="section-label">Creative Routes · 创意路线</p>
+      <div class="arch-grid">
+        <section class="arch-card"><h2 class="arch-kind">Feature Ad</h2><ul class="arch-list"><li>功能证明优先</li><li>旁白驱动产品录屏</li><li>字幕 / CTA / 合成 / QA</li></ul><p class="arch-note">用逐词 ASR 找到演示区间，让产品操作和叙事时序保持一致。</p></section>
+        <section class="arch-card"><h2 class="arch-kind">Hook Story</h2><ul class="arch-list"><li>冲突开场与情绪变化</li><li>第二人物 / 旁观者 POV</li><li>互动评论与 CTA</li></ul><p class="arch-note">服务社交内容增长：先抓住注意力，再把产品信息放进故事里。</p></section>
+        <section class="arch-card"><h2 class="arch-kind">Epic Story</h2><ul class="arch-list"><li>世界观 / 英雄 / 反转</li><li>首尾帧延续视觉状态</li><li>电影感字幕与黑场 CTA</li></ul><p class="arch-note">适合品牌叙事与高视觉冲击内容，但要避免把一次性交付锁死成模板。</p></section>
+        <section class="arch-card"><h2 class="arch-kind">Creative Run</h2><ul class="arch-list"><li>目标 / 变体 / Prompt 版本</li><li>资产 / QA / 审批 / 发布</li><li>表现与下一轮动作</li></ul><p class="arch-note">每一次生产都应是可追踪的创意运行记录，而不只是一个输出文件夹。</p></section>
+      </div>
+      <p class="section-label">Product Guardrails · 自动化边界</p>
+      <table><thead><tr><th>原则</th><th>自动化</th><th>保留确认</th></tr></thead><tbody><tr><td>风险</td><td>低风险、可逆步骤</td><td>结构、成本、不可逆动作</td></tr><tr><td>失败</td><td>局部修复、单链路重试</td><td>结构性变化、重新规划</td></tr><tr><td>评估</td><td>协议、技术、QA 检查</td><td>创意偏好与最终接受</td></tr></tbody></table>
+      <p class="section-label">Signals · 用什么判断 WF 真的有效</p>
+      <pre class="code-block">intent_accuracy       → 用户是否被正确理解
+first_pass_acceptance → 首剪是否可用
+task_completion       → 是否完成真实目标
+recovery_rate         → 失败后能否最小代价恢复
+cost × latency        → 自动化是否值得</pre>
+      <div class="siblings"><a class="sibling" href="index.html"><span><strong class="sibling-name">Xinghong Ma</strong><span class="sibling-desc">Back to resume</span></span><span class="sibling-arrow">↗</span></a><a class="sibling" href="https://magiclight.app/" target="_blank" rel="noreferrer"><span><strong class="sibling-name">Magiclight AI</strong><span class="sibling-desc">Open product site</span></span><span class="sibling-arrow">↗</span></a></div>
+      <footer><span>Magiclight · Product Manager WF</span><span>Intent → Execution → Evaluation</span></footer>
+      <p class="disclaimer">A concise case-study view of a video-agent product workflow. Metrics are evaluation targets, not performance claims.</p>
+    </main>
+    <script>
+      const button = document.querySelector(".copy-btn");
+      const prompt = document.querySelector(".prompt-body").textContent;
+      button.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(prompt); button.textContent = "✓ 已复制"; window.setTimeout(() => { button.textContent = "⧉ 复制"; }, 1600); } catch (_) {}
+      });
+    </script>
+  </body>
+</html>

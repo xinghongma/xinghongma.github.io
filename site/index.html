@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Xinghong Ma's resume — AI product, video, content, and research."
+    />
+    <title>Xinghong Ma · Resume</title>
+    <style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  --body-bg: #fdfdfc;
+  --body-color: #111;
+  --muted: #0006;
+  --rule: #f2f2f2;
+  --link-rule: #d9d9d9;
+  --focus-color: #007aff80;
+  --selection-bg: #ededed;
+  --font-primary: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  min-height: 100%;
+  background: var(--body-bg);
+  color: var(--body-color);
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.25rem;
+}
+
+body {
+  min-height: 100%;
+  overflow-y: scroll;
+  background: var(--body-bg);
+  color: var(--body-color);
+  font-family: var(--font-primary);
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: none;
+}
+
+body::before {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 9;
+  height: 8rem;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    #fff 0%,
+    #ffffffbc 19%,
+    #ffffff8a 34%,
+    #ffffff61 47%,
+    #ffffff47 56.5%,
+    #ffffff31 65%,
+    #ffffff20 73%,
+    #ffffff13 80.2%,
+    #ffffff0b 86.1%,
+    #ffffff05 91%,
+    #ffffff02 95.2%,
+    #fff0 100%
+  );
+}
+
+::selection {
+  color: #111;
+  background: var(--selection-bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+.homepage {
+  max-width: 36.375rem;
+  margin: 0 auto;
+  padding: 5rem 1rem 2.5rem;
+}
+
+.article,
+.post-list,
+.site-footer {
+  animation: stagger-in 0.5s both;
+}
+
+.post-list:nth-of-type(2) {
+  animation-delay: 0.05s;
+}
+
+.post-list:nth-of-type(3) {
+  animation-delay: 0.1s;
+}
+
+.post-list:nth-of-type(4) {
+  animation-delay: 0.15s;
+}
+
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.article {
+  max-width: 70ch;
+}
+
+.article header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0 0 0.5rem;
+}
+
+.article h1 {
+  display: flex;
+  width: fit-content;
+  line-height: 1;
+}
+
+.wordmark {
+  color: #111;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
+.article header time,
+.article p {
+  letter-spacing: -0.00563rem;
+  font-size: 0.875rem;
+  font-weight: 460;
+  line-height: 1.25rem;
+}
+
+.article header time {
+  color: var(--muted);
+}
+
+.article > p {
+  padding-top: 1rem;
+}
+
+.basic-link {
+  position: relative;
+  display: inline;
+  color: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  transition: color 0.2s;
+}
+
+.basic-link::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  pointer-events: none;
+  content: "";
+  background: var(--link-rule);
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
+.basic-link:hover::before {
+  background: #666;
+}
+
+.basic-link:focus-visible,
+.post-list a:focus-visible,
+.video-arrow:focus-visible,
+.video-dots button:focus-visible {
+  margin: 0 -2px;
+  padding-right: 2px;
+  padding-left: 2px;
+  outline: 2px solid var(--focus-color);
+  border-radius: 2px;
+}
+
+.post-list {
+  padding: 3rem 0 0;
+}
+
+.section-title {
+  color: var(--muted);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.875rem;
+  font-weight: 460;
+  letter-spacing: -0.00563rem;
+  line-height: normal;
+}
+
+.post-list > ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-list > ul > li > ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-list > ul > li > ul > li {
+  border-bottom: 1px solid var(--rule);
+}
+
+.post-list > ul > li > ul > li:last-child {
+  border-bottom: 0;
+}
+
+.post-list-row {
+  position: relative;
+  display: flex;
+  min-height: 2.875rem;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.735rem 0 0.735rem 9.5rem;
+}
+
+.post-list-row::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 9.5rem;
+  content: "";
+  border-bottom: 1px solid var(--rule);
+}
+
+.post-list > ul > li > ul > li:last-child .post-list-row::after {
+  display: none;
+}
+
+.group-label {
+  position: absolute;
+  left: 0;
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 460;
+  letter-spacing: -0.00563rem;
+  line-height: 1.25rem;
+  transition: opacity 0.14s;
+}
+
+.item-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.1875rem;
+}
+
+.item-title {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  color: #111;
+  font-size: 0.875rem;
+  font-weight: 460;
+  letter-spacing: -0.00563rem;
+  line-height: 1.25rem;
+  transition: opacity 0.14s, transform 0.14s;
+}
+
+.item-link {
+  position: relative;
+}
+
+.item-link::before {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 0.75rem);
+  z-index: 2;
+  padding: 0.25rem 0.45rem;
+  color: #fff;
+  pointer-events: none;
+  content: "Learn More";
+  background: #111;
+  border-radius: 0.2rem;
+  box-shadow: 0 0.25rem 0.75rem #1112;
+  font-family: var(--font-primary);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1rem;
+  opacity: 0;
+  transition: opacity 0.14s, transform 0.14s;
+  transform: translate(-0.25rem, -50%);
+}
+
+.item-link::after {
+  width: 0.375rem;
+  height: 0.375rem;
+  margin-left: 0.5rem;
+  content: "";
+  border-top: 1px solid;
+  border-right: 1px solid;
+  opacity: 0;
+  transition: opacity 0.14s, transform 0.14s;
+  transform: translate(-0.125rem) rotate(45deg);
+}
+
+.post-list .item-link:hover::after {
+  opacity: 0.42;
+  transform: translate(0.25rem) rotate(45deg);
+}
+
+.item-description {
+  max-width: 21rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 460;
+  letter-spacing: 0.00063rem;
+  line-height: 1rem;
+  transition: opacity 0.14s;
+}
+
+.related-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  padding-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.related-links a {
+  position: relative;
+  color: #111;
+}
+
+.related-links a::after {
+  color: var(--muted);
+  content: " ↗";
+}
+
+.related-links a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--link-rule);
+  text-underline-offset: 0.2rem;
+}
+
+.video-carousel {
+  width: calc(100% - 9.5rem);
+  margin: 0 0 1rem 9.5rem;
+  padding-top: 1rem;
+}
+
+.video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #111;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.25rem;
+}
+
+.video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-caption-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0 0.2rem;
+}
+
+.video-caption-row p {
+  flex: 1;
+  color: #111;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.15rem;
+  text-align: center;
+}
+
+.video-arrow {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.875rem;
+  line-height: 1;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.video-arrow:hover {
+  color: #111;
+  transform: translateX(2px);
+}
+
+.video-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0 0.35rem;
+}
+
+.video-dots button {
+  width: 0.35rem;
+  height: 0.35rem;
+  cursor: pointer;
+  background: #dedede;
+  border-radius: 999px;
+  transition: width 0.2s, background 0.2s;
+}
+
+.video-dots button.is-active {
+  width: 1.1rem;
+  background: #111;
+}
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 3rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1rem;
+}
+
+@media (hover: hover) and (min-width: 520px) {
+  .post-list > ul:has(.item-link:hover) .group-label,
+  .post-list > ul:has(.item-link:hover) .item-title,
+  .post-list > ul:has(.item-link:hover) .item-description {
+    opacity: 0.3;
+  }
+
+  .post-list > ul:has(.item-link:hover) .post-list-row:has(.item-link:hover) .group-label,
+  .post-list > ul:has(.item-link:hover) .post-list-row:has(.item-link:hover) .item-title,
+  .post-list > ul:has(.item-link:hover) .post-list-row:has(.item-link:hover) .item-description {
+    opacity: 1;
+  }
+
+  .post-list-row:has(.item-link:hover) .item-title {
+    transform: translateX(0.0625rem);
+  }
+
+  .post-list .item-link:hover::before {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body::before {
+    display: none;
+  }
+
+  .homepage {
+    padding: 2rem 1.5rem 2.5rem;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .post-list-row {
+    gap: 0.75rem;
+    padding-left: 9.5rem;
+  }
+
+  .post-list-row::after {
+    left: 9.5rem;
+  }
+
+  .item-description {
+    max-width: none;
+  }
+
+  .video-carousel {
+    width: calc(100% - 9.5rem);
+    margin-left: 9.5rem;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <main class="homepage" id="top">
+      <article class="article">
+        <header>
+          <h1>
+            <span class="wordmark">Xinghong Ma</span>
+            <span class="sr-only">Xinghong Ma · Resume</span>
+          </h1>
+          <time dateTime="2026-07-21">Updated Jul 21, 2026</time>
+        </header>
+        <p>AI product builder working across video, content, and research.</p>
+        <p>AI is context, not control.</p>
+        <p>
+          A resume in progress —
+          <a class="basic-link" href="#experience">work experience</a>
+          and
+          <a class="basic-link" href="#projects">projects</a>.
+        </p>
+      </article>
+
+      <section id="bio" class="post-list" aria-labelledby="bio-title">
+        <h2 id="bio-title" class="section-title">Bio</h2>
+        <ul>
+          <li>
+            <ul>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2023.08 – 2024.12</span>
+                  <span class="item-copy">
+                    <span class="item-title">南加州大学</span>
+                    <span class="item-description">硕士 · 数据科学</span>
+                  </span>
+                </div>
+              </li>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2019.08 – 2022.12</span>
+                  <span class="item-copy">
+                    <span class="item-title">加州大学伯克利</span>
+                    <span class="item-description">本科 · 统计</span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <section
+        id="experience"
+        class="post-list"
+        aria-labelledby="experience-title"
+      >
+        <h2 id="experience-title" class="section-title">Work Experience</h2>
+        <ul>
+          <li>
+            <ul>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2026.04 – Now</span>
+                  <span class="item-copy">
+                    <a
+                      class="item-title item-link"
+                      href="magiclight.html"
+                      >Magiclight AI</a
+                    >
+                    <span class="item-description">AI Video Agent</span>
+                  </span>
+                </div>
+                <div
+                  class="video-carousel"
+                  data-video-set="magiclight"
+                  aria-label="相关视频"
+                >
+                  <div class="video-frame">
+                    <iframe
+                      title="长视频agent 拆解-编排-创作"
+                      src="https://www.youtube.com/embed/SW2UF3orqm0?rel=0"
+                      loading="lazy"
+                      scrolling="no"
+                      allow="fullscreen"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                    ></iframe>
+                  </div>
+                  <div class="video-caption-row">
+                    <button
+                      type="button"
+                      class="video-arrow"
+                      data-direction="-1"
+                      aria-label="上一个视频"
+                    >
+                      ←
+                    </button>
+                    <p>长视频agent 拆解-编排-创作</p>
+                    <button
+                      type="button"
+                      class="video-arrow"
+                      data-direction="1"
+                      aria-label="下一个视频"
+                    >
+                      →
+                    </button>
+                  </div>
+                  <div
+                    class="video-dots"
+                    role="tablist"
+                    aria-label="选择视频"
+                  >
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="true"
+                      aria-label="视频 1：长视频agent 拆解-编排-创作"
+                      class="is-active"
+                      data-index="0"
+                    ></button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      aria-label="视频 2：史诗级好莱坞电影广告工作流"
+                      data-index="1"
+                    ></button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      aria-label="视频 3：爆款短剧链路创作"
+                      data-index="2"
+                    ></button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      aria-label="视频 4：爆款世界杯广告工作流"
+                      data-index="3"
+                    ></button>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2024.06 – 2025.12</span>
+                  <span class="item-copy">
+                    <a
+                      class="item-title item-link"
+                      href="https://www.insta360.com/"
+                      target="_blank"
+                      rel="noreferrer"
+                      >Insta 360</a
+                    >
+                    <span class="item-description">AI 剪辑产品</span>
+                  </span>
+                </div>
+                <div
+                  class="video-carousel"
+                  data-video-set="insta"
+                  aria-label="相关视频"
+                >
+                  <div class="video-frame">
+                    <iframe
+                      title="大模型 AI：剪辑视频内容理解升级"
+                      src="https://player.bilibili.com/player.html?bvid=BV1hEAUzLEVN&amp;page=1&amp;high_quality=1&amp;danmaku=0"
+                      loading="lazy"
+                      scrolling="no"
+                      allow="fullscreen"
+                    ></iframe>
+                  </div>
+                  <div class="video-caption-row">
+                    <button
+                      type="button"
+                      class="video-arrow"
+                      data-direction="-1"
+                      aria-label="上一个视频"
+                    >
+                      ←
+                    </button>
+                    <p>大模型 AI：剪辑视频内容理解升级</p>
+                    <button
+                      type="button"
+                      class="video-arrow"
+                      data-direction="1"
+                      aria-label="下一个视频"
+                    >
+                      →
+                    </button>
+                  </div>
+                  <div
+                    class="video-dots"
+                    role="tablist"
+                    aria-label="选择视频"
+                  >
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="true"
+                      aria-label="视频 1：大模型 AI：剪辑视频内容理解升级"
+                      class="is-active"
+                      data-index="0"
+                    ></button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      aria-label="视频 2：AI 剪辑交互链路优化"
+                      data-index="1"
+                    ></button>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2023.06 – 2023.09</span>
+                  <span class="item-copy">
+                    <a
+                      class="item-title item-link"
+                      href="https://www.gaorongvc.com/"
+                      target="_blank"
+                      rel="noreferrer"
+                      >高榕资本</a
+                    >
+                    <span class="item-description">AI 产品投研实习</span>
+                    <span class="related-links">
+                      <a
+                        href="https://leonardo.ai/"
+                        target="_blank"
+                        rel="noreferrer"
+                        >Leonardo AI</a
+                      >
+                      <a
+                        href="https://www.liblib.art/"
+                        target="_blank"
+                        rel="noreferrer"
+                        >Lovart (Liblib)</a
+                      >
+                      <a
+                        href="https://github.com/leptonai/leptonai"
+                        target="_blank"
+                        rel="noreferrer"
+                        >Lepton AI</a
+                      >
+                    </span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <section id="projects" class="post-list" aria-labelledby="projects-title">
+        <h2 id="projects-title" class="section-title">Projects</h2>
+        <ul>
+          <li>
+            <ul>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2024.08 – 2026.04</span>
+                  <span class="item-copy">
+                    <a
+                      class="item-title item-link"
+                      href="https://xiaohuoche.podcast.xyz/"
+                      target="_blank"
+                      rel="noreferrer"
+                      >小火车商业进化论播客</a
+                    >
+                    <span class="item-description"
+                      >从0到1增长频道至30万粉丝，累计举办三场线下活动</span
+                    >
+                  </span>
+                </div>
+                <div
+                  class="video-carousel"
+                  data-video-set="podcast"
+                  aria-label="相关视频"
+                >
+                  <div class="video-frame">
+                    <iframe
+                      title="AI 创始人深度访谈策划 · Insta360 / Final Round AI / Ditto AI"
+                      src="https://player.bilibili.com/player.html?bvid=BV1DaMgzSERu&amp;page=1&amp;high_quality=1&amp;danmaku=0"
+                      loading="lazy"
+                      scrolling="no"
+                      allow="fullscreen"
+                    ></iframe>
+                  </div>
+                  <div class="video-caption-row">
+                    <button
+                      type="button"
+                      class="video-arrow"
+                      data-direction="-1"
+                      aria-label="上一个视频"
+                    >
+                      ←
+                    </button>
+                    <p>
+                      AI 创始人深度访谈策划 · Insta360 / Final Round AI / Ditto AI
+                    </p>
+                    <button
+                      type="button"
+                      class="video-arrow"
+                      data-direction="1"
+                      aria-label="下一个视频"
+                    >
+                      →
+                    </button>
+                  </div>
+                  <div
+                    class="video-dots"
+                    role="tablist"
+                    aria-label="选择视频"
+                  >
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="true"
+                      aria-label="视频 1：AI 创始人深度访谈策划"
+                      class="is-active"
+                      data-index="0"
+                    ></button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      aria-label="视频 2：播客AI内容创作工作流"
+                      data-index="1"
+                    ></button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      aria-label="视频 3：短视频内容增长"
+                      data-index="2"
+                    ></button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      aria-label="视频 4：用户社区运营维护"
+                      data-index="3"
+                    ></button>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2026.02</span>
+                  <span class="item-copy">
+                    <a
+                      class="item-title item-link"
+                      href="https://github.com/xinghongma/github-trend-observer"
+                      target="_blank"
+                      rel="noreferrer"
+                      >Github星标项目挖掘Skills</a
+                    >
+                    <span class="item-description">GitHub 趋势观察工具</span>
+                  </span>
+                </div>
+              </li>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2026.01</span>
+                  <span class="item-copy">
+                    <a
+                      class="item-title item-link"
+                      href="https://hitthevillain.vercel.app/"
+                      target="_blank"
+                      rel="noreferrer"
+                      >打小人游戏</a
+                    >
+                    <span class="item-description"
+                      >融合传统文化与现代交互的原创游戏</span
+                    >
+                  </span>
+                </div>
+              </li>
+              <li>
+                <div class="post-list-row">
+                  <span class="group-label">2024.12</span>
+                  <span class="item-copy">
+                    <a
+                      class="item-title item-link"
+                      href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0323441"
+                      target="_blank"
+                      rel="noreferrer"
+                      >Paper: Predictive Modeling for Stroke Patients</a
+                    >
+                    <span class="item-description"
+                      >Advanced predictive modeling for enhanced mortality prediction in ICU stroke patients</span
+                    >
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <footer class="site-footer">
+        <span>© 2026 Xinghong Ma</span>
+        <a class="basic-link" href="#top">Back to top</a>
+      </footer>
+    </main>
+
+    <script>
+      (function () {
+        const videoSets = {
+          magiclight: [
+            {
+              youtubeId: "SW2UF3orqm0",
+              caption: "长视频agent 拆解-编排-创作",
+            },
+            {
+              youtubeId: "15XJqORdiHw",
+              caption: "史诗级好莱坞电影广告工作流",
+            },
+            {
+              youtubeId: "_Nrl0_Da-B4",
+              caption: "爆款短剧链路创作",
+            },
+            {
+              youtubeId: "h8F3baMVZao",
+              caption: "爆款世界杯广告工作流",
+            },
+          ],
+          insta: [
+            {
+              bvid: "BV1hEAUzLEVN",
+              caption: "大模型 AI：剪辑视频内容理解升级",
+            },
+            {
+              bvid: "BV1iWu8zDEPR",
+              caption: "AI 剪辑交互链路优化",
+            },
+          ],
+          podcast: [
+            {
+              bvid: "BV1DaMgzSERu",
+              caption:
+                "AI 创始人深度访谈策划 · Insta360 / Final Round AI / Ditto AI",
+            },
+            {
+              bvid: "BV1RykxBqEX9",
+              caption: "播客AI内容创作工作流",
+            },
+            {
+              bvid: "BV1xKN5zVEwZ",
+              caption: "短视频内容增长",
+            },
+            {
+              bvid: "BV1nhv2BHE2i",
+              caption: "用户社区运营维护",
+            },
+          ],
+        };
+
+        document
+          .querySelectorAll("[data-video-set]")
+          .forEach(function (root) {
+            const videos = videoSets[root.dataset.videoSet];
+            if (!videos) return;
+
+            let activeIndex = 0;
+            const frame = root.querySelector("iframe");
+            const caption = root.querySelector(".video-caption-row p");
+            const dots = Array.from(
+              root.querySelectorAll(".video-dots button"),
+            );
+
+            function render() {
+              const video = videos[activeIndex];
+              frame.src = video.youtubeId
+                ? "https://www.youtube.com/embed/" +
+                  video.youtubeId +
+                  "?rel=0"
+                : "https://player.bilibili.com/player.html?bvid=" +
+                  video.bvid +
+                  "&page=1&high_quality=1&danmaku=0";
+              frame.title = video.caption;
+              caption.textContent = video.caption;
+              dots.forEach(function (dot, index) {
+                const selected = index === activeIndex;
+                dot.classList.toggle("is-active", selected);
+                dot.setAttribute("aria-selected", String(selected));
+              });
+            }
+
+            root
+              .querySelectorAll("[data-direction]")
+              .forEach(function (button) {
+                button.addEventListener("click", function () {
+                  const direction = Number(button.dataset.direction);
+                  activeIndex =
+                    (activeIndex + direction + videos.length) % videos.length;
+                  render();
+                });
+              });
+
+            dots.forEach(function (dot) {
+              dot.addEventListener("click", function () {
+                activeIndex = Number(dot.dataset.index);
+                render();
+              });
+            });
+          });
+      })();
+    </script>
+  </body>
+</html>
