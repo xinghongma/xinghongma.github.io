@@ -449,14 +449,14 @@ ul {
   width: 0.35rem;
   height: 0.35rem;
   cursor: pointer;
-  background: #dedede;
+  background: #e4e4e4;
   border-radius: 999px;
   transition: width 0.2s, background 0.2s;
 }
 
 .video-dots button.is-active {
   width: 1.1rem;
-  background: #111;
+  background: #a9a9a9;
 }
 
 .site-footer {
@@ -620,7 +620,7 @@ ul {
                       src="https://www.youtube.com/embed/SW2UF3orqm0?rel=0"
                       loading="lazy"
                       scrolling="no"
-                      allow="fullscreen"
+                      allow="autoplay; fullscreen"
                       referrerpolicy="strict-origin-when-cross-origin"
                     ></iframe>
                   </div>
@@ -705,7 +705,7 @@ ul {
                       src="https://player.bilibili.com/player.html?bvid=BV1hEAUzLEVN&amp;page=1&amp;high_quality=1&amp;danmaku=0"
                       loading="lazy"
                       scrolling="no"
-                      allow="fullscreen"
+                      allow="autoplay; fullscreen"
                     ></iframe>
                   </div>
                   <div class="video-caption-row">
@@ -822,7 +822,7 @@ ul {
                       src="https://player.bilibili.com/player.html?bvid=BV1DaMgzSERu&amp;page=1&amp;high_quality=1&amp;danmaku=0"
                       loading="lazy"
                       scrolling="no"
-                      allow="fullscreen"
+                      allow="autoplay; fullscreen"
                     ></iframe>
                   </div>
                   <div class="video-caption-row">
@@ -1013,10 +1013,10 @@ ul {
               frame.src = video.youtubeId
                 ? "https://www.youtube.com/embed/" +
                   video.youtubeId +
-                  "?rel=0"
+                  "?autoplay=1&mute=1&playsinline=1&rel=0"
                 : "https://player.bilibili.com/player.html?bvid=" +
                   video.bvid +
-                  "&page=1&high_quality=1&danmaku=0";
+                  "&page=1&high_quality=1&danmaku=0&autoplay=1";
               frame.title = video.caption;
               caption.textContent = video.caption;
               dots.forEach(function (dot, index) {
@@ -1043,6 +1043,12 @@ ul {
                 render();
               });
             });
+
+            render();
+            window.setInterval(function () {
+              activeIndex = (activeIndex + 1) % videos.length;
+              render();
+            }, 5000);
           });
       })();
     </script>
