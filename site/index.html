@@ -405,6 +405,22 @@ ul {
   border: 0;
 }
 
+@keyframes video-carousel-in {
+  from {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.video-frame iframe.is-transitioning {
+  animation: video-carousel-in 0.45s ease-out both;
+}
+
 .video-caption-row {
   display: flex;
   align-items: flex-start;
@@ -449,14 +465,20 @@ ul {
   width: 0.35rem;
   height: 0.35rem;
   cursor: pointer;
-  background: #e4e4e4;
+  background: #efefef;
   border-radius: 999px;
   transition: width 0.2s, background 0.2s;
 }
 
 .video-dots button.is-active {
   width: 1.1rem;
-  background: #a9a9a9;
+  background: #cfcfcf;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-frame iframe.is-transitioning {
+    animation: none;
+  }
 }
 
 .site-footer {
@@ -1010,6 +1032,9 @@ ul {
 
             function render() {
               const video = videos[activeIndex];
+              frame.classList.remove("is-transitioning");
+              void frame.offsetWidth;
+              frame.classList.add("is-transitioning");
               frame.src = video.youtubeId
                 ? "https://www.youtube.com/embed/" +
                   video.youtubeId +
@@ -1048,7 +1073,7 @@ ul {
             window.setInterval(function () {
               activeIndex = (activeIndex + 1) % videos.length;
               render();
-            }, 5000);
+            }, 8000);
           });
       })();
     </script>
